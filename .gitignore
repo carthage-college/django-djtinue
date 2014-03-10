@@ -1,0 +1,7 @@
+*.log
+*.pot
+*.pyc
+*.swp
+*.sql
+settings.py
+wsgi.py

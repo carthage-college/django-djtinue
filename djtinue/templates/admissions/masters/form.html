@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+{% load staticfiles %}
+    <meta charset="utf-8" />
+    <title>Masters of Education Candidacy Form</title>
+    <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
+    <script>
+        function validate_student_id(){
+            var id = document.getElementById('id_student_id');
+            var val = id.value;
+            var patt = new RegExp('^[\\d]{5,7}$');
+            return patt.test(val);
+        }
+        function validate_first_name(){
+            var id = document.getElementById('id_first_name');
+            var val = id.value;
+            var patt = new RegExp('^[a-zA-Z\']+[a-zA-Z\\-\\s\']+$');
+            return patt.test(val);
+        }
+        function validate_middle_name(){
+            var id = document.getElementById('id_middle_name');
+            var val = id.value;
+            var patt = new RegExp('^.+$');
+            return patt.test(val);
+        }
+        function validate_last_name(){
+            var id = document.getElementById('id_last_name');
+            var val = id.value;
+            var patt = new RegExp('^[a-zA-Z\']+[a-zA-Z\\-\\s\']+$');
+            return patt.test(val);        
+        }
+        function validate_phone_number(){
+            var id = document.getElementById('id_phone_number');
+            var val = id.value;
+            var patt = new RegExp('^1?[\\.\\s-]?\\d{3}[\\.\\s-]?\\d{3}[\\.\\s-]?\\d{4}$');
+            return patt.test(val);        
+        }
+        function validate_email(){
+            var id = document.getElementById('id_email');
+            var val = id.value;
+            var patt = new RegExp('^[A-Za-z0-9_]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,4}$');
+            return patt.test(val);        
+        }
+        function validate_address(){
+            var id = document.getElementById('id_address');
+            var val = id.value;
+            var patt = new RegExp('^.+$');
+            return patt.test(val);        
+        }
+        function validate_city(){
+            var id = document.getElementById('id_city');
+            var val = id.value;
+            var patt = new RegExp('^.+$');
+            return patt.test(val);        
+        }
+        function validate_state(){
+            var id = document.getElementById('id_state');
+            var val = id.value;
+            var patt = new RegExp('^[a-zA-Z]{2}$');
+            return patt.test(val);        
+        }
+        function validate_zip(){
+            var id = document.getElementById('id_zip');
+            var val = id.value;
+            var patt = new RegExp('^\\d{5}$');
+            return patt.test(val);        
+        }        
+    </script>
+</head>
+<body>
+    <div>
+    {% if submitted %}
+        <h2>Your form has been submitted, thank you</h2>
+    {% endif %}
+    </div>
+    <div>
+        <div class='sidebar'>
+            <img src='http://imageshack.us/a/img651/7008/carthage1.png'></img>
+        </div>
+        <div class='mainbar'>
+            <div class='header'>
+                <text class='headertext'>{{ year_low }}/{{ year_up }} Masters of Education Candidacy Form</text>
+            </div><br>
+            {{ form.non_field_errors }}
+            <form action='' method='post'>{% csrf_token %}
+                <text class='separator'>Personal information</text><hr>
+                <text>Your name here will be on your diploma and read as you cross the stage</text>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.student_id.label }}</text></td>
+                        <td>{{ form.student_id }}</td>
+                        <td>
+                            <img class='hidden' id='student_id_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='student_id_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.student_id.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.first_name.label }}</text></td>
+                        <td>{{ form.first_name }}</td>
+                        <td>
+                            <img class='hidden' id='first_name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='first_name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.first_name.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.middle_name.label }}</text></td>
+                        <td>{{ form.middle_name }}</td>
+                        <td>
+                            <img class='hidden' id='middle_name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='middle_name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.middle_name.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.last_name.label }}</text></td>
+                        <td>{{ form.last_name }}</td>
+                        <td>
+                            <img class='hidden' id='last_name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='last_name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.last_name.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text class='separator'>Contact information</text><hr>
+                <text>Please list where we can contact you</text>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.phone_number.label }}</text></td>
+                        <td>{{ form.phone_number }}</td>
+                        <td>
+                            <img class='hidden' id='phone_number_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='phone_number_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.phone_number.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.email.label }}</text></td>
+                        <td>{{ form.email }}</td>
+                        <td>
+                            <img class='hidden' id='email_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='email_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.email.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text class='separator'>Location information</text><hr>
+                <text>
+                    Where should we send your diploma?<br>
+                    Please list an address that will remain current at least three months
+                    after you complete your degree
+                </text>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.address.label }}</text></td>
+                        <td>{{ form.address }}</td>
+                        <td>
+                            <img class='hidden' id='address_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='address_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.address.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.city.label }}</text></td>
+                        <td>{{ form.city }}</td>
+                        <td>
+                            <img class='hidden' id='city_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='city_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.city.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.state.label }}</text></td>
+                        <td>{{ form.state }}</td>
+                        <td>
+                            <img class='hidden' id='state_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='state_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.state.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.zip.label }}</text></td>
+                        <td>{{ form.zip }}</td>
+                        <td>
+                            <img class='hidden' id='zip_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='zip_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.zip.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text class='separator'>Coursework / Graduation information</text><hr>
+                <text>Which concentration do you intend to complete within your Masters of Education Degree?</text>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.concentration.label }}</text></td>
+                        <td>{{ form.concentration }}</td>
+                        <td>
+                            {% for e in form.concentration.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text>Do you intend to participate in the May {{ year_up }} Graduation Ceremony?</text>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.participate_in_ceremony.label }}</text></td>
+                        <td>{{ form.participate_in_ceremony }}</td>
+                        <td>
+                            {% for e in form.participate_in_ceremony.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text>I will be finished with all required courses & degree requirements by the end of the {{ year_low }}/{{ year_up }} ____ term</text>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.finished_classes_in.label }}</text></td>
+                        <td>{{ form.finished_classes_in }}</td>
+                        <td>
+                            {% for e in form.finished_classes_in.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text><b>NOTE:</b>Carthage allows you to participate in the May {{ year_up }} graduation ceremony if you can complete all of your remaining graduation requirements by taking 12 or fewer credits in Summer {{ year_up }}. All graduation requirements must be completed before the degree can be conferred</text><br><br>
+                <input type="Submit" value="Sumbit form"></submit>
+            </form>
+        </div>
+    </div>
+</body>
+    <script type='text/javascript'>
+        var element = document.getElementById('id_student_id');
+        element.onblur = function(){
+            var n=document.getElementById('student_id_no');
+            var y=document.getElementById('student_id_yes');
+            if(!validate_student_id()){
+                n.style.display='inline'; y.style.display='none';
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_first_name');
+        element.onblur = function() {
+            var n=document.getElementById('first_name_no');
+            var y=document.getElementById('first_name_yes');
+            if(!validate_first_name()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_middle_name');
+        element.onblur = function() {
+            var n=document.getElementById('middle_name_no');
+            var y=document.getElementById('middle_name_yes');
+            if(!validate_middle_name()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_last_name');
+        element.onblur = function() {
+            var n=document.getElementById('last_name_no');
+            var y=document.getElementById('last_name_yes');
+            if(!validate_last_name()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_phone_number');
+        element.onblur = function() {
+            var n=document.getElementById('phone_number_no');
+            var y=document.getElementById('phone_number_yes');
+            if(!validate_phone_number()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_email');
+        element.onblur = function() {
+            var n=document.getElementById('email_no');
+            var y=document.getElementById('email_yes');
+            if(!validate_email()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };       
+        element = document.getElementById('id_address');
+        element.onblur = function() {
+            var n=document.getElementById('address_no');
+            var y=document.getElementById('address_yes');
+            if(!validate_address()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_city');
+        element.onblur = function() {
+            var n=document.getElementById('city_no');
+            var y=document.getElementById('city_yes');
+            if(!validate_city()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_state');
+        element.onblur = function() {
+            var n=document.getElementById('state_no');
+            var y=document.getElementById('state_yes');
+            if(!validate_state()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        element = document.getElementById('id_zip');
+        element.onblur = function() {
+            var n=document.getElementById('zip_no');
+            var y=document.getElementById('zip_yes');
+            if(!validate_zip()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };        
+    </script>
+</html>
