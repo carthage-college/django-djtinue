@@ -1,0 +1,34 @@
+{% extends "djcedu/home.html" %}
+{% load livewhale_api %}
+{% block title %}Carthage College :: Adult Education :: Information Request{% endblock %}
+{% block extra_javascript %}
+    <script type="text/javascript">
+    $(function() {
+        $('.required>em').html('<img src="/static/forms/img/icons/red_asterisk.png" />');
+    });
+    </script>
+{% endblock %}
+{% block css %}
+    <link href="//www.carthage.edu/assets/current/css/plugins/forms.css" rel="stylesheet" type="text/css" />
+    <link href="//www.carthage.edu/assets/current/css/overrides/forms.css" rel="stylesheet" type="text/css" />
+    <link href="//www.carthage.edu/assets/current/css/overrides/forms.bridge.css" rel="stylesheet" type="text/css" />
+    <style type="text/css" media="screen, projection">
+    /* <![CDATA[ */
+        @import url("//www.carthage.edu/assets/current/css/overrides/adulted.css");
+        body {font-size:13px;}
+    /* ]]> */
+    #second {width:600px;}
+    #fourth {float:left;overflow:hidden;padding-left:150px;padding-top:20px;}
+    </style>
+{% endblock %}
+{% block content %}
+    <div id="first"></div>
+    <div id="second">
+    <h1>Information Request</h1>
+    {% include "includes/generic_form.html" %}
+    </div>
+    <div id="fourth">
+        {% get_lw_content as contact blurbs body 1349 %}
+        {{contact}}
+    </div>
+{% endblock %}

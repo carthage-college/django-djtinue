@@ -1,3 +1,2 @@
-{% load get_api %}
-{% get_api_object as sidebar cms snippet 891 code %}
-{{sidebar}}
+{% load livewhale_api %}
+{% get_lw_content as global_nav_header blurbs body 1349 %}
