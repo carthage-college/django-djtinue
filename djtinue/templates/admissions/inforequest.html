@@ -28,7 +28,7 @@
     {% include "includes/generic_form.html" %}
     </div>
     <div id="fourth">
-        {% get_lw_content as contact blurbs body 1349 %}
-        {{contact}}
+        {% get_lw_content as contact blurbs 1349 %}
+        {{contact.body}}
     </div>
 {% endblock %}
