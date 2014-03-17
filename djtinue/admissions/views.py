@@ -1,6 +1,6 @@
 from django.conf import settings
-from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse_lazy
 from django.template import RequestContext, loader, Context
 
 from djtools.utils.mail import send_mail
@@ -50,7 +50,7 @@ def info_request(request):
                 "admissions/inforequest.txt", cd, BCC, content="text"
             )
             return HttpResponseRedirect(
-                'http://www.carthage.edu/adult/inforequest/success/'
+                reverse_lazy("djtinue_inforequest_success")
             )
     else:
         form = InfoRequestForm()

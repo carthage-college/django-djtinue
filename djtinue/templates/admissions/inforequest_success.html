@@ -1,13 +1,21 @@
 {% extends "djcedu/data_entered.html" %}
-{% load cms_snippet %}
-{% block title %}Adult Education: Request for Information Submitted Successly{% endblock %}
+{% load livewhale_api %}
+{% block title %}
+Continuing Education: Request for Information Submitted Successly
+{% endblock %}
 {% block content %}
 <div id="first"></div>
 <div id="second">
     <div class="buffer">
     <h2 class="page_title">Thank you for your interest.</h2>
-    <p class="description" style="color: green">We have received your request for information, and will contact you shortly.</p>
+    <p class="description" style="color: green">
+        We have received your request for information,
+        and will contact you shortly.
+    </p>
     </div>
 </div>
-<div id="fourth">{% get_snippet as adulted_office_hours adulted_snippet_office_hours_box_right_column %}{{adulted_office_hours}}</div>
+<div id="fourth">
+    {% get_lw_content as contact blurbs 1349 %}
+    {{contact.body}}
+</div>
 {% endblock %}
