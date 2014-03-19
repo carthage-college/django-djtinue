@@ -85,7 +85,9 @@ TEMPLATE_LOADERS = (
 )
 TEMPLATE_DIRS = (
     "/data2/django_projects/djtinue/templates/",
-    "/data2/django_templates/",
+    "/d2/django_templates/djdfir/",
+    "/data2/django_templates/djcher/",
+    "/data2/django_templates/django-djskins/",
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
     "djtools.context_processors.sitevars",
@@ -140,7 +142,7 @@ USE_X_FORWARDED_HOST = True
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN=".carthage.edu"
-SESSION_COOKIE_NAME ='django_carthage_cookie'
+SESSION_COOKIE_NAME ='djtinue_carthage_cookie'
 SESSION_COOKIE_AGE = 86400
 
 # logging
