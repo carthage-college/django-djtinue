@@ -8,6 +8,6 @@ from django.contrib import admin
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admissions/', include('djtinue.admissions.urls')),
-    url(r'^graduate/', include('djtinue.graduate.urls')),
-    url(r'^undergraduate/', include('djtinue.undergraduate.urls')),
+    #url(r'^graduate/', include('djtinue.graduate.urls')),
+    #url(r'^undergraduate/', include('djtinue.undergraduate.urls')),
 )
