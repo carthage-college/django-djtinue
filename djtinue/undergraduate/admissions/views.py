@@ -47,11 +47,7 @@ def admissions_form(request):
         # delete the 'doop' element used for javascript clone
         del schools[0]
 
-        if contact_form.is_valid() and
-                personal_form.is_valid() and
-                employment_form.is_valid() and
-                education_goals_form.is_valid() and
-                fee_form.is_valid():
+        if contact_form.is_valid() and personal_form.is_valid() and employment_form.is_valid() and education_goals_form.is_valid() and fee_form.is_valid():
             contact = contact_form.cleaned_data
             personal = personal_form.cleaned_data
             employment = employment_form.cleaned_data
