@@ -1,5 +1,4 @@
 {% extends "djcedu/data_entered.html" %}
-{% load livewhale_api %}
 {% block title %}
 Continuing Education: Request for Information Submitted Successly
 {% endblock %}
@@ -14,8 +13,5 @@ Continuing Education: Request for Information Submitted Successly
     </p>
     </div>
 </div>
-<div id="fourth">
-    {% get_lw_content as contact blurbs 1349 %}
-    {{contact.body}}
-</div>
+{% include "admissions/fourth_col.html" %}
 {% endblock %}

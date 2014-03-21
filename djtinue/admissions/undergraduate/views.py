@@ -18,7 +18,7 @@ else:
     TO_LIST = ["tom@carthage.edu","jweiser@carthage.edu",]
 BCC = settings.MANAGERS
 
-def admissions_form(request):
+def admissions_application(request):
     schools = []
     order = None
     if request.method=='POST':
@@ -47,7 +47,10 @@ def admissions_form(request):
         # delete the 'doop' element used for javascript clone
         del schools[0]
 
-        if contact_form.is_valid() and personal_form.is_valid() and employment_form.is_valid() and education_goals_form.is_valid() and fee_form.is_valid():
+        if contact_form.is_valid() and \
+        personal_form.is_valid() and \
+        employment_form.is_valid() and \
+        education_goals_form.is_valid() and fee_form.is_valid():
             contact = contact_form.cleaned_data
             personal = personal_form.cleaned_data
             employment = employment_form.cleaned_data
@@ -70,10 +73,14 @@ def admissions_form(request):
             # credit card payment
             if fee['payment_type'] == "Credit Card":
                 contact, created = Contact.objects.get_or_create(
-                    first_name=contact['first_name'],last_name=contact['last_name'],
-                    second_name=contact['second_name'],previous_name=contact['previous_name'],
-                    email=email,phone=contact['phone'],address1=contact['address1'],
-                    address2=contact['address2'],city=contact['city'],state=contact['state'],
+                    first_name=contact['first_name'],
+                    last_name=contact['last_name'],
+                    second_name=contact['second_name'],
+                    previous_name=contact['previous_name'],
+                    email=email,phone=contact['phone'],
+                    address1=contact['address1'],
+                    address2=contact['address2'],city=contact['city'],
+                    state=contact['state'],
                     postal_code=contact['postal_code']
                 )
                 order = Order(
@@ -93,9 +100,11 @@ def admissions_form(request):
                     # TODO: send email if result = fail, log data
                     send_mail(
                         request, TO_LIST, subject, contact['email'],
-                        "adulted/admissions/email.html", data, BCC
+                        "admissions/undergraduate/email.html", data, BCC
                     )
-                    return HttpResponseRedirect(reverse('adulted_admissions_success'))
+                    return HttpResponseRedirect(
+                        reverse('undergraduate_admissions_success')
+                    )
                 else:
                     r = payment_form.processor_response
                     status = r.status
@@ -111,9 +120,11 @@ def admissions_form(request):
                 # TODO: send email if result = fail, log data
                 send_mail(
                     request, TO_LIST, subject,contact['email'],
-                    "adulted/admissions/email.html", data, BCC
+                    "admissions/undergraduate/email.html", data, BCC
                 )
-                return HttpResponseRedirect(reverse('adulted_admissions_success'))
+                return HttpResponseRedirect(
+                    reverse('undergraduate_admissions_success')
+                )
         else:
             if request.POST.get('payment_type') == "Credit Card":
                 payment_form = TrustCommerceForm(None, request.POST)
@@ -131,11 +142,12 @@ def admissions_form(request):
     extra_context = {
         "contact_form":contact_form,"personal_form":personal_form,
         "order":order,"doop":len(schools),"states":STATE_CHOICES,
-        "employment_form":employment_form,"education_goals_form":education_goals_form,
+        "employment_form":employment_form,
+        "education_goals_form":education_goals_form,
         "schools":schools,"fee_form":fee_form,"payment_form":payment_form,
         "months":MONTHS, "years1":YEARS1,"years3":YEARS3
     }
     return render_to_response(
-        "adulted/admissions/form.html",
+        "admissions/undergraduate/form.html",
         extra_context, context_instance=RequestContext(request)
     )

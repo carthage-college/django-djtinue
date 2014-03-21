@@ -1,5 +1,4 @@
 {% extends "djcedu/home.html" %}
-{% load livewhale_api %}
 {% block title %}Carthage College :: Adult Education :: Information Request{% endblock %}
 {% block extra_javascript %}
     <script type="text/javascript">
@@ -25,8 +24,5 @@
     <h1>Information Request</h1>
     {% include "includes/generic_form.html" %}
     </div>
-    <div id="fourth">
-        {% get_lw_content as contact blurbs 1349 %}
-        {{contact.body}}
-    </div>
+    {% include "includes/fourth_col.html" %}
 {% endblock %}
