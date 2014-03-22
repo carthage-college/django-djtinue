@@ -1,22 +1,28 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.db import models, connection
+from django.db import models, connections
 from django.utils.timezone import utc
 from django.utils.html import escape
 
 from djtools.utils.users import in_group
 #from djtools.templatetags.text_mungers import convert_smart_quotes
 
-from sanitizer.models import SanitizedCharField, SanitizedTextField
-
 import datetime
+
+# dictionary name corresponds to URL slug
+STYPES = {
+    "information-session":712,
+    "graduate-studies":715,
+    "undergraduate-studies":713,
+    "master-social-work":714,
+    "paralegal":582
+}
 
 class LivewhaleEvents(models.Model):
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
     suggested = models.CharField(max_length=500, blank=True)
     parent = models.IntegerField(null=True, blank=True)
     eid = models.CharField(max_length=255, blank=True, default="")
-    #title = SanitizedCharField(max_length=765, strip=True)
     title = models.CharField(max_length=255)
     date_dt = models.DateTimeField(null=True, blank=True)
     date2_dt = models.DateTimeField(null=True, blank=True)
@@ -31,9 +37,7 @@ class LivewhaleEvents(models.Model):
     repeats_by = models.IntegerField(null=True, blank=True)
     repeats_on = models.CharField(max_length=15, blank=True)
     repeats_occurrences = models.IntegerField(null=True, blank=True)
-    #summary = SanitizedTextField(blank=True, strip=True)
     summary = models.TextField(blank=True)
-    #description = SanitizedTextField(blank=True, allowed_tags=SANI_TAGS, allowed_attributes=['href', 'src'], strip=True)
     description = models.TextField(blank=True)
     url = models.CharField(max_length=500, blank=True)
     source = models.CharField(max_length=255, blank=True)
@@ -124,7 +128,7 @@ class LivewhaleEvents(models.Model):
                 VALUES
                     ('%s', '%s', 'events')
             """ % (data["category"],self.id)
-            cursor = connections.cursor()
+            cursor = connections['livewhale'].cursor()
             cursor.execute(sql)
             # category
             sql = """
