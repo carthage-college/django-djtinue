@@ -14,6 +14,17 @@ urlpatterns = patterns('djtinue.admissions.views',
         ),
         name='info_request_success'
     ),
+    url(
+       r'^information-session/success/$',
+       TemplateView.as_view(
+           template_name='admissions/infosession_success.html'
+        ),
+        name='info_session_success'
+    ),
+    url(
+        r'^information-session/(?P<session_type>[a-zA-Z0-9_-]+)/$',
+        'info_session', name="info_session"
+    ),
     # undergraduate
     url(
         r'^undergraduate/',
