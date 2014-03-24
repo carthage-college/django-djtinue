@@ -5,7 +5,6 @@ from django.contrib.localflavor.us.forms import USPhoneNumberField, USZipCodeFie
 from djforms.core.models import GENDER_CHOICES, STATE_CHOICES, COUNTRIES, BINARY_CHOICES, PAYMENT_CHOICES
 from djforms.processors.models import Contact
 from djforms.processors.forms import ContactForm
-from djzbar.settings import INFORMIX_EARL_TEST
 
 from sqlalchemy import create_engine
 from datetime import datetime, date
@@ -122,7 +121,7 @@ def insert(data):
     TIME = datetime.now().strftime("%H%M")
     PURGE_DATE = (date.today() + relativedelta( months = +2 )).strftime("%m/%d/%Y")
 
-    engine = create_engine(INFORMIX_EARL_TEST)
+    engine = create_engine(settings.INFORMIX_EARL)
     connection = engine.connect()
 
 
