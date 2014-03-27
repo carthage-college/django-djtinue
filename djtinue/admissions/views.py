@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.template import RequestContext
 from django.utils.timezone import localtime
-from django.http import HttpResponseRedirect, Http404
-
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect, Http404
 
 from djtinue.admissions.forms import InfoRequestForm, STYPES
 from djtinue.admissions.forms import InfoSessionForm
@@ -57,7 +56,7 @@ def info_request(request):
                 "admissions/inforequest.txt", cd, BCC, content="text"
             )
             return HttpResponseRedirect(
-                reverse_lazy("djtinue_inforequest_success")
+                reverse_lazy("info_request_success")
             )
     else:
         form = InfoRequestForm()

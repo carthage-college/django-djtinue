@@ -7,7 +7,7 @@ from django.utils.dateformat import DateFormat
 
 cursor = connections['livewhale'].cursor()
 
-session_type="paralegal"
+session_type="undergraduate-studies"
 
 sql = """
             SELECT
@@ -31,6 +31,8 @@ print sql
 
 cursor.execute(sql)
 
+from django.utils.encoding import smart_text, force_text
+
 # Wed. May 07, 2014 at 06pm (Master of Education & ACT Info Session)
 for event in cursor.fetchall():
     lc = localtime(event[2])
@@ -38,6 +40,7 @@ for event in cursor.fetchall():
     day = df.format('D')
     date = df.format('M d, Y')
     time = df.format('h:ia')
-    title = "%s. %s at %s (%s)" % (day, date, time ,event[1])
+    event = force_text(event[1])
+    title = "%s. %s at %s (%s)" % (day, date, time , event)
 
     print title

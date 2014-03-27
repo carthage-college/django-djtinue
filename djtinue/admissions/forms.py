@@ -1,6 +1,7 @@
 from django import forms
 from django.db import connections
 from django.utils.timezone import localtime
+from django.utils.encoding import force_text
 from django.utils.dateformat import DateFormat
 
 from djtinue.admissions.models import LivewhaleEvents
@@ -130,7 +131,8 @@ class InfoSessionForm(forms.Form):
             day = df.format('D')
             date = df.format('M d, Y')
             time = df.format('h:ia')
-            title = "%s. %s at %s (%s)" % (day, date, time ,event[1])
+            title = "%s. %s at %s (%s)" % (day, date, time , force_text(event[1]))
+
             choices.append((event[0],title))
         self.fields['event'].choices = choices
 

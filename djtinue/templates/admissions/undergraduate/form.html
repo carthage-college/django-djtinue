@@ -75,18 +75,18 @@ fieldset { background-color: transparent; }
             <h3>Name</h3>
             <ul class="inline">
                 <li><label for="id_first_name" class="placeholder">First name</label><br />
-                <input class="medium required{% if contact_form.first_name.errors %} error{% endif %}" id="id_first_name" type="text" name="first_name" placeholder="First name" maxlength="100" value="{{contact_form.data.first_name}}" {% if not template_debug %}required {% endif %}/></li>
+                <input class="medium required{% if contact_form.first_name.errors %} error{% endif %}" id="id_first_name" type="text" name="first_name" placeholder="First name" maxlength="100" value="{{contact_form.data.first_name}}" /></li>
                 <li><label for="id_middle_name" class="placeholder">Middle name</label><br />
                 <input class="medium" id="id_middle_name" type="text" name="middle_name" placeholder="Middle name" maxlength="100" value="{{contact_form.data.middle_name}}" /></li>
                 <li><label for="id_last_name" class="placeholder">Last name</label><br />
-                <input class="medium required{% if contact_form.last_name.errors %} error{% endif %}" id="id_last_name" type="text" name="last_name" placeholder="Last name" maxlength="100" value="{{contact_form.data.last_name}}" {% if not template_debug %}required {% endif %}/></li>
+                <input class="medium required{% if contact_form.last_name.errors %} error{% endif %}" id="id_last_name" type="text" name="last_name" placeholder="Last name" maxlength="100" value="{{contact_form.data.last_name}}" /></li>
                 <li><label for="id_previous_name" class="placeholder">Previous name</label><br />
                 <input class="medium" id="id_previous_name" type="text" name="previous_name" placeholder="Previous name" maxlength="100" value="{{contact_form.data.previous_name}}" /></li>
             </ul>
             <h3>Address</h3>
             <ul class="inline">
                 <li><label for="id_address1" class="placeholder">Address</label><br />
-                <input class="large required{% if contact_form.address1.errors %} error{% endif %}" id="id_address1" type="text" name="address1" placeholder="Address" maxlength="255" value="{{contact_form.data.address1}}" {% if not template_debug %}required {% endif %}/></li>
+                <input class="large required{% if contact_form.address1.errors %} error{% endif %}" id="id_address1" type="text" name="address1" placeholder="Address" maxlength="255" value="{{contact_form.data.address1}}" /></li>
                 <li><label for="id_address2" class="placeholder">Address 2</label><br />
                 <input class="large" id="id_address2" type="text" name="address2" placeholder="Address 2" maxlength="255" value="{{contact_form.data.address2}}" /></li>
             </ul>
@@ -95,13 +95,13 @@ fieldset { background-color: transparent; }
                 <input class="medium required{% if contact_form.city.errors %} error{% endif %}" id="id_city" type="text" name="city" placeholder="City" maxlength="255" value="{{contact_form.data.city}}" /></li>
                 <li>{{contact_form.state}} {% if contact_form.state.errors %} <span class="error">State Required</span>{% endif %}</li>
                 <li><label for="id_postal_code" class="placeholder">Zip</label><br />
-                <input class="medium required{% if contact_form.postal_code.errors %} error{% endif %}" id="id_postal_code" type="text" name="postal_code" placeholder="Zip" maxlength="10" value="{{contact_form.data.postal_code}}" {% if not template_debug %}required {% endif %}/> {% if contact_form.postal_code.errors %}<span class="error">Format: XXXXX</span>{% endif %}</li>
+                <input class="medium required{% if contact_form.postal_code.errors %} error{% endif %}" id="id_postal_code" type="text" name="postal_code" placeholder="Zip" maxlength="10" value="{{contact_form.data.postal_code}}" /> {% if contact_form.postal_code.errors %}<span class="error">Format: XXXXX</span>{% endif %}</li>
             </ul>
             <ul class="inline">
                 <li><label for="id_email" class="placeholder">Email</label><br />
-                <input class="large required{% if contact_form.email.errors %} error{% endif %}" id="id_email" type="email" name="email" placeholder="Email" maxlength="255" value="{{contact_form.data.email}}" {% if not template_debug %}required {% endif %}/></li>
+                <input class="large required{% if contact_form.email.errors %} error{% endif %}" id="id_email" type="email" name="email" placeholder="Email" maxlength="255" value="{{contact_form.data.email}}" /></li>
                 <li><label for="id_phone" class="placeholder">Phone: xxx-xxx-xxxx</label><br />
-                <input class="large required{% if contact_form.phone.errors %} error{% endif %}" id="id_phone" type="text" name="phone" placeholder="Phone: xxx-xxx-xxxx" maxlength="255" value="{{contact_form.data.phone}}" {% if not template_debug %}required {% endif %}/> {% if contact_form.phone.errors %}<span class="error">Format: XXX-XXX-XXXX</span>{% endif %}</li>
+                <input class="large required{% if contact_form.phone.errors %} error{% endif %}" id="id_phone" type="text" name="phone" placeholder="Phone: xxx-xxx-xxxx" maxlength="255" value="{{contact_form.data.phone}}" /> {% if contact_form.phone.errors %}<span class="error">Format: XXX-XXX-XXXX</span>{% endif %}</li>
             </ul>
         </fieldset>
         <fieldset class="blockLabels top40">
@@ -123,13 +123,13 @@ fieldset { background-color: transparent; }
             </ul>
             <ul class="inline">
                 <li><label for="id_ss_num" class="placeholder">Social security number</label><br />
-                <input class="required{% if personal_form.ss_num.errors %} error{% endif %}" style="width:180px;" type="text" name="ss_num" id="id_ss_num" placeholder="Social security number" maxlength="11" value="{{personal_form.data.ss_num}}" {% if not template_debug %}required {% endif %}/>{% if personal_form.ss_num.errors %} <span class="error">xxx-xx-xxxx</span>{% endif %}</li>
+                <input class="required{% if personal_form.ss_num.errors %} error{% endif %}" style="width:180px;" type="text" name="ss_num" id="id_ss_num" placeholder="Social security number" maxlength="11" value="{{personal_form.data.ss_num}}" />{% if personal_form.ss_num.errors %} <span class="error">xxx-xx-xxxx</span>{% endif %}</li>
                 <li><label for="id_dob" class="placeholder">Date of birth: dd/mm/yyyy</label><br />
-                <input class="required{% if personal_form.dob.errors %} error{% endif %}" style="width:200px;" type="text" name="dob" id="id_dob" placeholder="Date of birth: dd/mm/yyyy" maxlength="10" value="{{personal_form.data.dob}}" {% if not template_debug %}required {% endif %}/>{% if personal_form.dob.errors %} <span class="error">dd/mm/yyyy</span>{% endif %}</li>
+                <input class="required{% if personal_form.dob.errors %} error{% endif %}" style="width:200px;" type="text" name="dob" id="id_dob" placeholder="Date of birth: dd/mm/yyyy" maxlength="10" value="{{personal_form.data.dob}}" />{% if personal_form.dob.errors %} <span class="error">dd/mm/yyyy</span>{% endif %}</li>
             </ul>
             <ul class="inline">
                 <li><label for="id_pob" class="placeholder">Place of birth: city, state, zip, country</label><br />
-                <input class="required{% if personal_form.pob.errors %} error{% endif %}" type="text" name="pob" id="id_pob" placeholder="Place of birth: city, state, zip, country" maxlength="255" value="{{personal_form.data.pob}}" {% if not template_debug %}required {% endif %}/></li>
+                <input class="required{% if personal_form.pob.errors %} error{% endif %}" type="text" name="pob" id="id_pob" placeholder="Place of birth: city, state, zip, country" maxlength="255" value="{{personal_form.data.pob}}" /></li>
             </ul>
 
             <h3 class="required" style="margin-top:7px;">Have you ever served in the military?</h3>
@@ -394,11 +394,11 @@ fieldset { background-color: transparent; }
             <div id="payment-details">
                 <ul class="inline">
                     <li><label for="id_billing_name" class="placeholder">Name on credit card</label><br />
-                    <input class="medium required{% if payment_form.billing_name.errors %} error{% endif %}" id="id_billing_name" type="text" name="billing_name" placeholder="Name on credit card" maxlength="100" value="{{payment_form.data.billing_name}}" {% if not template_debug %}required {% endif %}/></li>
+                    <input class="medium required{% if payment_form.billing_name.errors %} error{% endif %}" id="id_billing_name" type="text" name="billing_name" placeholder="Name on credit card" maxlength="100" value="{{payment_form.data.billing_name}}" /></li>
                     <li><label for="id_billing_name" class="placeholder">Credit card number</label><br />
-                    <input class="medium required{% if payment_form.card_number.errors %} error{% endif %}" id="id_card_number" type="text" name="card_number" placeholder="Credit card number" maxlength="100" value="{{payment_form.data.card_number}}" {% if not template_debug %}required {% endif %}/></li>
+                    <input class="medium required{% if payment_form.card_number.errors %} error{% endif %}" id="id_card_number" type="text" name="card_number" placeholder="Credit card number" maxlength="100" value="{{payment_form.data.card_number}}" /></li>
                     <li><label for="id_security_code" class="placeholder">3 or 4 digit security code</label><br />
-                    <input class="medium required{% if payment_form.security_code.errors %} error{% endif %}" id="id_security_code" type="text" name="security_code" max_length="4" placeholder="3 or 4 digit security code" maxlength="100" value="{{payment_form.data.security_code}}" {% if not template_debug %}required {% endif %}/><span class="help"> (See back of card)</span></li>
+                    <input class="medium required{% if payment_form.security_code.errors %} error{% endif %}" id="id_security_code" type="text" name="security_code" max_length="4" placeholder="3 or 4 digit security code" maxlength="100" value="{{payment_form.data.security_code}}" /><span class="help"> (See back of card)</span></li>
                 </ul>
                 <p>Expiration date</p>
                 <div>
