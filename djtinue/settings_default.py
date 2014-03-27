@@ -22,7 +22,7 @@ TIME_ZONE = 'America/Chicago'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = False
-USE_TZ = False
+USE_TZ = True
 DEFAULT_CHARSET = 'utf-8'
 FILE_CHARSET = 'utf-8'
 
@@ -53,6 +53,9 @@ DATABASES = {
         'PASSWORD': ''
     },
 }
+# informix connection string
+from djzbar.settings import INFORMIX_EARL_TEST
+INFORMIX_EARL = INFORMIX_EARL_TEST
 
 INSTALLED_APPS = (
     'django.contrib.admin',

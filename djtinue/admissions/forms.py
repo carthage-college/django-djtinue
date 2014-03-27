@@ -79,7 +79,7 @@ class InfoRequestForm(forms.Form):
 # dictionary name corresponds to URL slug
 STYPES = {
     "information-session":712,
-    "graduate-studies":715,
+    "graduate-education":715,
     "undergraduate-studies":713,
     "master-social-work":714,
     "paralegal":582

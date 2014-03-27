@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.template import RequestContext
 from django.utils.timezone import localtime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
+
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse_lazy
 
-from djtinue.admissions.forms import InfoRequestForm
+from djtinue.admissions.forms import InfoRequestForm, STYPES
 from djtinue.admissions.forms import InfoSessionForm
 from djtinue.admissions.models import LivewhaleEvents as Event
 
@@ -66,6 +67,10 @@ def info_request(request):
     )
 
 def info_session(request, session_type):
+    try:
+        STYPES[session_type]
+    except:
+        raise Http404, "Page not found"
     if request.method == 'POST':
         form = InfoSessionForm(session_type,request.POST)
         if form.is_valid():
