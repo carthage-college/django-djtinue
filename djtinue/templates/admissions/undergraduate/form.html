@@ -2,6 +2,7 @@
 {% block title %}Admissions Form &mdash; Adult Education &mdash; Carthage College{% endblock %}
 {% block jquery %}<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>{% endblock %}
 {% block extra_javascript %}
+<script src="/static/djaludir/js/spin.min.js" type="text/javascript"></script>
 <script src="/static/djtinue/apps/InFieldLabels/jquery.infieldlabel.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var doop = {{doop}};
@@ -51,6 +52,11 @@ fieldset { background-color: transparent; }
 <div id="second">
 <div class="buffer">
     {% if personal_form.errors or contact_form.errors or employment_form.errors or education_goals_form.errors or payment_form.errors %}
+        {{personal_form.errors}}
+        {{contact_form.errors}}
+        {{employment_form.errors}}
+        {{education_goals_form.errors}}
+        {{payment_form.errors}}
         <p class="error">There were errors with the data submitted, see below.</p>
     {% endif %}
     <h1>Admissions Form</h1>
@@ -125,6 +131,14 @@ fieldset { background-color: transparent; }
                 <li><label for="id_pob" class="placeholder">Place of birth: city, state, zip, country</label><br />
                 <input class="required{% if personal_form.pob.errors %} error{% endif %}" type="text" name="pob" id="id_pob" placeholder="Place of birth: city, state, zip, country" maxlength="255" value="{{personal_form.data.pob}}" {% if not template_debug %}required {% endif %}/></li>
             </ul>
+
+            <h3 class="required" style="margin-top:7px;">Have you ever served in the military?</h3>
+            <ul class="radin">
+                <li><label for="id_military_0"><input {% if personal_form.data.military == "Yes" %}checked="checked" {% endif %}type="radio" id="id_military_0" value="Yes" name="military" /> Yes</label></li>
+                <li><label for="id_military_1"><input {% if personal_form.data.military == "No" %}checked="checked" {% endif %}type="radio" id="id_military_1" value="No" name="military" /> No</label></li>
+                {% if personal_form.military.errors %}<li><span class="error">Choose one</span></li>{% endif %}
+            </ul>
+
         </fieldset>
         <fieldset class="blockLabels top40">
             <div class="dotholder">

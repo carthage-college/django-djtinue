@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader, Context
 from django.utils.dates import MONTHS
 
-from djforms.core.models import STATE_CHOICES, YEARS1, YEARS3
+from djtools.fields import STATE_CHOICES, YEARS1, YEARS3
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
@@ -48,9 +48,9 @@ def admissions_application(request):
         del schools[0]
 
         if contact_form.is_valid() and \
-        personal_form.is_valid() and \
-        employment_form.is_valid() and \
-        education_goals_form.is_valid() and fee_form.is_valid():
+          personal_form.is_valid() and \
+          employment_form.is_valid() and \
+          education_goals_form.is_valid() and fee_form.is_valid():
             contact = contact_form.cleaned_data
             personal = personal_form.cleaned_data
             employment = employment_form.cleaned_data
@@ -66,7 +66,7 @@ def admissions_application(request):
             # so we can display it in email rather than ID
             goal = EDUCATION_GOAL[int(data['education']['educationalgoal'])-1][1]
             data['education']['educationalgoalname'] = goal
-            subject = "[Undergrad Admissions Application] %s, %s" % (
+            subject = "[Undergraduate Admissions Application] %s, %s" % (
                 contact['last_name'],contact['first_name']
             )
             email = contact['email']
@@ -85,7 +85,7 @@ def admissions_application(request):
                 )
                 order = Order(
                     total=total,auth="sale",status="In Process",
-                    operator="Adult Ed Admissions"
+                    operator="DJTinueUgradAdmish"
                 )
                 payment_form = TrustCommerceForm(order, contact, request.POST)
                 if payment_form.is_valid():
@@ -99,7 +99,7 @@ def admissions_application(request):
                     result = insert(data)
                     # TODO: send email if result = fail, log data
                     send_mail(
-                        request, TO_LIST, subject, contact['email'],
+                        request, TO_LIST, subject, contact.email,
                         "admissions/undergraduate/email.html", data, BCC
                     )
                     return HttpResponseRedirect(
@@ -119,7 +119,7 @@ def admissions_application(request):
                 result = insert(data)
                 # TODO: send email if result = fail, log data
                 send_mail(
-                    request, TO_LIST, subject,contact['email'],
+                    request, TO_LIST, subject,contact.email,
                     "admissions/undergraduate/email.html", data, BCC
                 )
                 return HttpResponseRedirect(

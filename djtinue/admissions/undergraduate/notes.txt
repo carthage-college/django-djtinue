@@ -1,4 +1,4 @@
-apptmp_rec is the talbe and app_source is the column.
+apptmp_rec is the table and app_source is the column.
 
 AEA is the code for adult ed application
 
