@@ -5,10 +5,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader, Context
 from django.utils.dates import MONTHS
 
-from djtools.fields import STATE_CHOICES, YEARS1, YEARS3
+from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
+from djtinue.admissions.undergraduate import _insert
 from djtinue.admissions.undergraduate.forms import *
 from djtinue.admissions.undergraduate.models import School
 
@@ -92,11 +93,13 @@ def admissions_application(request):
                     r = payment_form.processor_response
                     order.status = r.msg['status']
                     order.transid = r.msg['transid']
+                    order.cc_name = payment_form.name
+                    order.cc_4_digits = payment_form.card[-4:]
                     order.save()
                     contact.order.add(order)
                     data['order'] = order
                     # insert into informix and send mail
-                    result = insert(data)
+                    result = _insert(data)
                     # TODO: send email if result = fail, log data
                     send_mail(
                         request, TO_LIST, subject, contact.email,
@@ -116,7 +119,7 @@ def admissions_application(request):
                     contact.order.add(order)
             else:
                 # insert and send mail
-                result = insert(data)
+                result = _insert(data)
                 # TODO: send email if result = fail, log data
                 send_mail(
                     request, TO_LIST, subject,contact.email,

@@ -20,6 +20,9 @@ MONTH  = int(NOW.month)
 YEAR   = int(NOW.year)
 YEAR7  = YEAR
 YEAR14 = YEAR
+YEARS1 =  [x for x in reversed(xrange(1926,date.today().year +1))]
+YEARS3 =  [x for x in reversed(xrange(1926,date.today().year +3))]
+
 
 EDUCATION_GOAL = (
     (1,"I would like to earn my first bachelor's degree."),
@@ -162,7 +165,7 @@ class ApplicationFeeForm(forms.Form):
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect()
     )
 
-def insert(data):
+def _insert(data):
     """
     private method to insert data into informix
     for continuing education applications

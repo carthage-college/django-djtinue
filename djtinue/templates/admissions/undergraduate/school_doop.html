@@ -21,7 +21,7 @@
             <select name="from_year[]" class="from_year">
                 <option value=""></option>
                 {% for year in years1 %}
-                    <option value="{{year.0}}"{% if s.from_year|add:"0" == year %} selected="selected"{% endif %}>{{year.1}}</option>
+                    <option value="{{year}}"{% if s.from_year|add:"0" == year %} selected="selected"{% endif %}>{{year}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -36,7 +36,7 @@
             <select name="to_year[]" class="to_year">
                 <option value=""></option>
                 {% for year in years3 %}
-                    <option value="{{year.0}}"{% if s.to_year|add:"0" == year %} selected="selected"{% endif %}>{{year.1}}</option>
+                    <option value="{{year}}"{% if s.to_year|add:"0" == year %} selected="selected"{% endif %}>{{year}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -51,7 +51,7 @@
             <select name="grad_year[]" class="grad_year">
                 <option value=""></option>
                 {% for year in years3 %}
-                    <option value="{{year.0}}"{% if s.grad_year|add:"0" == year %} selected="selected"{% endif %}>{{year.1}}</option>
+                    <option value="{{year}}"{% if s.grad_year|add:"0" == year %} selected="selected"{% endif %}>{{year}}</option>
                 {% endfor %}
             </select>
         </div>

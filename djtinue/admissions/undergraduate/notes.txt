@@ -5,4 +5,20 @@ AEA is the code for adult ed application
 select app_source count(app_source) from apptmp_rec group by app_source;
 
 
+Where are we adding?
+    previous_name (see prev_name_id in app_idtmp_rec)
+    employer
+    position
+    reimbursement
+    minor
+    cert
+    military (vet_ben in app_admtmp_rec?)
 
+--- is email field limited to 32 char? ---
+see table "app_admtmp_rec"
+
+affirmative: varchar 32
+
+for now, until we can increase the size of that field, use:
+
+email[:32]

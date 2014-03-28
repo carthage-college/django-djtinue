@@ -52,32 +52,19 @@ fieldset { background-color: transparent; }
 <div id="second">
 <div class="buffer">
     {% if personal_form.errors or contact_form.errors or employment_form.errors or education_goals_form.errors or payment_form.errors %}
-        {{personal_form.errors}}
-        {{contact_form.errors}}
-        {{employment_form.errors}}
-        {{education_goals_form.errors}}
-        {{payment_form.errors}}
         <p class="error">There were errors with the data submitted, see below.</p>
     {% endif %}
     <h1>Admissions Form</h1>
     <p style="padding-bottom:10px;">Fields marked with an asterisk<img src="/static/djtinue/img/icons/red_asterisk.png" alt="asterisk" style="margin-bottom:-3px;" />are required.</p>
     <form method="post" action="." class="form" id="profile">{% csrf_token %}
         <fieldset class="blockLabels">
-            <div class="dotholder">
-                <div class="dot active">1</div>
-                <div class="dot">2</div>
-                <div class="dot">3</div>
-                <div class="dot">4</div>
-                <div class="dot">5</div>
-                <div class="dot">6</div>
-            </div>
             <h2>Contact Information</h2>
             <h3>Name</h3>
             <ul class="inline">
                 <li><label for="id_first_name" class="placeholder">First name</label><br />
                 <input class="medium required{% if contact_form.first_name.errors %} error{% endif %}" id="id_first_name" type="text" name="first_name" placeholder="First name" maxlength="100" value="{{contact_form.data.first_name}}" /></li>
-                <li><label for="id_middle_name" class="placeholder">Middle name</label><br />
-                <input class="medium" id="id_middle_name" type="text" name="middle_name" placeholder="Middle name" maxlength="100" value="{{contact_form.data.middle_name}}" /></li>
+                <li><label for="id_second_name" class="placeholder">Middle name</label><br />
+                <input class="medium" id="id_second_name" type="text" name="second_name" placeholder="Middle name" maxlength="100" value="{{contact_form.data.second_name}}" /></li>
                 <li><label for="id_last_name" class="placeholder">Last name</label><br />
                 <input class="medium required{% if contact_form.last_name.errors %} error{% endif %}" id="id_last_name" type="text" name="last_name" placeholder="Last name" maxlength="100" value="{{contact_form.data.last_name}}" /></li>
                 <li><label for="id_previous_name" class="placeholder">Previous name</label><br />
@@ -104,15 +91,7 @@ fieldset { background-color: transparent; }
                 <input class="large required{% if contact_form.phone.errors %} error{% endif %}" id="id_phone" type="text" name="phone" placeholder="Phone: xxx-xxx-xxxx" maxlength="255" value="{{contact_form.data.phone}}" /> {% if contact_form.phone.errors %}<span class="error">Format: XXX-XXX-XXXX</span>{% endif %}</li>
             </ul>
         </fieldset>
-        <fieldset class="blockLabels top40">
-            <div class="dotholder">
-                <div class="dot active">1</div>
-                <div class="dot active">2</div>
-                <div class="dot">3</div>
-                <div class="dot">4</div>
-                <div class="dot">5</div>
-                <div class="dot">6</div>
-            </div>
+        <fieldset class="blockLabels">
             <h2>Personal Information</h2>
             <h3 class="required">Gender</h3>
             <ul class="radin">
@@ -140,15 +119,7 @@ fieldset { background-color: transparent; }
             </ul>
 
         </fieldset>
-        <fieldset class="blockLabels top40">
-            <div class="dotholder">
-                <div class="dot active">1</div>
-                <div class="dot active">2</div>
-                <div class="dot active">3</div>
-                <div class="dot">4</div>
-                <div class="dot">5</div>
-                <div class="dot">6</div>
-            </div>
+        <fieldset class="blockLabels">
             <h2>Employment</h2>
             <ul class="inline">
             <li><label for="id_employer" class="placeholder">Employer</label><br />
@@ -163,15 +134,7 @@ fieldset { background-color: transparent; }
                 {% if employment_form.tuition_reimburse.errors %}<li><span class="error">Choose one</span></li>{% endif %}
             </ul>
         </fieldset>
-        <fieldset class="blockLabels top40">
-            <div class="dotholder">
-                <div class="dot active">1</div>
-                <div class="dot active">2</div>
-                <div class="dot active">3</div>
-                <div class="dot active">4</div>
-                <div class="dot">5</div>
-                <div class="dot">6</div>
-            </div>
+        <fieldset class="blockLabels">
             <h2>Educational Plans</h2>
             {% if education_goals_form.educationalgoal.errors %}
                 <h3 class="error" style="margin:9px 0;">Choose a degree option</h3>
@@ -247,15 +210,7 @@ fieldset { background-color: transparent; }
                 <input id="id_certificiation" type="text" name="certificiation" maxlength="128" value="{{education_goals_form.data.certificiation}}" />
             </div>
         </fieldset>
-        <fieldset class="blockLabels top40">
-            <div class="dotholder">
-                <div class="dot active">1</div>
-                <div class="dot active">2</div>
-                <div class="dot active">3</div>
-                <div class="dot active">4</div>
-                <div class="dot active">5</div>
-                <div class="dot">6</div>
-            </div>
+        <fieldset class="blockLabels">
             <h2>Schools you have attended</h2>
             <div id="doop_master" class="notice">
                 {% include "admissions/undergraduate/school_doop.html" %}
@@ -363,15 +318,7 @@ fieldset { background-color: transparent; }
                 <input type="button" name="add_school" id="add_school" class="button" value=" ADD " />
             </div>
         </fieldset>
-        <fieldset class="blockLabels top40">
-            <div class="dotholder">
-                <div class="dot active">1</div>
-                <div class="dot active">2</div>
-                <div class="dot active">3</div>
-                <div class="dot active">4</div>
-                <div class="dot active">5</div>
-                <div class="dot active">6</div>
-            </div>
+        <fieldset class="blockLabels">
             <h2>Method of Payment</h2>
             <p class="notice">NOTE: The Carthage web site supports secure credit card transactions.</p>
             <h3><label for="id_amount">Application Fee: $10.00</label></h3>
