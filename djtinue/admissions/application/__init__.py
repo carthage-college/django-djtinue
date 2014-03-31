@@ -111,18 +111,19 @@ def _insert(data):
     sql = """
         INSERT INTO app_admtmp_rec (
             id, primary_app, plan_enr_sess, plan_enr_yr, intend_hrs_enr,
-            add_date, parent_contr, enrstat, rank, emailaddr,major
+            add_date, parent_contr, enrstat, rank, emailaddr,major,
             prog, subprog, upd_uid, add_uid, upd_date, act_choice,
             stuint_wt, jics_candidate
         )
         VALUES (
             %s,"Y", "%s", "%s", "4", "%s", "0.00", "", "0",
-            "%s", "%s", "%s", "0", "0", "%s", "", "0", "N"
+            "%s", "%s", "%s", "%s", "0", "0", "%s", "", "0", "N"
         ) """ % (
             apptmp_no,start_session,start_year,DATE,
             data["contact"]["email"][:32],data["education"]["intended_major"],
             program4,subprogram,DATE
         )
+
     if settings.DEBUG:
         logger.debug("session info sql = %s" % sql)
     connection.execute(sql)

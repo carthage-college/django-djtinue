@@ -25,14 +25,9 @@ urlpatterns = patterns('djtinue.admissions.views',
         r'^information-session/(?P<session_type>[a-zA-Z0-9_-]+)/$',
         'info_session', name="info_session"
     ),
-    # undergraduate
+    # application
     url(
-        r'^undergraduate/',
-        include('djtinue.admissions.undergraduate.urls')
+        r'^application/',
+        include('djtinue.admissions.application.urls')
     ),
-    # graduate
-    #url(
-    #    r'^graduate/',
-    #    include('djtinue.admissions.graduate.urls')
-    #),
 )

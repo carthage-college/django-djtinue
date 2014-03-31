@@ -9,9 +9,9 @@ from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
-from djtinue.admissions.undergraduate import _insert
-from djtinue.admissions.undergraduate.forms import *
-from djtinue.admissions.undergraduate.models import School
+from djtinue.admissions.application import _insert
+from djtinue.admissions.application.forms import *
+from djtinue.admissions.application.models import School
 
 if settings.DEBUG:
     TO_LIST = [settings.SERVER_EMAIL,]
@@ -103,10 +103,10 @@ def admissions_application(request):
                     # TODO: send email if result = fail, log data
                     send_mail(
                         request, TO_LIST, subject, contact.email,
-                        "admissions/undergraduate/email.html", data, BCC
+                        "admissions/application/email.html", data, BCC
                     )
                     return HttpResponseRedirect(
-                        reverse('undergraduate_admissions_success')
+                        reverse('admissions_application_success')
                     )
                 else:
                     r = payment_form.processor_response
@@ -123,10 +123,10 @@ def admissions_application(request):
                 # TODO: send email if result = fail, log data
                 send_mail(
                     request, TO_LIST, subject,contact.email,
-                    "admissions/undergraduate/email.html", data, BCC
+                    "admissions/application/email.html", data, BCC
                 )
                 return HttpResponseRedirect(
-                    reverse('undergraduate_admissions_success')
+                    reverse('admissions_application_success')
                 )
         else:
             if request.POST.get('payment_type') == "Credit Card":
@@ -151,6 +151,6 @@ def admissions_application(request):
         "months":MONTHS, "years1":YEARS1,"years3":YEARS3
     }
     return render_to_response(
-        "admissions/undergraduate/form.html",
+        "admissions/application/form.html",
         extra_context, context_instance=RequestContext(request)
     )

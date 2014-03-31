@@ -213,7 +213,7 @@ fieldset { background-color: transparent; }
         <fieldset class="blockLabels">
             <h2>Schools you have attended</h2>
             <div id="doop_master" class="notice">
-                {% include "admissions/undergraduate/school_doop.html" %}
+                {% include "admissions/application/school_doop.html" %}
             </div>
             <div id="selected_schools">
                 <div id="selected_schools_introtext">
@@ -221,7 +221,7 @@ fieldset { background-color: transparent; }
                     {% if schools %}
                         {% for s in schools %}
                             <div id="doop_master_{{forloop.counter}}" class="notice">
-                            {% include "admissions/undergraduate/school_doop.html" %}
+                            {% include "admissions/application/school_doop.html" %}
                             </div>
                         {% endfor %}
                     {% endif %}
@@ -279,8 +279,8 @@ fieldset { background-color: transparent; }
                 </select>
                 <select name="from_year_orig" id="from_year_orig">
                     <option value="0"></option>
-                    {% for n,v in years1 %}
-                        <option value="{{n}}">{{v}}</option>
+                    {% for year in years1 %}
+                        <option value="{{year}}">{{year}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -294,8 +294,8 @@ fieldset { background-color: transparent; }
                 </select>
                 <select name="to_year_orig" id="to_year_orig">
                     <option value="0"></option>
-                    {% for n,v in years3 %}
-                        <option value="{{n}}">{{v}}</option>
+                    {% for year in years3 %}
+                        <option value="{{year}}">{{year}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -309,8 +309,8 @@ fieldset { background-color: transparent; }
                 </select>
                 <select name="grad_year_orig" id="grad_year_orig">
                     <option value="0"></option>
-                    {% for n,v in years3 %}
-                        <option value="{{n}}">{{v}}</option>
+                    {% for year in years3 %}
+                        <option value="{{year}}">{{year}}</option>
                     {% endfor %}
                 </select>
             </div>
