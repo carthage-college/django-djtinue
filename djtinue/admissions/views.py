@@ -53,7 +53,7 @@ def info_request(request):
             subject = "Adult Education Information Request"
             send_mail(
                 request, to, subject, cd["email"],
-                "admissions/inforequest.txt", cd, BCC, content="text"
+                "admissions/inforequest.txt", cd, BCC, content=""
             )
             return HttpResponseRedirect(
                 reverse_lazy("info_request_success")
@@ -95,7 +95,7 @@ def info_session(request, session_type):
             subject +="%s on %s" % (session_type, datetime)
             send_mail(
                 request, to, subject, cd["email"],
-                "admissions/infosession.txt", cd, BCC, content="text"
+                "admissions/infosession.txt", cd, BCC, content=""
             )
             return HttpResponseRedirect(
                 reverse_lazy("info_session_success")
