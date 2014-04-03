@@ -1,6 +1,6 @@
 from django.db import connections
 from djtinue.admissions.models import LivewhaleEvents
-from djtinue.admissions.models import STYPES
+from djtinue.admissions.forms import STYPES
 
 from django.utils.timezone import localtime
 from django.utils.dateformat import DateFormat
