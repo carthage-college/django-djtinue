@@ -122,7 +122,7 @@ def admissions_application(request):
                 result = _insert(data)
                 # TODO: send email if result = fail, log data
                 send_mail(
-                    request, TO_LIST, subject,contact.email,
+                    request, TO_LIST, subject,contact["email"],
                     "admissions/application/email.html", data, BCC
                 )
                 return HttpResponseRedirect(
