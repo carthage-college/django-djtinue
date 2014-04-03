@@ -48,6 +48,15 @@ ACADEMIC_PROGRAMS =  [
     ('Summer Language Seminars', 'Summer Language Seminars'),
 ]
 
+# dictionary name corresponds to URL slug
+STYPES = {
+    "information-session":712,
+    "graduate-education":715,
+    "undergraduate-studies":713,
+    "master-social-work":714,
+    "paralegal":582
+}
+
 class InfoRequestForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
@@ -76,15 +85,6 @@ class InfoRequestForm(forms.Form):
         label="If other, please specify",
         required=False, widget=forms.Textarea
     )
-
-# dictionary name corresponds to URL slug
-STYPES = {
-    "information-session":712,
-    "graduate-education":715,
-    "undergraduate-studies":713,
-    "master-social-work":714,
-    "paralegal":582
-}
 
 class InfoSessionForm(forms.Form):
     event = forms.ChoiceField(choices=())
