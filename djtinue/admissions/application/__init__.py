@@ -154,7 +154,7 @@ def _insert(data):
             data["personal"]["military"][:1],
             DATE,data["contact"]["email"][:32],
             data["education"]["intended_major"],program4,subprogram,
-            data["education"]["certification"],DATE
+            data["education"]["intended_minor"],DATE
         )
 
     if settings.DEBUG:
