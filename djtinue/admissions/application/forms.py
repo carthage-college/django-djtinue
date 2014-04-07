@@ -78,6 +78,12 @@ class AdultContactForm(ContactForm):
     Adult Ed contact form based on the generic processor
     contact model & its form
     """
+    address1     = forms.CharField(max_length=128, label="School address")
+    address2     = forms.CharField(max_length=128, label="", required=False)
+    city         = forms.CharField(max_length=128)
+    state        = forms.CharField(widget=forms.Select(choices=STATE_CHOICES), required=True)
+    postal_code  = USZipCodeField(label="Zip Code")
+
     class Meta:
         model = Contact
         fields = (
@@ -102,9 +108,17 @@ class PersonalForm(forms.Form):
     dob = forms.DateField(
         label = "Date of birth", help_text="Format: dd/mm/yyyy"
     )
+    cob = forms.CharField(
+        label = "City of birth",
+        max_length=128
+    )
+    sob = forms.CharField(
+        label = "State/Provence of birth",
+        max_length=128
+    )
     pob = forms.CharField(
-        label = "Place of birth", help_text="City, state, zip, country",
-        max_length=255
+        label = "Country of birth",
+        max_length=128
     )
     military = forms.TypedChoiceField(
         label="Have you ever served in the military?",
@@ -143,7 +157,7 @@ class EducationGoalsForm(forms.Form):
     )
     intended_major = forms.CharField(max_length=128, required=False)
     intended_minor = forms.CharField(max_length=128, required=False)
-    certificiation = forms.CharField(
+    certification = forms.CharField(
         label="Intended certification", required=False,
         max_length=128
     )
@@ -283,14 +297,18 @@ def _insert(data):
     # personal info
     sql = """
         INSERT INTO app_proftmp_rec (
-            id, birth_date, birthplace_city, sex, church_id,
-            prof_last_upd_date
+            id, birth_date, birthplace_city, birthplace_st, birthplace_ctry
+            sex, church_id, prof_last_upd_date
         )
         VALUES (
             %s,"%s","%s","%s","0","%s"
         ) """ % (
-            apptmp_no, data["personal"]["dob"].strftime("%m/%d/%Y"),
-            data["personal"]["pob"], data["personal"]["gender"], DATE
+            apptmp_no,
+            data["personal"]["dob"],
+            data["personal"]["cob"],
+            data["personal"]["sob"],
+            data["personal"]["pob"],
+            data["personal"]["gender"],DATE
         )
     logger.debug("more personal info sql = %s" % sql)
     connection.execute(sql)
