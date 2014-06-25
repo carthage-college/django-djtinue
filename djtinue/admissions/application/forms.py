@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 
-from djtools.fields import STATE_CHOICES, COUNTRIES
+from djtools.fields import COUNTRIES
 from djtools.fields import GENDER_CHOICES, BINARY_CHOICES, PAYMENT_CHOICES
 from djforms.processors.models import Contact
 from djforms.processors.forms import ContactForm

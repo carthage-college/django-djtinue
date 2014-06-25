@@ -88,7 +88,7 @@ TEMPLATE_LOADERS = (
 )
 TEMPLATE_DIRS = (
     "/data2/django_projects/djtinue/templates/",
-    "/d2/django_templates/djdfir/",
+    "/d2/django_templates/djkorra/",
     "/data2/django_templates/djcher/",
     "/data2/django_templates/django-djskins/",
 )
