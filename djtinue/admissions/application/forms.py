@@ -26,22 +26,9 @@ YEARS3 =  [x for x in reversed(xrange(1926,date.today().year +3))]
 
 EDUCATION_GOAL = (
     (1,"I would like to earn my first bachelor's degree."),
-    (2,"""
-        I would like to earn my first bachelor's degree
-        and also become certified to teach.
-    """),
-    (3,"I would like to apply to the Master of Education program."),
-    (4,"""
-        I would like to apply to the Accelerated Certification
-        for Teachers program.
-    """),
     (5,"""
         I already have a bachelor's degree
         and now would like to earn certification to teach.
-    """),
-    (6,"""
-        I already have a bachelor's degree
-        and now would like to complete an additional major.
     """),
     (7,"I would like to take classes for my own personal interest."),
 )
@@ -157,10 +144,6 @@ class EducationGoalsForm(forms.Form):
     )
     intended_major = forms.CharField(max_length=128, required=False)
     intended_minor = forms.CharField(max_length=128, required=False)
-    certification = forms.CharField(
-        label="Intended certification", required=False,
-        max_length=128
-    )
 
     def clean(self):
         if not self.cleaned_data.get('session7') \

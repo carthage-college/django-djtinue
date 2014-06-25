@@ -12,7 +12,7 @@ function sel(num) {
     }
 }
 
-$(function() {
+$(document).ready(function() {
     /* spinner */
     var opts = {
         lines: 13, // The number of lines to draw
@@ -130,7 +130,7 @@ $(function() {
 
     /* add and remove schools */
     // remove schools
-    $(".destroy_school").live('click', function() {
+    $('body').on('click', '.destroy_school', function() {
         $(this).parent().remove();
     });
     // add schools
