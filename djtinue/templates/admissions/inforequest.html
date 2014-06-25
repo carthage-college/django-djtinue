@@ -1,28 +1,16 @@
-{% extends "djcedu/home.html" %}
+{% extends "base.html" %}
 {% block title %}Carthage College :: Adult Education :: Information Request{% endblock %}
-{% block extra_javascript %}
-    <script type="text/javascript">
-    $(function() {
-        $('.required>em').html('<img src="/static/forms/img/icons/red_asterisk.png" />');
-    });
-    </script>
+{% block left_nav %}
+    {% include "includes/left_nav.html" %}
 {% endblock %}
-{% block extra_style %}
-    <link href="//www.carthage.edu/assets/current/css/plugins/forms.css" rel="stylesheet" type="text/css" />
-    <link href="//www.carthage.edu/assets/current/css/overrides/forms.css" rel="stylesheet" type="text/css" />
-    <link href="//www.carthage.edu/assets/current/css/overrides/forms.bridge.css" rel="stylesheet" type="text/css" />
-    <style type="text/css" media="screen, projection">
-    #second {width:600px;}
-    #fourth {float:left;overflow:hidden;padding-left:150px;padding-top:20px;}
-    body { background-color: #EBE7DB; }
-    fieldset { background-color: transparent; }
-    </style>
+{% block content_head %}
+    <h1 id="page_title">
+        Information Request
+        <span id="secondary-dropdown"></span>
+    </h1>
 {% endblock %}
 {% block content %}
-    <div id="first"></div>
-    <div id="second">
-    <h1>Information Request</h1>
+    <div class="forms-container">
     {% include "includes/generic_form.html" %}
     </div>
-    {% include "includes/fourth_col.html" %}
 {% endblock %}
