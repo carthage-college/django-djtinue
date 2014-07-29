@@ -1,18 +1,6 @@
-{% extends "djcedu/home.html" %}
-{% block title %}Admissions Form &mdash; Adult Education &mdash; Carthage College{% endblock %}
-{% block extra_style %}
-<style type="text/css">
-/* app specific css */
-#second {width:745px;padding-right:0px;}
-</style>
-{% endblock %}
+{% extends "admissions/application/form.html" %}
 {% block content %}
-<div id="second">
-<div class="buffer">
-<h1>Success</h1>
+<h2>Success</h2>
 <p>We have received your application to the Continuing Education Program at Carthage.</p>
 <p>Someone from admissions will be in contact with you presently.</p>
-</div>
-</div>
-{% include "includes/fourth_col.html" %}
 {% endblock %}

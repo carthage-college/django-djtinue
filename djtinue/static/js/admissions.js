@@ -88,20 +88,22 @@ $(document).ready(function() {
     // state select field populated via ajax which returns HTML
     $("#states").change(function() {
         var id=$(this).val();
-        var dataString = 'state='+ id;
-        $.ajax ({
-            type: "POST",
-            url: "/jenzabar/admissions/cities/",
-            data: dataString,
-            cache: false,
-            beforeSend: function(){
-                spinner.spin(target);
-            },
-            success: function(html) {
-                spinner.stop(target);
-                $("#cities").html(html);
-            }
-        });
+        if (id) {
+            var dataString = 'state='+ id;
+            $.ajax ({
+                type: "POST",
+                url: "/jenzabar/admissions/cities/",
+                data: dataString,
+                cache: false,
+                beforeSend: function(){
+                    spinner.spin(target);
+                },
+                success: function(html) {
+                    spinner.stop(target);
+                    $("#cities").html(html);
+                }
+            });
+        }
     });
     // city select field populated via ajax based on state selected
     $("#cities").change(function() {

@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 
-from djtools.fields import COUNTRIES
+from djtools.fields import COUNTRIES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, BINARY_CHOICES, PAYMENT_CHOICES
 from djforms.processors.models import Contact
 from djforms.processors.forms import ContactForm
@@ -87,7 +87,8 @@ class PersonalForm(forms.Form):
     personal data
     """
     gender = forms.TypedChoiceField(
-        choices=GENDER_CHOICES, widget=forms.RadioSelect()
+        choices=GENDER_CHOICES, widget=forms.RadioSelect(),
+        help_text="With which gender do you most identify?"
     )
     ss_num = USSocialSecurityNumberField(
         label = "Social security number"

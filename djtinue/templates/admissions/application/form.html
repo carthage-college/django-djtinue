@@ -1,12 +1,8 @@
-{% extends "djcedu/home.html" %}
+{% extends "base.html" %}
 {% block title %}
     Admissions Application Form &mdash;
-    Adult Education &mdash;
+    Continuing Education &mdash;
     Carthage College
-{% endblock %}
-{% block jquery %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
-    type="text/javascript"></script>
 {% endblock %}
 {% block extra_javascript %}
 <script src="//www.carthage.edu/static/vendor/js/spin.min.js"
@@ -55,26 +51,20 @@
 <script src="/static/djtinue/js/admissions.js" type="text/javascript"></script>
 {% endblock %}
 {% block extra_style %}
-<link href="//www.carthage.edu/assets/current/css/plugins/forms.css"
-    rel="stylesheet" type="text/css" />
-<link href="//www.carthage.edu/assets/current/css/overrides/forms.css"
-    rel="stylesheet" type="text/css" />
-<link href="//www.carthage.edu/assets/current/css/overrides/forms.bridge.css"
-    rel="stylesheet" type="text/css" />
 <style type="text/css">
-body { background-color: #EBE7DB; }
 /* app specific css */
-#second {width:745px;padding-right:0px;}
-#fourth {float:left;overflow:hidden;padding-top:20px;180px; }
 .error, .notice, .success { padding: 0.4em; }
-#id_state {border: 2px solid #f0dddd !important;background:#faf5f5;}
+#id_state {width:200px;border: 2px solid #f0dddd !important;background:#faf5f5;}
 #id_state:hover {border: 2px solid #d7d0a0 !important;}
 #id_state:focus {border: 2px solid #6caf2a !important;}
-#id_postal_code, #id_security_code {width:150px;}
+#id_postal_code {width:170px;}
+.attended {width:170px !important;}
+#id_security_code, #id_expiration_month, #id_expiration_year {width:70px;}
+.labelpad {font-weight:900 !important;}
 #doop_master, #graduate-plan, #undergraduate-plan, #paralegal-plan {
 display: none;}
-#cities, #schools {width:250px;}
-fieldset { background-color: transparent; }
+#states {width:100px;height:200px;margin-bottom:10px;}
+#cities, #schools {width:250px;height:200px;margin-bottom:10px;}
 {% if fee_form.data.payment_type == "Credit Card" %}
 #payment-details { display:inherit; }
 {% else %}
@@ -83,14 +73,25 @@ fieldset { background-color: transparent; }
 #payment-details { margin-bottom:20px; }
 </style>
 {% endblock %}
+{% block left_nav %}
+    {% include "includes/left_nav.html" %}
+{% endblock %}
+{% block side_bar %}
+    {% include "includes/fourth_col.html" %}
+{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+        Admissions Form
+        <span id="secondary-dropdown"></span>
+    </h1>
+{% endblock %}
 {% block content %}
-<div id="second">
+<div class="forms-container">
     {% if personal_form.errors or contact_form.errors or employment_form.errors or education_goals_form.errors or payment_form.errors %}
         <p class="error">
             There were errors with the data submitted, see below.
         </p>
     {% endif %}
-    <h1>Admissions Form</h1>
     {% include "includes/required_text.html" %}
     <form method="post" action="." class="form" id="profile">{% csrf_token %}
         <fieldset class="blockLabels">
@@ -190,7 +191,7 @@ fieldset { background-color: transparent; }
                         name="postal_code" placeholder="Zip" maxlength="10"
                         value="{{contact_form.data.postal_code}}" />
                         {% if contact_form.postal_code.errors %}
-                            <span class="error">Format: XXXXX</span>
+                            <span class="error">e.g. XXXXX</span>
                         {% endif %}
                 </li>
             </ul>
@@ -225,6 +226,11 @@ fieldset { background-color: transparent; }
         <fieldset class="blockLabels">
             <h2>Personal Information</h2>
             <h3 class="required">Gender</h3>
+            <ul class="inline">
+                <li>
+                    {{personal_form.gender.help_text}}
+                </li>
+            </ul>
             <ul class="radin">
                 <li>
                     <label for="id_gender_0">
@@ -419,15 +425,36 @@ fieldset { background-color: transparent; }
             </ul>
             <div id="graduate-plan" class="success">
                 <h3>Graduate Plan</h3>
-                Degree Seeking
-                Non-degree Seeking
-
-                Intended Concentration
-                Intended Certification
+                <p><em>No 7 week options</em></p>
+                <ul>
+                    <li>
+                        Degree Seeking
+                    </li>
+                    <li>
+                        Non-degree Seeking
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        Intended Concentration
+                    </li>
+                    <li>
+                        Intended Certification
+                    </li>
+                </ul>
             </div>
             <!-- end graduate plan -->
             <div id="undergraduate-plan" class="success">
                 <h3>Undergraduate Plan</h3>
+                <p><em>7 week / 14 week / Parkside Students</em></p>
+                <ul>
+                    <li>
+                        Degree Seeking
+                    </li>
+                    <li>
+                        Non-degree Seeking
+                    </li>
+                </ul>
                 {% if education_goals_form.educationalgoal.errors %}
                     <h3 class="error" style="margin:9px 0;">
                         Choose a degree option
@@ -513,28 +540,6 @@ fieldset { background-color: transparent; }
                 <p>?</p>
             </div>
             <!-- end paralegal plan -->
-            <ul>
-                <li>
-                    <label for="id_program_0">
-                        <input type="radio" id="id_program_0" value="7"
-                            name="program"
-                            {% if education_goals_form.data.program == "7" %}
-                                checked="checked"
-                            {% endif %} />
-                        7 week format
-                    </label>
-                </li>
-                <li>
-                    <label for="id_program_1">
-                        <input type="radio" id="id_program_1" value="14"
-                            name="program"
-                            {% if education_goals_form.data.program == "14" %}
-                                checked="checked"
-                            {% endif %} />
-                        14 week Undergraduate or Graduate
-                    </label>
-                </li>
-            </ul>
             <ol>
             <li>
                 {% if education_goals_form.session7.errors %}
@@ -635,13 +640,13 @@ fieldset { background-color: transparent; }
                 <label for="from_month_orig" class="labelpad">
                     Attended from:
                 </label>
-                <select name="from_month_orig" id="from_month_orig">
+                <select name="from_month_orig" id="from_month_orig" class="attended">
                     <option value="0"></option>
                     {% for m,n in months.items %}
                         <option value="{{m}}">{{n}}</option>
                     {% endfor %}
                 </select>
-                <select name="from_year_orig" id="from_year_orig">
+                <select name="from_year_orig" id="from_year_orig" class="attended">
                     <option value="0"></option>
                     {% for year in years1 %}
                         <option value="{{year}}">{{year}}</option>
@@ -652,13 +657,13 @@ fieldset { background-color: transparent; }
                 <label for="to_month_orig" class="labelpad">
                     Attended to:
                 </label>
-                <select name="to_month_orig" id="to_month_orig">
+                <select name="to_month_orig" id="to_month_orig" class="attended">
                     <option value="0"></option>
                     {% for m,n in months.items %}
                     <option value="{{m}}">{{n}}</option>
                     {% endfor %}
                 </select>
-                <select name="to_year_orig" id="to_year_orig">
+                <select name="to_year_orig" id="to_year_orig" class="attended">
                     <option value="0"></option>
                     {% for year in years3 %}
                         <option value="{{year}}">{{year}}</option>
@@ -669,13 +674,13 @@ fieldset { background-color: transparent; }
                 <label for="grad_month_orig" class="labelpad">
                     Date of graduation:
                 </label>
-                <select name="grad_month_orig" id="grad_month_orig">
+                <select name="grad_month_orig" id="grad_month_orig" class="attended">
                     <option value="0"></option>
                     {% for m,n in months.items %}
                         <option value="{{m}}">{{n}}</option>
                     {% endfor %}
                 </select>
-                <select name="grad_year_orig" id="grad_year_orig">
+                <select name="grad_year_orig" id="grad_year_orig" class="attended">
                     <option value="0"></option>
                     {% for year in years3 %}
                         <option value="{{year}}">{{year}}</option>
@@ -749,7 +754,7 @@ fieldset { background-color: transparent; }
                         <label for="id_billing_name" class="placeholder">
                             Name on credit card
                         </label>
-                        <input class="medium required
+                        <input class="large required
                             {% if payment_form.billing_name.errors %}
                             error
                             {% endif %}"
@@ -761,7 +766,7 @@ fieldset { background-color: transparent; }
                         <label for="id_billing_name" class="placeholder">
                             Credit card number
                         </label>
-                        <input class="medium required
+                        <input class="large required
                             {% if payment_form.card_number.errors %}
                             error
                             {% endif %}"
@@ -769,33 +774,30 @@ fieldset { background-color: transparent; }
                             placeholder="Credit card number" maxlength="100"
                             value="{{payment_form.data.card_number}}" />
                     </li>
-                    <li>
-                        <label for="id_security_code" class="placeholder">
-                            3 or 4 digit security code
-                        </label>
-                        <input class="medium required
-                            {% if payment_form.security_code.errors %}
-                            error
-                            {% endif %}"
-                            id="id_security_code" type="text" maxlength="100"
-                            name="security_code" max_length="4"
-                            placeholder="3 or 4 digit security code"
-                            value="{{payment_form.data.security_code}}" />
-                        <span class="help">
-                            (See back of card)
-                        </span>
-                    </li>
                 </ul>
                 <ul>
                     <li>
-                        <label>
-                            Expiration date
-                        </label>
+                        <h4>Expiration date</h4>
                         {{payment_form.expiration_month}}
                         {{payment_form.expiration_year}}
                         {% if payment_form.expiration_month.errors or payment_form.expiration_year.errors %}
                             <p class="error">Invalid expiration date</p>
                         {% endif %}
+                    </li>
+                    <li>
+                        <h4>
+                            3 or 4 digit security code
+                        </h4>
+                        <input class="required
+                            {% if payment_form.security_code.errors %}
+                            error
+                            {% endif %}"
+                            id="id_security_code" type="text" maxlength="100"
+                            name="security_code" max_length="4"
+                            value="{{payment_form.data.security_code}}" />
+                        <span class="help">
+                            (See back of card)
+                        </span>
                     </li>
                 </ul>
             </div>
@@ -803,5 +805,4 @@ fieldset { background-color: transparent; }
         {% include "form_submit.inc.html" %}
     </form>
 </div>
-{% include "includes/fourth_col.html" %}
 {% endblock %}
