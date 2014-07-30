@@ -58,13 +58,18 @@
 #id_state:hover {border: 2px solid #d7d0a0 !important;}
 #id_state:focus {border: 2px solid #6caf2a !important;}
 #id_postal_code {width:170px;}
-.attended {width:170px !important;}
+.attended select {width:170px !important;}
 #id_security_code, #id_expiration_month, #id_expiration_year {width:70px;}
 .labelpad {font-weight:900 !important;}
 #doop_master, #graduate-plan, #undergraduate-plan, #paralegal-plan {
 display: none;}
 #states {width:100px;height:200px;margin-bottom:10px;}
 #cities, #schools {width:250px;height:200px;margin-bottom:10px;}
+dl dt {
+    background: none;
+    float: left;
+    width: 100px;
+}
 {% if fee_form.data.payment_type == "Credit Card" %}
 #payment-details { display:inherit; }
 {% else %}
@@ -562,7 +567,7 @@ display: none;}
         </fieldset>
         <fieldset class="blockLabels">
             <h2>Schools you have attended</h2>
-            <div id="doop_master" class="notice">
+            <div id="doop_master" class="success">
                 {% include "admissions/application/school_doop.html" %}
             </div>
             <div id="selected_schools">
@@ -579,7 +584,7 @@ display: none;}
                     {% if schools %}
                         {% for s in schools %}
                             <div id="doop_master_{{forloop.counter}}"
-                                class="notice">
+                                class="success">
                             {% include "admissions/application/school_doop.html" %}
                             </div>
                         {% endfor %}
@@ -636,51 +641,51 @@ display: none;}
                     id="toggle_schools" class="button"
                     value="Click here if your school is not listed" />
             </div>
-            <div>
+            <div class="attended">
                 <label for="from_month_orig" class="labelpad">
                     Attended from:
                 </label>
-                <select name="from_month_orig" id="from_month_orig" class="attended">
+                <select name="from_month_orig" id="from_month_orig">
                     <option value="0"></option>
                     {% for m,n in months.items %}
                         <option value="{{m}}">{{n}}</option>
                     {% endfor %}
                 </select>
-                <select name="from_year_orig" id="from_year_orig" class="attended">
+                <select name="from_year_orig" id="from_year_orig">
                     <option value="0"></option>
                     {% for year in years1 %}
                         <option value="{{year}}">{{year}}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div>
+            <div class="attended">
                 <label for="to_month_orig" class="labelpad">
                     Attended to:
                 </label>
-                <select name="to_month_orig" id="to_month_orig" class="attended">
+                <select name="to_month_orig" id="to_month_orig">
                     <option value="0"></option>
                     {% for m,n in months.items %}
                     <option value="{{m}}">{{n}}</option>
                     {% endfor %}
                 </select>
-                <select name="to_year_orig" id="to_year_orig" class="attended">
+                <select name="to_year_orig" id="to_year_orig">
                     <option value="0"></option>
                     {% for year in years3 %}
                         <option value="{{year}}">{{year}}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div>
+            <div class="attended">
                 <label for="grad_month_orig" class="labelpad">
                     Date of graduation:
                 </label>
-                <select name="grad_month_orig" id="grad_month_orig" class="attended">
+                <select name="grad_month_orig" id="grad_month_orig">
                     <option value="0"></option>
                     {% for m,n in months.items %}
                         <option value="{{m}}">{{n}}</option>
                     {% endfor %}
                 </select>
-                <select name="grad_year_orig" id="grad_year_orig" class="attended">
+                <select name="grad_year_orig" id="grad_year_orig">
                     <option value="0"></option>
                     {% for year in years3 %}
                         <option value="{{year}}">{{year}}</option>

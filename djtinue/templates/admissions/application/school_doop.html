@@ -1,4 +1,4 @@
-    <input type="button" value="Remove This School" style="margin-top:9px;"
+    <input type="button" value="Remove this School" style="margin-top:9px;"
         class="destroy_school button fright" />
     <input type="hidden" value="college" name="school_type[]">
     <input type="hidden" value="{{s.school_code}}" class="school_code"
@@ -21,7 +21,7 @@
     </dd>
     </dl>
     <dl class="fright" style="margin-top:30px;">
-        <div>
+        <div class="attended">
             <label for="from_month" class="labelpad">Attended from:</label>
             <select name="from_month[]" class="from_month">
                 <option value="0"></option>
@@ -46,7 +46,7 @@
                 {% endfor %}
             </select>
         </div>
-        <div>
+        <div class="attended">
             <label for="to_month" class="labelpad">Attended to:</label>
             <select name="to_month[]" class="to_month">
                 <option value="0"></option>
@@ -71,7 +71,7 @@
                 {% endfor %}
             </select>
         </div>
-        <div>
+        <div class="attended">
             <label for="grad_month" class="labelpad">
                 Date of graduation:
             </label>
