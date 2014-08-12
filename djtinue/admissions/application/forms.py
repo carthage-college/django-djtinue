@@ -65,11 +65,21 @@ class AdultContactForm(ContactForm):
     Adult Ed contact form based on the generic processor
     contact model & its form
     """
-    address1     = forms.CharField(max_length=128, label="School address")
-    address2     = forms.CharField(max_length=128, label="", required=False)
-    city         = forms.CharField(max_length=128)
-    state        = forms.CharField(widget=forms.Select(choices=STATE_CHOICES), required=True)
-    postal_code  = USZipCodeField(label="Zip Code")
+    address1 = forms.CharField(
+        max_length=128, label="School address"
+    )
+    address2 = forms.CharField(
+        max_length=128, label="", required=False
+    )
+    city = forms.CharField(max_length=128)
+    state = forms.CharField(
+        widget=forms.Select(choices=STATE_CHOICES), required=True
+    )
+    postal_code = USZipCodeField(label="Zip Code")
+    phone = USPhoneNumberField(
+        label="Phone number", max_length=12,
+        required=True
+    )
 
     class Meta:
         model = Contact
@@ -166,7 +176,7 @@ class ApplicationFeeForm(forms.Form):
 def _insert(data):
     """
     private method to insert data into informix
-    for continuing education applications
+    for continuing education admissions applications
     """
 
     DATE = datetime.now().strftime("%m/%d/%Y")
