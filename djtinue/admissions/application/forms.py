@@ -60,6 +60,13 @@ SESSION14 = (
     ("14-C-%s" % YEAR14, "February %s" % YEAR14),
 )
 
+class UndergraduateForm(forms.Form):
+    pass
+class GraduateForm(forms.Form):
+    pass
+class ParalegalForm(forms.Form):
+    pass
+
 class AdultContactForm(ContactForm):
     """
     Adult Ed contact form based on the generic processor
@@ -134,35 +141,6 @@ class EmploymentForm(forms.Form):
         label="Does your employer offer tuition reimbursement?",
         choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
-
-class EducationGoalsForm(forms.Form):
-
-    educationalgoal = forms.TypedChoiceField(
-        label="What degree are you intending to pursue?",
-        choices=EDUCATION_GOAL, widget=forms.RadioSelect()
-    )
-    program = forms.TypedChoiceField(
-        label="Choose the scheduling format",
-        choices=PROGRAM_CHOICES, widget=forms.RadioSelect()
-    )
-    session7 = forms.TypedChoiceField(
-        label="Upcoming 7 Week Sessions", required=False,
-        choices=SESSION7, widget=forms.RadioSelect()
-    )
-    session14 = forms.TypedChoiceField(
-        label="Upcoming 14 Week Sessions", required=False,
-        choices=SESSION14, widget=forms.RadioSelect()
-    )
-    intended_major = forms.CharField(max_length=128, required=False)
-    intended_minor = forms.CharField(max_length=128, required=False)
-
-    def clean(self):
-        if not self.cleaned_data.get('session7') \
-          and not self.cleaned_data.get('session14'):
-            self._errors["session7"] = self.error_class(
-                ["Choose either a 7 or 14 week upcoming session"]
-            )
-        return self.cleaned_data
 
 class ApplicationFeeForm(forms.Form):
     """

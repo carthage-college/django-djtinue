@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Admissions Application Form &mdash;
+    {{stype|capfirst}} Admissions Application Form &mdash;
     Continuing Education &mdash;
     Carthage College
 {% endblock %}
@@ -24,28 +24,6 @@
         {% if education_goals_form.data.program == "14" %}
         $('#id_program_0').attr('disabled', 'disabled');
         {% endif %}
-
-        $edu_plans = $('input[name=educational_plans]:radio');
-
-        $edu_plans.change(function() {
-            $this = $(this).val();
-            if ($this == "graduate-plan") {
-                $("#graduate-plan").delay(200).slideDown(200);
-                $("#undergraduate-plan").slideUp(200);
-                $("#paralegal-plan").slideUp(200);
-            }
-            else if ($this == "undergraduate-plan") {
-                $("#undergraduate-plan").delay(200).slideDown(200);
-                $("#graduate-plan").slideUp(200);
-                $("#paralegal-plan").slideUp(200);
-            }
-            else if ($this == "paralegal-plan") {
-                $("#paralegal-plan").delay(200).slideDown(200);
-                $("#graduate-plan").slideUp(200);
-                $("#undergraduate-plan").slideUp(200);
-            }
-        });
-
     });
 </script>
 <script src="/static/djtinue/js/admissions.js" type="text/javascript"></script>
@@ -86,7 +64,7 @@ dl dt {
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
-        Admissions Form
+        {{stype|capfirst}} Admissions Form
         <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
@@ -410,160 +388,10 @@ dl dt {
             </ul>
         </fieldset>
         <fieldset class="blockLabels">
-            <h2>Educational Plans</h2>
-            <ul class="radin">
-                <li>
-                    <label for="id_graduate">Graduate</label>
-                    <input type="radio" id="id_graduate"
-                        name="educational_plans" value="graduate-plan" />
-                </li>
-                <li>
-                    <label for="id_undergraduate">Undergraduate</label>
-                    <input type="radio" id="id_undergraduate"
-                        name="educational_plans" value="undergraduate-plan" />
-                </li>
-                <li>
-                    <label for="id_paralegal">Paralegal</label>
-                    <input type="radio" id="id_paralegal"
-                        name="educational_plans" value="paralegal-plan" />
-                </li>
-            </ul>
-            <div id="graduate-plan" class="success">
-                <h3>Graduate Plan</h3>
-                <p><em>No 7 week options</em></p>
-                <ul>
-                    <li>
-                        Degree Seeking
-                    </li>
-                    <li>
-                        Non-degree Seeking
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        Intended Concentration
-                    </li>
-                    <li>
-                        Intended Certification
-                    </li>
-                </ul>
+            <h2>{{stype|capfirst}} Plan</h2>
+            <div id="educational-plan" class="success">
+                {{educational_goals_form}}
             </div>
-            <!-- end graduate plan -->
-            <div id="undergraduate-plan" class="success">
-                <h3>Undergraduate Plan</h3>
-                <p><em>7 week / 14 week / Parkside Students</em></p>
-                <ul>
-                    <li>
-                        Degree Seeking
-                    </li>
-                    <li>
-                        Non-degree Seeking
-                    </li>
-                </ul>
-                {% if education_goals_form.educationalgoal.errors %}
-                    <h3 class="error" style="margin:9px 0;">
-                        Choose a degree option
-                    </h3>
-                {% else %}
-                    <h3 class="required">
-                        What degree are you intending to pursue?
-                    </h3>
-                {% endif %}
-                <ul>
-                    <li>
-                        <label for="id_educationalgoal_0">
-                            <input type="radio" id="id_educationalgoal_0"
-                                name="educationalgoal"
-                                {% if education_goals_form.data.educationalgoal == "1" %}
-                                    checked="checked"
-                                {% endif %}
-                                value="1" />
-                            I would like to earn my first
-                            bachelor&#39;s degree.
-                        </label>
-                    </li>
-                    <li>
-                        <label for="id_educationalgoal_1">
-                            <input type="radio" id="id_educationalgoal_1"
-                                value="6" name="educationalgoal"
-                                {% if education_goals_form.data.educationalgoal == "6" %}
-                                    checked="checked"
-                                {% endif %}/>
-                            I already have a bachelor&#39;s degree and
-                            now would like to complete an additional major.
-                        </label>
-                    </li>
-                    <li>
-                        <label for="id_educationalgoal_2">
-                            <input type="radio" id="id_educationalgoal_2"
-                                value="7" name="educationalgoal"
-                                {% if education_goals_form.data.educationalgoal == "7" %}
-                                    checked="checked"
-                                {% endif %}/>
-                            I would like to take classes for my own
-                            personal interest.
-                        </label>
-                    </li>
-                </ul>
-                <div>
-                    <h4>
-                        Intended majors
-                    </h4>
-                    <input id="id_intended_major_1" type="text"
-                        name="intended_major_1" maxlength="128"
-                        value="{{education_goals_form.data.intended_major_1}}">
-                    <br>
-                    <input id="id_intended_major_2" type="text"
-                        name="intended_major_2" maxlength="128"
-                        value="{{education_goals_form.data.intended_major_2}}">
-                    <br>
-                    <input id="id_intended_major_3" type="text"
-                        name="intended_major_3" maxlength="128"
-                        value="{{education_goals_form.data.intended_major_3}}">
-                </div>
-                <div>
-                    <h4>
-                        Intended minors
-                    </h4>
-                    <input id="id_intended_minor_1" type="text"
-                        name="intended_minor_1" maxlength="128"
-                        value="{{education_goals_form.data.intended_minor_1}}">
-                    <br>
-                    <input id="id_intended_minor_2" type="text"
-                        name="intended_minor_2" maxlength="128"
-                        value="{{education_goals_form.data.intended_minor_2}}">
-                    <br>
-                    <input id="id_intended_minor_3" type="text"
-                        name="intended_minor_3" maxlength="128"
-                        value="{{education_goals_form.data.intended_minor_3}}">
-                    <br>
-                </div>
-            </div>
-            <!-- end undergraduate plan -->
-            <div id="paralegal-plan" class="success">
-                <h3>Paralegal Plan</h3>
-                <p>?</p>
-            </div>
-            <!-- end paralegal plan -->
-            <ol>
-            <li>
-                {% if education_goals_form.session7.errors %}
-                    <h3 class="error" style="margin:9px 0;">
-                        {{education_goals_form.session7.errors|join:", "}}
-                    </h3>
-                {% else %}
-                    <h3 class="required">Choose a Session</h3>
-                {% endif %}
-            </li>
-            <li class="ctrlHolder">
-                <h3>Upcoming 7 Week Sessions</h3>
-                <div>{{education_goals_form.session7}}</div>
-            </li>
-            <li class="ctrlHolder">
-                <h3>Upcoming 14 Week Sessions</h3>
-                <div>{{education_goals_form.session14}}</div>
-            </li>
-            </ol>
         </fieldset>
         <fieldset class="blockLabels">
             <h2>Schools you have attended</h2>

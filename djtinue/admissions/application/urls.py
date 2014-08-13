@@ -10,7 +10,7 @@ urlpatterns = patterns('djtinue.admissions.application.views',
         name='admissions_application_success'
     ),
     url(
-        r'^$',
+        r'^(?P<stype>[a-zA-Z0-9_-]+)/$',
         'admissions_application', name='admissions_application'
     ),
 )

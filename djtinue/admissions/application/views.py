@@ -1,9 +1,9 @@
 from django.conf import settings
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext, loader, Context
 from django.utils.dates import MONTHS
+from django.template import RequestContext
+from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect, Http404
 
 from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
@@ -13,20 +13,24 @@ from djtinue.admissions.application import _insert
 from djtinue.admissions.application.forms import *
 from djtinue.admissions.application.models import School
 
-if settings.DEBUG:
-    TO_LIST = [settings.SERVER_EMAIL,]
-else:
-    TO_LIST = ["tom@carthage.edu","jweiser@carthage.edu",]
-BCC = settings.MANAGERS
+def admissions_application(request, stype):
+    if settings.DEBUG:
+        TO_LIST = [settings.SERVER_EMAIL,]
+    else:
+        TO_LIST = ["tom@carthage.edu","jweiser@carthage.edu",]
+    BCC = settings.MANAGERS
 
-def admissions_application(request):
     schools = []
     order = None
     if request.method=='POST':
+        try:
+            education_goals_form = eval(stype.capitalize()+"Form")(request.POST)
+        except:
+            raise Http404
+
         contact_form = AdultContactForm(request.POST)
         personal_form = PersonalForm(request.POST)
         employment_form = EmploymentForm(request.POST)
-        education_goals_form = EducationGoalsForm(request.POST)
         fee_form = ApplicationFeeForm(request.POST)
         # build the schools list
         x = 0
@@ -135,10 +139,13 @@ def admissions_application(request):
             else:
                 payment_form = TrustCommerceForm()
     else:
+        try:
+            education_goals_form = eval(stype.capitalize()+"Form")()
+        except:
+            raise Http404
         contact_form = AdultContactForm()
         personal_form = PersonalForm()
         employment_form = EmploymentForm()
-        education_goals_form = EducationGoalsForm()
         fee_form = ApplicationFeeForm()
         payment_form = TrustCommerceForm()
 
@@ -148,7 +155,7 @@ def admissions_application(request):
         "employment_form":employment_form,
         "education_goals_form":education_goals_form,
         "schools":schools,"fee_form":fee_form,"payment_form":payment_form,
-        "months":MONTHS, "years1":YEARS1,"years3":YEARS3
+        "months":MONTHS, "years1":YEARS1,"years3":YEARS3,"stype":stype
     }
     return render_to_response(
         "admissions/application/form.html",
