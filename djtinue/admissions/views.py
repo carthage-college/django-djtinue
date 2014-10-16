@@ -52,7 +52,7 @@ def info_request(request):
             if settings.DEBUG:
                 to = TO
             to.append(cd['email'])
-            subject = "Adult Education Information Request"
+            subject = "GPS Information Request"
             send_mail(
                 request, to, subject, cd["email"],
                 "admissions/inforequest.txt", cd, BCC, content=""
@@ -93,7 +93,7 @@ def info_session(request, session_type):
             to = recipients[session_type]
             if settings.DEBUG:
                 to = TO
-            subject = "Adult Education Information Session Request: "
+            subject = "GPS Information Session Request: "
             subject +="%s on %s" % (session_type, datetime)
             send_mail(
                 request, to, subject, cd["email"],
