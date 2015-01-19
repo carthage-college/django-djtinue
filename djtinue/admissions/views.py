@@ -36,9 +36,7 @@ def info_request(request):
             if request.POST.has_key('academic_programs'):
                 academic_programs = request.POST.getlist('academic_programs')
                 for program in list(academic_programs):
-                    #if program in LOYOLA and 'mwest@carthage.edu' not in to:
                     if program in LOYOLA:
-                        #to.append('mwest@carthage.edu')
                         to.append('jweiser@carthage.edu')
                     if program in CEDU1 and 'jweiser@carthage.edu' not in to:
                         to.append('jweiser@carthage.edu')
@@ -47,7 +45,6 @@ def info_request(request):
                     if program in CEDU2 and 'ldahl@carthage.edu' not in to:
                         to.append('ldahl@carthage.edu')
             if to == []:
-                #to.append('mwest@carthage.edu')
                 to.append('jweiser@carthage.edu')
             if settings.DEBUG:
                 to = TO
