@@ -56,16 +56,13 @@ dl dt {
 #payment-details { margin-bottom:20px; }
 </style>
 {% endblock %}
+{% block group_name %}Graduate and Professional Studies{% endblock %}
 {% block left_nav %}
     {% include "includes/left_nav.html" %}
-{% endblock %}
-{% block side_bar %}
-    {% include "includes/fourth_col.html" %}
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
         {{stype|capfirst}} Admissions Form
-        <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
 {% block content %}
