@@ -50,11 +50,11 @@ ACADEMIC_PROGRAMS =  [
 
 # dictionary name corresponds to URL slug
 STYPES = {
-    "information-session":712,
-    "graduate-education":715,
-    "undergraduate-studies":713,
-    "master-social-work":714,
-    "paralegal":582
+    "information-session":970,
+    "graduate-education":972,
+    "undergraduate-studies":973,
+    "master-social-work":980,
+    "paralegal":971
 }
 
 class InfoRequestForm(forms.Form):
