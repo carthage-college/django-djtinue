@@ -1,0 +1,240 @@
+{% extends "enrichment/registration_done.html" %}
+{% load livewhale_api %}
+{% block extra_javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(function() {
+            $('#id_total').blur(function() {
+                $(this).val($(this).val().replace(/,/g,''));
+                $(this).val($(this).val().replace(/\$/g,''));
+            });
+            $('#id_total').attr('readonly', true);
+            $(".checkbox-toggle").change(function() {
+                var $cid = $(this).attr('id');
+                var $prefix = $cid.slice(0, -2);
+                var $suffix = $cid.substring($cid.length - 2);
+                if($(this).is(":checked")) {
+                    if ( $cid.substring($cid.length-2) ) == "01" )
+                        $cid.substring($cid.length)
+                    console.log($cid.substring($cid.length-2));
+                }
+            });
+            // disable submit button after user clicks it
+            $('form#profile').submit(function(){
+                $(this).children('input[type=submit]').attr('disabled', 'disabled');
+            });
+        });
+    </script>
+{% endblock %}
+{% block extra_style %}
+<style type="text/css" media="screen, projection">
+#id_reg_fee {color:#800;font-weight:bold;}
+#session-info > ol li {display:block;margin-bottom:5px;}
+#id_security_code, #id_reg_fee {width:100px;}
+#id_card_number {width:175px;}
+#id_postal_code, #id_date_of_birth, #id_total, #id_social_security_number,
+#id_expiration_month, #id_expiration_year {
+width:120px; }
+#security {color:#000099;float:right;padding:5px;}
+li.ctrlHolder div ul li {display:inline; padding-right:3px;}
+.forms-container, .forms-container label {font-weight:bold;}
+.cost { font-weight:bold; color:green; }
+.column2 { padding-top: 0; }
+#page-content-wrap .content h4 {
+    font-size: 1em;
+    margin-bottom: 0;
+    text-transform: none;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="forms-container">
+    <form method="post" action="." class="form" id="profile">
+        {% csrf_token %}
+        <div id="security"><div style="margin-left:30px;">
+            <a href="https://www.securitymetrics.com/site_certificate.adp?s=carthage.edu&amp;i=131614"
+                target="_blank">
+                <img src="https://www.securitymetrics.com/images/sm_ccsafe_wh.gif"
+                    alt="SecurityMetrics" border="0">
+            </a>
+        </div></div>
+        {% include "includes/required_text.html" %}
+        {% if form_proc.errors or form_reg.errors or form_ord.errors %}
+            <p class="error">
+                There were errors with the data submitted, see below.
+            </p>
+        {% endif %}
+        <div class="large-6 medium-12 small-12 clear cf">
+            <fieldset class="blockLabels">
+            <ol>
+            {% with form_reg.first_name as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            <li class="form-group ctrlHolder">
+                <h3>
+                    <label for="id_second_name">
+                    {{form_reg.second_name.label}}
+                    </label>
+                </h3>
+                <div>
+                    {{form_reg.second_name}}
+                </div>
+            </li>
+            {% with form_reg.last_name as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            <li class="form-group ctrlHolder">
+                <h3>
+                    <label for="id_previous_name">
+                        {{form_reg.previous_name.label}}
+                    </label>
+                </h3>
+                <div>
+                    {{form_reg.previous_name}}
+                </div>
+            </li>
+            {% with form_reg.address1 as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            {% with form_reg.city as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            {% with form_reg.state as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            {% with form_reg.postal_code as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            </ol>
+            </fieldset>
+        </div>
+        <div class="column2 large-6 medium-12 small-12">
+            <fieldset class="blockLabels">
+            <ol>
+            {% with form_reg.phone as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            {% with form_reg.phone_home as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            <li class="form-group ctrlHolder">
+                <h3>
+                    <label for="id_phone_work">
+                        {{form_reg.phone_work.label}}
+                    </label>
+                </h3>
+                <div>
+                    {{form_reg.phone_work}}
+                </div>
+            </li>
+            {% with form_reg.email as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            <li class="form-group ctrlHolder">
+                <h3>
+                    <label for="id_email_work">
+                        {{form_reg.email_work.label}}
+                    </label>
+                </h3>
+                <div>
+                    {{form_reg.email_work}}
+                </div>
+            </li>
+            {% with form_reg.social_security_number as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            {% with form_reg.date_of_birth as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            <li class="form-group ctrlHolder">
+                <h3><label>&nbsp;</label></h3>
+                <div style="height:40px;">
+                    &nbsp;
+                    {% for hidden in form_ord.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                </div>
+            </li>
+            </ol>
+            </fieldset>
+        </div>
+        <div class="large-6 medium-12 small-12">
+            <fieldset>
+            <legend>Choose Courses</legend>
+            <ol class="fleft" width="100%">
+            <li class="ctrlHolder">
+                <h4>
+                    <a href="#">How to Change Your Genetic Destiny</a>
+                    &mdash; 2 credits
+                </h4>
+                <input id="enr-0103-01" type="checkbox" name="courses[]" value="1"
+                    data-credit="2" data-level="1" class="checkbox-toggle">
+                <label for="enr-0103-01" class="course">
+                    <strong>ENR 0103 01</strong> Undergraduate credit
+                </label><br>
+                <input id="enr-0103-02" type="checkbox" name="courses[]" value="2"
+                    data-credit="2" data-level="2" class="checkbox-toggle">
+                <label for="enr-0103-02" class="course">
+                    <strong>ENR 0103 02</strong> Graduate credit
+                </label>
+                <h4>
+                    <a href="#">Multiplication Facts for Fluency and Fun</a>
+                    &mdash; 1 credit
+                </h4>
+                <input id="enr-0126-01" type="checkbox" name="courses[]" value="1"
+                    data-credit="2" data-level="1" class="checkbox-toggle">
+                <label for="enr-0126-01" class="course">
+                    <strong>ENR 0126 01</strong> Undergraduate credit
+                </label><br>
+                <input id="enr-0126-02" type="checkbox" name="courses[]" value="2"
+                    data-credit="2" data-level="2" class="checkbox-toggle">
+                <label for="enr-0126-02" class="course">
+                    <strong>ENR 0126 02</strong> Graduate credit
+                </label>
+            </li>
+            </ol>
+            <ol class="fright">
+                <li class="ctrlHolder">
+                    <h3>
+                        <label for="id_or-total">Total Amount due</label>
+                    </h3>
+                    <div class="required">
+                        <span class="cost">$</span>
+                        <input type="text" name="total" id="id_total"
+                        class="required"
+                        value="{{form_ord.total.value|default:""}}">
+                    </div>
+                </li>
+            </ol>
+            </fieldset>
+        </div>
+        <div class="column2 large-6 medium-12 small-12">
+            <fieldset class="blockLabels">
+            <legend>Credit Card Details</legend>
+            {% if form_proc.errors and status %}
+                <div style="padding-left:4px;">
+                    <p class="notice">
+                        The transaction failed.
+                        {% if status == "baddata" or status == "decline" %}
+                            Error: <strong>{{status}}</strong>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endif %}
+            <ol>
+            {% include "form_field_credit_card.inc.html" %}
+            </ol>
+            </fieldset>
+            <fieldset class="blockLabels">
+            <ol>
+                <li class="btnHolder">
+                    <label for="id_submit">&nbsp;&nbsp;</label>
+                    <input type="submit" value="Register" class="button" />
+                    <p>
+                </li>
+            </ol>
+            </fieldset>
+        </div>
+    </form>
+</div>
+{% endblock %}
