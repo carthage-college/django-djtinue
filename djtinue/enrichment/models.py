@@ -27,10 +27,12 @@ class Registration(Contact):
         help_text="Format: mm/dd/yyyy"
     )
     social_security_number = models.CharField(
-        max_length=128
+        max_length=255,
+        null=True, blank=True
     )
-    ss_last_four = models.CharField(
-        max_length=4
+    social_security_four = models.CharField(
+        max_length=4,
+        null=True, blank=True
     )
     attended_before = models.CharField(
         "Have you attended Carthage in the past?", max_length=3,
@@ -46,9 +48,41 @@ class Registration(Contact):
             I understand that courses offered and/or taken through Carthage's
             Enrichment program cannot be applied toward any undergraduate or
             graduate degree at Carthage.
-        """
+        """,
+        default=False
     )
 
     class Meta:
         db_table = 'djtinue_enrichment_registration'
 
+class Course(models.Model):
+
+    title = models.CharField(
+        max_length=255
+    )
+    course_number = models.CharField(
+        max_length=128
+    )
+    abstract = models.TextField()
+    credits = models.IntegerField(
+        max_length=2
+    )
+    audience = models.CharField(
+        max_length=255,
+        null=True, blank=True
+    )
+    instructors = models.CharField(
+        max_length=255,
+        null=True, blank=True
+    )
+    dates = models.CharField(
+        max_length=255,
+        null=True, blank=True
+    )
+    room = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+
+    class Meta:
+        db_table = 'djtinue_enrichment_course'

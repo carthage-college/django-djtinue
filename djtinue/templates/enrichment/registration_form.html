@@ -4,24 +4,68 @@
     {{ block.super }}
     <script type="text/javascript">
         $(function() {
-            $('#id_total').blur(function() {
-                $(this).val($(this).val().replace(/,/g,''));
-                $(this).val($(this).val().replace(/\$/g,''));
-            });
+            var $total = {{form_ord.total.value|default:10}}
+            var $discount = "{{discount}}"
+            if ($discount == "Yes") {
+                $('#collegeid').toggle(true);
+            }
+            function update_total(val) {
+                $total += val;
+                $('#id_total').attr('value', $total);
+            }
             $('#id_total').attr('readonly', true);
+            // toggle college id field
+            $('input[name="attended_before"]').bind('change',function(){
+                var $attended = $(this).val();
+                if ( $attended == "Yes" ) {
+                    showOrHide = true;
+                    if ($discount == "No") {
+                        update_total(-10);
+                        $discount = "Yes";
+                    }
+                }else{
+                    showOrHide = false;
+                    if ($discount == "Yes") {
+                        update_total(10);
+                        $discount = "No";
+                    }
+                }
+                $('#collegeid').toggle(showOrHide);
+            });
             $(".checkbox-toggle").change(function() {
                 var $cid = $(this).attr('id');
+                var $cred = $(this).attr('data-credit');
                 var $prefix = $cid.slice(0, -2);
-                var $suffix = $cid.substring($cid.length - 2);
+                var $suffix = $cid.substring($cid.length - 1);
                 if($(this).is(":checked")) {
-                    if ( $cid.substring($cid.length-2) ) == "01" )
-                        $cid.substring($cid.length)
-                    console.log($cid.substring($cid.length-2));
+                    if ( $suffix == 2 ) {
+                        $opposite = $prefix + "01";
+                        if($("#" + $opposite).is(":checked")) {
+                            $("#" + $opposite).attr("checked",false);
+                            update_total(-50 * $cred);
+                        }
+                        update_total(100 * $cred);
+                    }else{
+                        $opposite = $prefix + "02";
+                        if($("#" + $opposite).is(":checked")) {
+                            $("#" + $prefix + "02").attr("checked",false);
+                            update_total(-100 * $cred);
+                        }
+                        update_total(50 * $cred);
+                    }
+                }else{
+                    update_total($suffix * -50 * $cred);
                 }
             });
-            // disable submit button after user clicks it
             $('form#profile').submit(function(){
-                $(this).children('input[type=submit]').attr('disabled', 'disabled');
+                if ( $("input[name='verify']").is(':checked') ) {
+                    // disable submit
+                    $(this).children('input[type=submit]').attr('disabled', 'disabled');
+                    return true;
+                } else {
+                    alert('You must check the checkbox\nabove the submit button before registering.');
+                    return false;
+                }
             });
         });
     </script>
@@ -45,12 +89,16 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     margin-bottom: 0;
     text-transform: none;
 }
+#course-selection label {font-weight:normal;}
 </style>
 {% endblock %}
 {% block content %}
 <div class="forms-container">
     <form method="post" action="." class="form" id="profile">
         {% csrf_token %}
+        {% for hidden in form_ord.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
         <div id="security"><div style="margin-left:30px;">
             <a href="https://www.securitymetrics.com/site_certificate.adp?s=carthage.edu&amp;i=131614"
                 target="_blank">
@@ -71,27 +119,15 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group ctrlHolder">
-                <h3>
-                    <label for="id_second_name">
-                    {{form_reg.second_name.label}}
-                    </label>
-                </h3>
-                <div>
-                    {{form_reg.second_name}}
-                </div>
+                <h3>{{form_reg.second_name.label_tag}}</h3>
+                <div>{{form_reg.second_name}}</div>
             </li>
             {% with form_reg.last_name as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group ctrlHolder">
-                <h3>
-                    <label for="id_previous_name">
-                        {{form_reg.previous_name.label}}
-                    </label>
-                </h3>
-                <div>
-                    {{form_reg.previous_name}}
-                </div>
+                <h3>{{form_reg.previous_name.label_tag}}</h3>
+                <div>{{form_reg.previous_name}}</div>
             </li>
             {% with form_reg.address1 as field %}
             {% include "form_field.inc.html" %}
@@ -118,24 +154,14 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group ctrlHolder">
-                <h3>
-                    <label for="id_phone_work">
-                        {{form_reg.phone_work.label}}
-                    </label>
-                </h3>
-                <div>
-                    {{form_reg.phone_work}}
-                </div>
+                <h3>{{form_reg.phone_work.label_tag}}</h3>
+                <div>{{form_reg.phone_work}}</div>
             </li>
             {% with form_reg.email as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group ctrlHolder">
-                <h3>
-                    <label for="id_email_work">
-                        {{form_reg.email_work.label}}
-                    </label>
-                </h3>
+                <h3>{{form_reg.email_work.label_tag}}</h3>
                 <div>
                     {{form_reg.email_work}}
                 </div>
@@ -146,69 +172,80 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
             {% with form_reg.date_of_birth as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            <li class="form-group ctrlHolder">
-                <h3><label>&nbsp;</label></h3>
-                <div style="height:40px;">
-                    &nbsp;
-                    {% for hidden in form_ord.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
+            {% with form_reg.attended_before as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            <li class="form-group" id="collegeid" style="display:none;">
+                <h3>{{form_reg.collegeid.label_tag}}</h3>
+                <div class="required">
+                    {{form_reg.collegeid}}
                 </div>
             </li>
             </ol>
             </fieldset>
         </div>
-        <div class="large-6 medium-12 small-12">
-            <fieldset>
+        <div class="large-12 medium-12 small-12">
+            <fieldset id="course-selection" style="font-weight:normal;">
             <legend>Choose Courses</legend>
+            {% get_lw_content as success blurbs 2125 %}
+            {{success.body}}
             <ol class="fleft" width="100%">
-            <li class="ctrlHolder">
-                <h4>
-                    <a href="#">How to Change Your Genetic Destiny</a>
+            <li>
+                <span>
+                    <a href="#">
+                        <strong>How to Change Your Genetic Destiny</strong>
+                    </a>
                     &mdash; 2 credits
-                </h4>
+                </span><br>
                 <input id="enr-0103-01" type="checkbox" name="courses[]" value="1"
-                    data-credit="2" data-level="1" class="checkbox-toggle">
+                    data-credit="2" class="checkbox-toggle">
                 <label for="enr-0103-01" class="course">
-                    <strong>ENR 0103 01</strong> Undergraduate credit
+                    ENR 0103 01 <strong>Undergraduate</strong>
                 </label><br>
                 <input id="enr-0103-02" type="checkbox" name="courses[]" value="2"
-                    data-credit="2" data-level="2" class="checkbox-toggle">
+                    data-credit="2" class="checkbox-toggle">
                 <label for="enr-0103-02" class="course">
-                    <strong>ENR 0103 02</strong> Graduate credit
+                    ENR 0103 02 <strong>Graduate</strong>
                 </label>
+            </li>
+            <li>
                 <h4>
                     <a href="#">Multiplication Facts for Fluency and Fun</a>
                     &mdash; 1 credit
                 </h4>
                 <input id="enr-0126-01" type="checkbox" name="courses[]" value="1"
-                    data-credit="2" data-level="1" class="checkbox-toggle">
+                    data-credit="1" class="checkbox-toggle">
                 <label for="enr-0126-01" class="course">
                     <strong>ENR 0126 01</strong> Undergraduate credit
                 </label><br>
                 <input id="enr-0126-02" type="checkbox" name="courses[]" value="2"
-                    data-credit="2" data-level="2" class="checkbox-toggle">
+                    data-credit="1" class="checkbox-toggle">
                 <label for="enr-0126-02" class="course">
                     <strong>ENR 0126 02</strong> Graduate credit
                 </label>
             </li>
             </ol>
             <ol class="fright">
-                <li class="ctrlHolder">
-                    <h3>
-                        <label for="id_or-total">Total Amount due</label>
-                    </h3>
-                    <div class="required">
-                        <span class="cost">$</span>
-                        <input type="text" name="total" id="id_total"
-                        class="required"
-                        value="{{form_ord.total.value|default:""}}">
-                    </div>
-                </li>
+            <li>
+                <h4>
+                    <a href="#">Brain-based Learning: Make It Stick</a>
+                    &mdash; 1 credit
+                </h4>
+                <input id="enr-0115-01" type="checkbox" name="courses[]" value="1"
+                    data-credit="1" class="checkbox-toggle">
+                <label for="enr-0115-01" class="course">
+                    <strong>ENR 0115 01</strong> Undergraduate credit
+                </label><br>
+                <input id="enr-0115-02" type="checkbox" name="courses[]" value="2"
+                    data-credit="1" class="checkbox-toggle">
+                <label for="enr-0115-02" class="course">
+                    <strong>ENR 0115 02</strong> Graduate credit
+                </label>
+            </li>
             </ol>
             </fieldset>
         </div>
-        <div class="column2 large-6 medium-12 small-12">
+        <div class="large-6 medium-12 small-12">
             <fieldset class="blockLabels">
             <legend>Credit Card Details</legend>
             {% if form_proc.errors and status %}
@@ -225,8 +262,30 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
             {% include "form_field_credit_card.inc.html" %}
             </ol>
             </fieldset>
-            <fieldset class="blockLabels">
-            <ol>
+        </div>
+        <div class="column2 large-6 medium-12 small-12">
+            <fieldset>
+            <legend>Total and Register</legend>
+            <ol class="fright">
+                <li class="ctrlHolder">
+                    <h3>
+                        <label for="id_or-total">Total Amount due</label>
+                    </h3>
+                    <div class="required">
+                        <span class="cost">$</span>
+                        <input type="text" name="total" id="id_total"
+                        class="required"
+                        value="{{form_ord.total.value|default:10}}">
+                    </div>
+                </li>
+                <li class="ctrlHolder">
+                    {{form_reg.verify}}
+                    <label for="id_verify">
+                        {{form_reg.verify.label}}
+                    </label>
+                </li>
+            </ol>
+            <ol class="fright">
                 <li class="btnHolder">
                     <label for="id_submit">&nbsp;&nbsp;</label>
                     <input type="submit" value="Register" class="button" />

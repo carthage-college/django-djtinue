@@ -66,7 +66,8 @@ class RegistrationForm(ContactForm):
         fields = (
             'first_name','second_name','last_name','previous_name',
             'address1','city','state','postal_code','phone',
-            'phone_home','phone_work','email','email_work'
+            'phone_home','phone_work','email','email_work','attended_before',
+            'collegeid','verify'
         )
 
 

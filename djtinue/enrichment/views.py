@@ -14,11 +14,13 @@ from djtools.utils.mail import send_mail
 def index(request):
     status = None
     msg = None
+    discount = "No"
     if request.POST:
         form_reg = RegistrationForm(request.POST)
         form_ord = RegistrationOrderForm(request.POST)
         if form_reg.is_valid() and form_ord.is_valid():
             contact = form_reg.save()
+            discount = contact.attended_before
             data_ord = form_ord.cleaned_data
             order = Order(
                 total=data_ord["total"],auth="sale",status="In Process",
@@ -67,6 +69,7 @@ def index(request):
         else:
             form_proc = TrustCommerceForm(None, request.POST)
             form_proc.is_valid()
+            discount = form_reg.cleaned_data["attended_before"]
     else:
         initial = {'avs':False,'auth':'sale'}
         form_reg = RegistrationForm()
@@ -76,6 +79,6 @@ def index(request):
         'enrichment/registration_form.html',
         {
             'form_reg': form_reg,'form_proc':form_proc,'form_ord': form_ord,
-            'status':status,'msg':msg,
+            'status':status,'msg':msg,'discount':discount
         }, context_instance=RequestContext(request)
     )
