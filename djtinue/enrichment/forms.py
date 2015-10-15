@@ -61,13 +61,25 @@ class RegistrationForm(ContactForm):
         choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
 
+    def clean(self):
+        cd = super(RegistrationForm, self).clean()
+        attended_before = cd.get("attended_before")
+        collegeid = cd.get("collegeid")
+
+        if attended_before == "Yes" and collegeid == "":
+            self._errors["collegeid"] = self.error_class(
+                ["Required field."]
+            )
+
+        return cd
+
     class Meta:
         model = Registration
         fields = (
             'first_name','second_name','last_name','previous_name',
-            'address1','city','state','postal_code','phone',
+            'address1','city','state','postal_code','phone','date_of_birth',
             'phone_home','phone_work','email','email_work','attended_before',
-            'collegeid','verify'
+            'social_security_number', 'collegeid','verify'
         )
 
 

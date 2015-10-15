@@ -1,98 +1,163 @@
-{% load humanize %}
+{% autoescape off %}
 <p>
-    Thank you registering for the <em>Global Bridge</em> program.
+    Thank you registering for <em>Enrichment Courses</em> at Carthage.
 </p>
 <p>
     This email is your registration confirmation and may be used as a receipt.
 </p>
 <p>
     If you have any questions, please do not hesitate to
-    <a href="mailto:tkline@carthage.edu">contact us</a>.
+    <a href="mailto:ldahl@carthage.edu">contact us</a>.
 </p>
-<dl style="margin-bottom:5px;">
-    <dt style="background:#5f9be3; color:#fff; float:left; font-weight:bold; margin-right:10px; padding:5px; width:200px;">
+<h3>Registration Information</h3>
+<dl {{dl_detail}}>
+    <dt {{dl_dt}}>
         First name
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.first_name}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; font-weight:bold; margin-right:10px; padding:5px; width:200px;">
+    <dd {{dl_dd}}>
+        {{data.reg.first_name}}
+    </dd>
+    <dt {{dl_dt}}>
+        Middle name
+    </dt>
+    <dd {{dl_dd}}>
+        {{data.reg.second_name|default:"&nbsp;"}}
+    </dd>
+    <dt {{dl_dt}}>
         Last name
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.last_name}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
+    <dd {{dl_dd}}>
+        {{data.reg.last_name}}
+    </dd>
+    <dt {{dl_dt}}>
+        Previous name
+    </dt>
+    <dd {{dl_dd}}>
+        {{data.reg.previous_name|default:"&nbsp;"}}
+    </dd>
+    <dt {{dl_dt}}>
         Address
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">
-        {{data.contact.address1}} {{data.contact.address2|default:"&nbsp;"}}
+    <dd {{dl_dd}}>
+        {{data.reg.address1}}
     </dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
+    <dt {{dl_dt}}>
         City
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.city}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
-        Provence
+    <dd {{dl_dd}}>
+        {{data.reg.city}}
+    </dd>
+    <dt {{dl_dt}}>
+        State
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.state}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
+    <dd {{dl_dd}}>
+        {{data.reg.state}}
+    </dd>
+    <dt {{dl_dt}}>
         Postal code
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.postal_code}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
-        Country
+    <dd {{dl_dd}}>
+        {{data.reg.postal_code}}
+    </dd>
+    <dt {{dl_dt}}>
+        Mobile phone
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.country}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
-        Email
+    <dd {{dl_dd}}>
+        {{data.reg.phone}}
+    </dd>
+    <dt {{dl_dt}}>
+        Home phone
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.email}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
-        Phone
+    <dd {{dl_dd}}>
+        {{data.reg.phone_home}}
+    </dd>
+    <dt {{dl_dt}}>
+        Work phone
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.contact.phone}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
+    <dd {{dl_dd}}>
+        {{data.reg.phone_work|default:"&nbsp;"}}
+    </dd>
+    <dt {{dl_dt}}>
+        Personal email
+    </dt>
+    <dd {{dl_dd}}>
+        {{data.reg.email}}
+    </dd>
+    <dt {{dl_dt}}>
+        Work email
+    </dt>
+    <dd {{dl_dd}}>
+        {{data.reg.email_work|default:"&nbsp;"}}
+    </dd>
+    <dt {{dl_dt}}>
         Date of birth
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.reg.dob}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
-        Gender
-    </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.reg.gender}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px; padding:5px; width:200px;">
-        School or university
-    </dt>
-    <dd style="margin:2px 0; padding:5px 0;">{{data.reg.school}}</dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; font-weight:bold;
-        margin-right:10px; padding:5px; width:200px;">
-        Registration fee
-    </dt>
-    <dd style="margin:2px 0; padding:5px 0;">
-        ${{data.total}}
+    <dd {{dl_dd}}>
+        {{data.reg.date_of_birth}}
     </dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px;
-        padding:5px; width:200px;">
-        Payment method
+    <dt {{dl_dt}}>
+        Social Security number
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">
-        {{data.reg.payment_method}}
+    <dd {{dl_dd}}>
+        {{data.reg.social_security_four}}
     </dd>
-    {% if data.transid %}
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px;
-        padding:5px; width:200px;">
-        Name on Card
+    <dt {{dl_dt}}>
+        Attended Carthage?
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">
-        {{data.cc_name}}
+    <dd {{dl_dd}}>
+        {{data.reg.attended_before}}
     </dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; margin-right:10px;
-        padding:5px; width:200px;">
-        Card ending with:
+    {% if data.reg.collegeid %}
+    <dt {{dl_dt}}>
+        College ID
     </dt>
-    <dd style="margin:2px 0; padding:5px 0;">
-        x{{data.cc_4_digits}}
-    </dd>
-    <dt style="background:#5f9be3; color:#fff; float:left; font-weight:bold;
-        margin-right:10px; padding:5px; width:200px;">Transaction ID</dt>
-    <dd style="margin:2px 0; padding:5px 0;">
-        {{data.transid}}
+    <dd {{dl_dd}}>
+        {{data.reg.collegeid|default:"&nbsp;"}}
     </dd>
     {% endif %}
 </dl>
+<h3>Courses</h3>
+<dl {{dl_detail}}>
+{% for c in data.reg.courses.all %}
+    <dt {{dl_dt}}>
+        Title
+    </dt>
+    <dd {{dl_dd}}>
+        {{c.title}}
+    </dd>
+    <dt {{dl_dt}}>
+        Course number
+    </dt>
+    <dd {{dl_dd}}>
+        {{c.course_number}}
+    </dd>
+{% endfor %}
+</dl>
+<h3>Payment Information</h3>
+<dl {{dl_detail}}>
+    <dt {{dl_dt}}>
+        Registration fee
+    </dt>
+    <dd {{dl_dd}}>
+        ${{data.total}}
+    </dd>
+    <dt {{dl_dt}}>
+        Name on Card
+    </dt>
+    <dd {{dl_dd}}>
+        {{data.cc_name}}
+    </dd>
+    <dt {{dl_dt}}>
+        Card ending with:
+    </dt>
+    <dd {{dl_dd}}>
+        x{{data.cc_4_digits}}
+    </dd>
+    <dt {{dl_dt}}>
+        Transaction ID
+    </dt>
+    <dd {{dl_dd}}>
+        {{data.transid}}
+    </dd>
+</dl>
+{% endautoescape %}

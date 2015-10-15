@@ -4,6 +4,41 @@ from djtools.fields import BINARY_CHOICES
 from djforms.processors.models import Contact
 
 
+class Course(models.Model):
+
+    title = models.CharField(
+        max_length=255
+    )
+    course_number = models.CharField(
+        max_length=128
+    )
+    abstract = models.TextField()
+    credits = models.IntegerField(
+        max_length=2
+    )
+    audience = models.TextField(
+        null=True, blank=True
+    )
+    instructors = models.CharField(
+        max_length=255,
+        null=True, blank=True
+    )
+    dates = models.TextField(
+        null=True, blank=True
+    )
+    room = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'djtinue_enrichment_course'
+
+
 class Registration(Contact):
 
     phone_home = models.CharField(
@@ -51,38 +86,12 @@ class Registration(Contact):
         """,
         default=False
     )
+    courses = models.ManyToManyField(
+        Course,
+        related_name="enrichment_registration_courses",
+        null=True, blank=True
+    )
 
     class Meta:
         db_table = 'djtinue_enrichment_registration'
 
-class Course(models.Model):
-
-    title = models.CharField(
-        max_length=255
-    )
-    course_number = models.CharField(
-        max_length=128
-    )
-    abstract = models.TextField()
-    credits = models.IntegerField(
-        max_length=2
-    )
-    audience = models.CharField(
-        max_length=255,
-        null=True, blank=True
-    )
-    instructors = models.CharField(
-        max_length=255,
-        null=True, blank=True
-    )
-    dates = models.CharField(
-        max_length=255,
-        null=True, blank=True
-    )
-    room = models.CharField(
-        max_length=128,
-        null=True, blank=True
-    )
-
-    class Meta:
-        db_table = 'djtinue_enrichment_course'
