@@ -17,7 +17,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     )
     search_fields = ('last_name', 'email',)
     ordering = ['-created_at',]
-    inlines = (CourseInline,)
+    #inlines = (CourseInline,)
     raw_id_fields = ("order",)
 
 admin.site.register(Course, CourseAdmin)
