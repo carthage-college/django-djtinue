@@ -3,6 +3,8 @@ from django.db import models
 from djtools.fields import BINARY_CHOICES
 from djforms.processors.models import Contact
 
+from django_extensions.db.fields.encrypted import EncryptedCharField
+
 
 class Course(models.Model):
 
@@ -61,8 +63,8 @@ class Registration(Contact):
         "Date of birth",
         help_text="Format: mm/dd/yyyy"
     )
-    social_security_number = models.CharField(
-        max_length=255,
+    social_security_number = EncryptedCharField(
+        max_length=100,
         null=True, blank=True
     )
     social_security_four = models.CharField(

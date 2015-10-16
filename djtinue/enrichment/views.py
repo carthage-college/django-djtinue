@@ -31,7 +31,6 @@ def index(request):
         if form_reg.is_valid() and form_ord.is_valid():
             contact = form_reg.save()
             contact.social_security_four = contact.social_security_number[-4:]
-            contact.social_security_number = None
             contact.save()
             discount = contact.attended_before
             data_ord = form_ord.cleaned_data

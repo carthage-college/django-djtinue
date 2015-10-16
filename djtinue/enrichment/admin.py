@@ -15,7 +15,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_display = (
         'first_name', 'last_name', 'email','created_at'
     )
-    search_fields = ('last_name', 'email',)
+    search_fields = ('last_name', 'email','social_security_number')
     ordering = ['-created_at',]
     #inlines = (CourseInline,)
     raw_id_fields = ("order",)
