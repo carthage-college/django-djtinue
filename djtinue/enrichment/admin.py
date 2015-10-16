@@ -3,6 +3,16 @@ from djtinue.enrichment.models import Course, Registration
 
 class CourseAdmin(admin.ModelAdmin):
     model = Course
+    list_display = (
+        'title', 'course_number', 'credits', 'room', 'active'
+    )
+    ordering = ['active','title','course_number']
+
+    class Media:
+        js = [
+            '/static/djtinue/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
+            '/static/djtinue/grappelli/tinymce_setup/tinymce_setup.js',
+        ]
 
 
 class CourseInline(admin.TabularInline):
