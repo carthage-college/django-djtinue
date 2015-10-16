@@ -12,9 +12,6 @@ from djforms.processors.forms import TrustCommerceForm
 
 from djtools.utils.mail import send_mail
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 def index(request):
     status = None
@@ -27,7 +24,6 @@ def index(request):
         form_ord = RegistrationOrderForm(request.POST)
         # process the courses selected and compare to courses active
         selected_courses = request.POST.getlist("courses[]")
-        #logger.debug("selected courses = {}".format(selected_courses))
         for c in courses:
             c.checked = False
             if str(c.id) in selected_courses:
@@ -81,20 +77,20 @@ def index(request):
                 contact.order.add(order)
                 status = order.status
                 order.reg = contact
-                return render_to_response(
-                    "enrichment/registration_email.html",
-                    { 'data': order },
-                    context_instance=RequestContext(request)
-                )
-                '''
-                send_mail(
-                    request, TO_LIST,
-                    "[{}] Enrichment registration".format(status),
-                    contact.email,
-                    "enrichment/registration_email.html",
-                    order, BCC
-                )
-                '''
+                if settings.DEBUG:
+                    return render_to_response(
+                        "enrichment/registration_email.html",
+                        { 'data': order },
+                        context_instance=RequestContext(request)
+                    )
+                else:
+                    send_mail(
+                        request, TO_LIST,
+                        "[{}] Enrichment registration".format(status),
+                        contact.email,
+                        "enrichment/registration_email.html",
+                        order, BCC
+                    )
         else:
             form_proc = TrustCommerceForm(None, request.POST)
             form_proc.is_valid()
