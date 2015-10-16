@@ -67,9 +67,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'djtinue.admissions',
-    'djtinue',
     'djforms.core',
+    'djforms.processors',
+    #'djtinue.admissions',
+    'djtinue.enrichment',
+    #'djtinue.administration.candidacy',
+    'djtools',
+    # third party projects
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -128,6 +133,9 @@ SERVER_EMAIL = ''
 SERVER_MAIL=''
 CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {}
 CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL = ""
+# App settings (needed for livewhale events model)
+BRIDGE_USER=
+BRIDGE_GROUP=
 # LDAP Constants
 LDAP_SERVER = ''
 LDAP_PORT = '636'
