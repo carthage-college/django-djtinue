@@ -48,8 +48,8 @@ class RegistrationForm(ContactForm):
         label = "Work phone",
         required=False
     )
-    email = forms.EmailField(label='Personal email')
     email_work = forms.EmailField(label='Work email')
+    email = forms.EmailField(label='Personal email')
     social_security_number = USSocialSecurityNumberField(
         max_length=11
     )
@@ -78,7 +78,7 @@ class RegistrationForm(ContactForm):
         fields = (
             'first_name','second_name','last_name','previous_name',
             'address1','city','state','postal_code','phone','date_of_birth',
-            'phone_home','phone_work','email','email_work','attended_before',
+            'phone_home','phone_work','email_work','email','attended_before',
             'social_security_number', 'collegeid','verify'
         )
 

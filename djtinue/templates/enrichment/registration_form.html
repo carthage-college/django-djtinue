@@ -181,15 +181,15 @@ span.course {text-transform: uppercase;}
                 <h3>{{form_reg.phone_work.label_tag}}</h3>
                 <div>{{form_reg.phone_work}}</div>
             </li>
-            {% with form_reg.email as field %}
-            {% include "form_field.inc.html" %}
-            {% endwith %}
             <li class="form-group ctrlHolder">
                 <h3>{{form_reg.email_work.label_tag}}</h3>
                 <div>
                     {{form_reg.email_work}}
                 </div>
             </li>
+            {% with form_reg.email as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
             {% with form_reg.social_security_number as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
@@ -305,6 +305,12 @@ span.course {text-transform: uppercase;}
                     <label for="id_submit">&nbsp;&nbsp;</label>
                     <input type="submit" value="Register" class="button" />
                     <p>
+                </li>
+            </ol>
+            <ol class="clear">
+                <li class="btnHolder">
+                {% get_lw_content as contact blurbs 2131 %}
+                {{contact.body}}
                 </li>
             </ol>
             </fieldset>
