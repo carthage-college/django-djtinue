@@ -1,3 +1,11 @@
+Thank you for your interest in the following programs:
+
+{% for program in data.academic_programs %}
+{{program}}{% endfor %}
+
+The Admissions Director will be in touch with you shortly
+to answer any questions you might have.
+
 {{data.first_name}} {{data.last_name}} has submitted a request for information:
 
 Home Address:................{{data.address}}
@@ -7,9 +15,6 @@ ZIP Code:....................{{data.postal_code}}
 Phone:.......................{{data.phone}}
 Email:.......................<{{data.email}}>
 
-Concerning the following programs:
-{% for program in data.academic_programs %}
-{{program}}{% endfor %}
 
 Best time to contact:
 

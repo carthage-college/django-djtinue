@@ -58,6 +58,7 @@ from djzbar.settings import INFORMIX_EARL_TEST
 INFORMIX_EARL = INFORMIX_EARL_TEST
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,7 +77,7 @@ INSTALLED_APPS = (
     # third party projects
     'django_extensions',
 )
-
+GRAPPELLI_ADMIN_TITLE="Continuing Studies Dashboard"
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
