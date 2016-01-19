@@ -193,9 +193,19 @@ span.course {text-transform: uppercase;}
             {% with form_reg.social_security_number as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.date_of_birth as field %}
-            {% include "form_field.inc.html" %}
-            {% endwith %}
+            <li class="form-group">
+                <h3>{{form_reg.date_of_birth.label_tag}}</h3>
+                {% if form_reg.date_of_birth.errors %}
+                <div class="required warning">
+                <span class="error-message">
+                    Enter a valid date. Format: mm/dd/yyyy
+                </span>
+                {% else %}
+                <div class="required">
+                {% endif %}
+                {{form_reg.date_of_birth}}
+                </div>
+            </li>
             {% with form_reg.attended_before as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
