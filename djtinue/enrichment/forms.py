@@ -42,13 +42,14 @@ class RegistrationForm(ContactForm):
     )
     phone_home = USPhoneNumberField(
         label = "Home phone",
+        required = False,
         widget=forms.TextInput(attrs=REQ)
     )
     phone_work = USPhoneNumberField(
         label = "Work phone",
         required=False
     )
-    email_work = forms.EmailField(label='Work email')
+    email_work = forms.EmailField(label='Work email', required=False)
     email = forms.EmailField(label='Personal email')
     social_security_number = USSocialSecurityNumberField(
         max_length=11
