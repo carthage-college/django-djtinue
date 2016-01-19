@@ -15,9 +15,8 @@ class CourseAdmin(admin.ModelAdmin):
         ]
 
 
-class CourseInline(admin.TabularInline):
-    model = Registration.courses.through
-    #fields = ('title', 'abstract',)
+class OrderInline(admin.TabularInline):
+    model = Registration.order.through
 
 
 class RegistrationAdmin(admin.ModelAdmin):
@@ -25,9 +24,17 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_display = (
         'first_name', 'last_name', 'email','created_at'
     )
+    fields = (
+        'first_name', 'second_name', 'last_name', 'previous_name',
+        'address1', 'city', 'state', 'postal_code',
+        'phone', 'phone_home', 'phone_work',
+        'email_work', 'email', 'social_security_number',
+        'date_of_birth', 'attended_before', 'collegeid',
+        'verify', 'courses', 'order'
+    )
     search_fields = ('last_name', 'email','social_security_number')
     ordering = ['-created_at',]
-    #inlines = (CourseInline,)
+    #inlines = (OrderInline,)
     raw_id_fields = ("order",)
 
 admin.site.register(Course, CourseAdmin)
