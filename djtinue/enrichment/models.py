@@ -1,7 +1,7 @@
 from django.db import models
 
 from djtools.fields import BINARY_CHOICES
-from djforms.processors.models import Contact
+from djforms.processors.models import Contact, Order
 
 from django_extensions.db.fields.encrypted import EncryptedCharField
 
