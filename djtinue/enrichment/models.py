@@ -45,13 +45,13 @@ class Registration(Contact):
 
     phone_home = models.CharField(
         verbose_name='Home phone',
-        max_length=12,
+        max_length=24,
         help_text="Format: XXX-XXX-XXXX",
         null=True, blank=True
     )
     phone_work = models.CharField(
         verbose_name='Work phone',
-        max_length=12,
+        max_length=24,
         help_text="Format: XXX-XXX-XXXX",
         null=True, blank=True
     )

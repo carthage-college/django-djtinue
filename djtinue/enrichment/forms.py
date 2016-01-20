@@ -36,20 +36,20 @@ class RegistrationForm(ContactForm):
             attrs={'class': 'required input-small','maxlength':'5'}
         )
     )
-    phone = USPhoneNumberField(
+    phone = forms.CharField(
         label = "Mobile phone",
-        widget=forms.TextInput(attrs=REQ)
+        required = False,
     )
-    phone_home = USPhoneNumberField(
+    phone_home = forms.CharField(
         label = "Home phone",
         required = False,
     )
-    phone_work = USPhoneNumberField(
+    phone_work = forms.CharField(
         label = "Work phone",
         required=False
     )
     email_work = forms.EmailField(label='Work email', required=False)
-    email = forms.EmailField(label='Personal email')
+    email = forms.EmailField(label='Personal email', required=False)
     social_security_number = USSocialSecurityNumberField(
         max_length=11
     )

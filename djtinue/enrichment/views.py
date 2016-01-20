@@ -54,10 +54,15 @@ def index(request):
                 order.save()
                 contact.order.add(order)
                 order.reg = contact
+                email = None
+                if contact.email:
+                    email = contact.email
+                elif contact.email_work:
+                    email = contact.email_work
                 send_mail(
                     request, TO_LIST,
                     "Enrichment registration",
-                    contact.email,
+                    email,
                     "enrichment/registration_email.html",
                     order, BCC
                 )
