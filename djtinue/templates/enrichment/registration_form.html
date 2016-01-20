@@ -177,16 +177,12 @@ span.course {text-transform: uppercase;}
             {% with form_reg.phone_home as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            <li class="form-group ctrlHolder">
-                <h3>{{form_reg.phone_work.label_tag}}</h3>
-                <div>{{form_reg.phone_work}}</div>
-            </li>
-            <li class="form-group ctrlHolder">
-                <h3>{{form_reg.email_work.label_tag}}</h3>
-                <div>
-                    {{form_reg.email_work}}
-                </div>
-            </li>
+            {% with form_reg.phone_work as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
+            {% with form_reg.email_work as field %}
+            {% include "form_field.inc.html" %}
+            {% endwith %}
             {% with form_reg.email as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
