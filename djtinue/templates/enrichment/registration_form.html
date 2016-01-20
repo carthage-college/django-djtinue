@@ -79,7 +79,10 @@
             });
 
             $('form#profile').submit(function(){
-                if ( $("input[name='verify']").is(':checked') ) {
+                if ( !$('#id_email').val() && !$('#id_email_work').val() ) {
+                    alert('You must provide a work email or personal email');
+                    return false;
+                } else if ( $("input[name='verify']").is(':checked') ) {
                     // disable submit
                     $(this).children('input[type=submit]').attr('disabled', 'disabled');
                     return true;
