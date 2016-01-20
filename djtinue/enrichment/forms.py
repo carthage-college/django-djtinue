@@ -43,7 +43,7 @@ class RegistrationForm(ContactForm):
     phone_home = USPhoneNumberField(
         label = "Home phone",
         required = False,
-        widget=forms.TextInput(attrs=REQ)
+        widget=forms.TextInput()
     )
     phone_work = USPhoneNumberField(
         label = "Work phone",
