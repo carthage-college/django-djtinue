@@ -1,5 +1,11 @@
+from django import forms
 from django.contrib import admin
+from django.utils import timezone
+
 from djtinue.enrichment.models import Course, Registration
+
+from datetime import timedelta
+
 
 class CourseAdmin(admin.ModelAdmin):
     model = Course
@@ -44,10 +50,18 @@ class OrderInline(admin.TabularInline):
     transid.short_description = 'Transaction ID'
 
 
+class RegistrationForm(forms.ModelForm):
+    email = forms.EmailField(required=False)
+
+    class Meta:
+        model = Registration
+        fields = '__all__'
+
 class RegistrationAdmin(admin.ModelAdmin):
     model = Registration
+    form =  RegistrationForm
     list_display = (
-        'first_name', 'last_name', 'email','created_at'
+        'first_name', 'last_name', 'email','created_at','xdate'
     )
     fields = (
         'first_name', 'second_name', 'last_name', 'previous_name',
@@ -58,12 +72,32 @@ class RegistrationAdmin(admin.ModelAdmin):
         'verify', 'courses'
     )
     search_fields = ('last_name', 'email','social_security_number')
-    ordering = ['-created_at',]
+    ordering = ['-created_at','last_name']
     raw_id_fields = ("order",)
     exclude = ('order',)
     inlines = [
         OrderInline,
     ]
+
+    def get_queryset(self, request):
+        """
+        only show registrations that were exported less than 21 days ago
+        """
+        now = timezone.now()
+        ids = []
+        qs = super(RegistrationAdmin, self).get_queryset(request)
+        for reg in qs:
+            obj = reg.order.all()
+            if len(obj) >= 1:
+                order = obj[0]
+                if order.export_date and order.export_date + timedelta(days=21) > now:
+                    ids.append(reg.id)
+        return qs.filter(pk__in=ids)
+
+    def xdate(self, instance):
+        order = instance.order.all()[0]
+        return order.export_date
+    xdate.short_description = 'Export Date'
 
 
 admin.site.register(Course, CourseAdmin)
