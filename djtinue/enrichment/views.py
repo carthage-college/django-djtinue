@@ -88,14 +88,6 @@ def index(request):
                         { 'data': order },
                         context_instance=RequestContext(request)
                     )
-                else:
-                    send_mail(
-                        request, TO_LIST,
-                        "[{}] Enrichment registration".format(status),
-                        contact.email,
-                        "enrichment/registration_email.html",
-                        order, BCC
-                    )
         else:
             form_proc = TrustCommerceForm(None, request.POST)
             form_proc.is_valid()
