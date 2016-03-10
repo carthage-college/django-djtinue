@@ -90,8 +90,12 @@ class RegistrationAdmin(admin.ModelAdmin):
             obj = reg.order.all()
             if len(obj) >= 1:
                 order = obj[0]
-                if order.export_date and order.export_date + timedelta(days=21) > now:
-                    ids.append(reg.id)
+                if order.status == "approved":
+                    if order.export_date:
+                        if order.export_date + timedelta(days=21) > now:
+                            ids.append(reg.id)
+                    else:
+                        ids.append(reg.id)
         return qs.filter(pk__in=ids)
 
     def xdate(self, instance):
