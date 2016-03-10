@@ -36,15 +36,15 @@ class RegistrationForm(ContactForm):
             attrs={'class': 'required input-small','maxlength':'5'}
         )
     )
-    phone = forms.CharField(
+    phone = USPhoneNumberField(
         label = "Mobile phone",
         required = False,
     )
-    phone_home = forms.CharField(
+    phone_home = USPhoneNumberField(
         label = "Home phone",
         required = False,
     )
-    phone_work = forms.CharField(
+    phone_work = USPhoneNumberField(
         label = "Work phone",
         required=False
     )
@@ -61,17 +61,6 @@ class RegistrationForm(ContactForm):
         choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
 
-    def clean(self):
-        cd = super(RegistrationForm, self).clean()
-        attended_before = cd.get("attended_before")
-        collegeid = cd.get("collegeid")
-
-        if attended_before == "Yes" and collegeid == "":
-            self._errors["collegeid"] = self.error_class(
-                ["Required field."]
-            )
-
-        return cd
 
     class Meta:
         model = Registration

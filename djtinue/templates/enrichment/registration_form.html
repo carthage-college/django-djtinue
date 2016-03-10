@@ -211,10 +211,10 @@ span.course {text-transform: uppercase;}
             <li class="form-group" id="collegeid" style="display:none;">
                 <h3>{{form_reg.collegeid.label_tag}}</h3>
                 {% if form_reg.collegeid.errors %}
-                <div class="required warning">
+                <div class="warning">
                 <span class="error-message">{{ form_reg.collegeid.errors|join:", "}}</span>
                 {% else %}
-                <div class="required">
+                <div>
                 {% endif %}
                 {{form_reg.collegeid}}
                 </div>
