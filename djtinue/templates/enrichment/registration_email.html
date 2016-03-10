@@ -63,13 +63,13 @@
         Mobile phone
     </dt>
     <dd {{dl_dd}}>
-        {{data.reg.phone}}
+        {{data.reg.phone|default:"&nbsp;"}}
     </dd>
     <dt {{dl_dt}}>
         Home phone
     </dt>
     <dd {{dl_dd}}>
-        {{data.reg.phone_home}}
+        {{data.reg.phone_home|default:"&nbsp;"}}
     </dd>
     <dt {{dl_dt}}>
         Work phone
@@ -81,7 +81,7 @@
         Personal email
     </dt>
     <dd {{dl_dd}}>
-        {{data.reg.email}}
+        {{data.reg.email|default:"&nbsp;"}}
     </dd>
     <dt {{dl_dt}}>
         Work email
