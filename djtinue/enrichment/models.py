@@ -76,7 +76,7 @@ class Registration(Contact):
         "Have you attended Carthage in the past?", max_length=3,
         choices=BINARY_CHOICES
     )
-    collegeid = models.CharField(
+    collegeid = models.IntegerField(
         "College ID number",
         max_length=8,
         null=True, blank=True
