@@ -151,8 +151,9 @@ AUTHENTICATION_BACKENDS = (
     'djauth.ldapBackend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-LOGIN_URL = '/djtinue/accounts/login/'
-LOGIN_REDIRECT_URL = '/djtinue/'
+LOGIN_URL = '{}accounts/login/'.format(ROOT_URL)
+LOGOUT_URL = '{}accounts/logout/'.format(ROOT_URL)
+LOGIN_REDIRECT_URL = ROOT_URL
 USE_X_FORWARDED_HOST = True
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False

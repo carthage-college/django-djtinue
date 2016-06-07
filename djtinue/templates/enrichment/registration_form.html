@@ -6,8 +6,8 @@
         type="text/javascript"></script>
     <script type="text/javascript">
         $(function() {
-            var $total = {{form_ord.total.value|default:10}}
-            var $discount = "{{discount}}"
+            var $total = {{form_ord.total.value|default:10}};
+            var $discount = "{{discount}}";
             if ($discount == "Yes") {
                 $('#collegeid').toggle(true);
             }
