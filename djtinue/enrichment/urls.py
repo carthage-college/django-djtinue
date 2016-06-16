@@ -11,6 +11,10 @@ urlpatterns = patterns('djtinue.enrichment.views',
         name="enrichment_registration_success"
     ),
     url(
+        r'^registration/(?P<rid>\d+)/print/$',
+        'registration_print', name="registration_print"
+    ),
+    url(
         r'^registration/$', 'index',
         name="enrichment_registration"
     ),

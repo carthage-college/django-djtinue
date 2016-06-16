@@ -98,3 +98,11 @@ class Registration(Contact):
     class Meta:
         db_table = 'djtinue_enrichment_registration'
 
+    '''
+    def order(self):
+        try:
+            cs = Contact.objects.filter(order=self).order_by('id')[0]
+        except:
+            cs = None
+        return cs
+    '''

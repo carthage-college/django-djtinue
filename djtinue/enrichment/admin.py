@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 from djtinue.enrichment.models import Course, Registration
 
@@ -61,7 +62,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     model = Registration
     form =  RegistrationForm
     list_display = (
-        'first_name', 'last_name', 'email','created_at','xdate'
+        'first_name', 'print_last_name', 'email','created_at','xdate'
     )
     fields = (
         'first_name', 'second_name', 'last_name', 'previous_name',
@@ -102,6 +103,13 @@ class RegistrationAdmin(admin.ModelAdmin):
         return order.export_date
     xdate.short_description = 'Export Date'
 
+    def print_last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=(obj.id,)),
+            obj.last_name
+        )
+    print_last_name.allow_tags = True
+    print_last_name.short_description = 'Last Name (print)'
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Registration, RegistrationAdmin)
