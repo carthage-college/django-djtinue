@@ -60,13 +60,15 @@ def index(request):
                     email = contact.email
                 elif contact.email_work:
                     email = contact.email_work
-                send_mail(
+                sent = send_mail(
                     request, TO_LIST,
                     "Enrichment registration",
                     email,
                     "enrichment/registration_email.html",
                     order, BCC
                 )
+                order.send_mail = sent
+                order.save()
                 return HttpResponseRedirect(
                     reverse('enrichment_registration_success')
                 )
@@ -83,14 +85,6 @@ def index(request):
                 contact.order.add(order)
                 status = order.status
                 order.reg = contact
-                '''
-                if settings.DEBUG:
-                    return render_to_response(
-                        "enrichment/registration_email.html",
-                        { 'data': order },
-                        context_instance=RequestContext(request)
-                    )
-                '''
         else:
             form_proc = TrustCommerceForm(None, request.POST)
             form_proc.is_valid()
