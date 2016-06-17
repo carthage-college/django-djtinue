@@ -88,7 +88,8 @@ class RegistrationAdmin(admin.ModelAdmin):
         ids = []
         qs = super(RegistrationAdmin, self).get_queryset(request)
         for reg in qs:
-            obj = reg.order.all()
+            #obj = reg.order.all()
+            obj = reg.order.filter(status="approved")
             if len(obj) >= 1:
                 order = obj[0]
                 if order.export_date:
