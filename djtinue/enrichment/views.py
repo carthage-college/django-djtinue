@@ -85,14 +85,6 @@ def index(request):
                 contact.order.add(order)
                 status = order.status
                 order.reg = contact
-                '''
-                if settings.DEBUG:
-                    return render_to_response(
-                        "enrichment/registration_email.html",
-                        { 'data': order },
-                        context_instance=RequestContext(request)
-                    )
-                '''
         else:
             form_proc = TrustCommerceForm(None, request.POST)
             form_proc.is_valid()
