@@ -60,13 +60,15 @@ def index(request):
                     email = contact.email
                 elif contact.email_work:
                     email = contact.email_work
-                send_mail(
+                sent = send_mail(
                     request, TO_LIST,
                     "Enrichment registration",
                     email,
                     "enrichment/registration_email.html",
                     order, BCC
                 )
+                order.send_mail = sent
+                order.save()
                 return HttpResponseRedirect(
                     reverse('enrichment_registration_success')
                 )
