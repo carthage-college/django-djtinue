@@ -38,7 +38,6 @@ class LivewhaleEvents(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     last_user = models.IntegerField(default=settings.BRIDGE_USER)
     created_by = models.IntegerField(null=True, blank=True, default=settings.BRIDGE_USER)
-    lookup = models.CharField(max_length=255, blank=True)
     gallery_id = models.IntegerField(null=True, blank=True)
     has_registration = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
