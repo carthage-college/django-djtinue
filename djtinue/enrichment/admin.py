@@ -52,7 +52,8 @@ class OrderInline(admin.TabularInline):
 
 
 class RegistrationForm(forms.ModelForm):
-    email = forms.EmailField(required=False)
+    email = forms.EmailField(label="Personal Email", required=False)
+    phone = forms.CharField(label="Cell Phone", required=False)
 
     class Meta:
         model = Registration
@@ -79,6 +80,14 @@ class RegistrationAdmin(admin.ModelAdmin):
     inlines = [
         OrderInline,
     ]
+
+    class Media:
+        css = {
+            'all': (
+                '/static/djtinue/css/admin.css',
+            )
+        }
+        #js = ('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',)
 
     def get_queryset(self, request):
         """

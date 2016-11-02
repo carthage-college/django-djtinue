@@ -17,6 +17,7 @@ class RegistrationForm(ContactForm):
     """
 
     previous_name = forms.CharField(
+        label = "Previous Last Name",
         max_length=128,
         required=False
     )
