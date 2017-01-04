@@ -139,7 +139,13 @@ EMAIL_FAIL_SILENTLY = True
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL=''
-CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {}
+CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {
+    "master-social-work":["",],
+    "graduate-education":["",],
+    "undergraduate-studies":["",],
+    "paralegal":["",],
+    "business-design-innnovation":["",]
+}
 CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL = ""
 ENCRYPTED_FIELD_KEYS_DIR = '')
 # App settings (needed for livewhale events model)

@@ -54,7 +54,8 @@ STYPES = {
     "graduate-education":972,
     "undergraduate-studies":973,
     "master-social-work":980,
-    "paralegal":971
+    "paralegal":971,
+    "business-design-innnovation":1081
 }
 
 class InfoRequestForm(forms.Form):
