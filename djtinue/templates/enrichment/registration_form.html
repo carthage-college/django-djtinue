@@ -77,7 +77,7 @@
                     href : did
                 }]);
             });
-            $('#id_date_of_birth').attr('placeholder','dd/mm/yyyy');
+            $('#id_date_of_birth').attr('placeholder','mm/dd/yyyy');
             $('form#profile').bind('submit', function (e) {
                 if ( !$('#id_email').val() && !$('#id_email_work').val() ) {
                     alert('You must provide a work email or personal email');
