@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.safestring import mark_safe
 
 from djtinue.enrichment.models import Registration
 
@@ -83,4 +84,20 @@ class RegistrationOrderForm(OrderForm):
     class Meta:
         model       = Order
         fields      = ('total','avs','auth')
+
+    def clean(self):
+        cd = self.cleaned_data
+        if int(cd["total"]) <= 10:
+            raise forms.ValidationError(mark_safe(
+                """
+                    <p>
+                    Please verify that you have chosen at least one course. If
+                    you have done so and still see this error, please contact
+                    the contact
+                    <a href="mailto:ldahl@carthage.edu">Lynn Dahl</a> |
+                    <a href="tel:(262)%20551-5924">(262) 551-5924</a>.
+                    </p>
+                """
+            ))
+        return cd
 
