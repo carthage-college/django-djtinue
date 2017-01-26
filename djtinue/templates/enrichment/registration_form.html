@@ -290,6 +290,11 @@ span.course {text-transform: uppercase;}
         <div class="column2 large-6 medium-12 small-12">
             <fieldset>
             <legend>Total and Register</legend>
+            {% if form_ord.errors %}
+                <span class="error-message">
+                  {{ form_ord.non_field_errors}}
+                </span>
+            {% endif %}
             <ol class="fright">
                 <li class="ctrlHolder">
                     <h3>
