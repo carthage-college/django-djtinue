@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{% load livewhale_api %}
 {% block title %}
     Admissions &mdash;
     Continuing Studies &mdash;
     Carthage College
 {% endblock %}
-{% block group_name %}Continuing Studies{% endblock %}
+{% block group_name %}
+<a href="/continuing-studies/">Continuing Studies</a>
+{% endblock %}
 {% block left_nav %}
     {% include "includes/left_nav.html" %}
 {% endblock %}
@@ -14,3 +17,6 @@
     </h1>
 {% endblock %}
 {% block content %}{% endblock %}
+{% block sidebar %}
+    {% include "includes/side_bar.html" %}
+{% endblock %}
