@@ -100,12 +100,17 @@ class RegistrationAdmin(admin.ModelAdmin):
             #obj = reg.order.all()
             obj = reg.order.filter(status="approved")
             if len(obj) >= 1:
+                '''
                 order = obj[0]
                 if order.export_date:
                     if order.export_date + timedelta(days=21) > now:
                         ids.append(reg.id)
                 else:
                     ids.append(reg.id)
+                '''
+                # the above time restriction was not working for lynn
+                # so we ignore it for now
+                ids.append(reg.id)
         return qs.filter(pk__in=ids)
 
     def xdate(self, instance):
