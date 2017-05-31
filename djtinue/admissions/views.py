@@ -2,7 +2,7 @@ from django.conf import settings
 from django.template import RequestContext
 from django.utils.timezone import localtime
 from django.utils.dateformat import DateFormat
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect, Http404
 
@@ -59,9 +59,8 @@ def info_request(request):
             )
     else:
         form = InfoRequestForm()
-    return render_to_response(
-        'admissions/inforequest.html',{'form': form,},
-        context_instance=RequestContext(request)
+    return render(
+        request, 'admissions/inforequest.html',{'form': form,}
     )
 
 def info_session(request, session_type):
@@ -101,7 +100,6 @@ def info_session(request, session_type):
             )
     else:
         form = InfoSessionForm(session_type)
-    return render_to_response(
-        'admissions/infosession.html',{'form': form,},
-        context_instance=RequestContext(request)
+    return render(
+        request, 'admissions/infosession.html',{'form': form,}
     )

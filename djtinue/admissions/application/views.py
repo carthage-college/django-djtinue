@@ -2,7 +2,7 @@ from django.conf import settings
 from django.utils.dates import MONTHS
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 
 from djtools.fields import STATE_CHOICES
@@ -157,7 +157,6 @@ def admissions_application(request, stype):
         "schools":schools,"fee_form":fee_form,"payment_form":payment_form,
         "months":MONTHS, "years1":YEARS1,"years3":YEARS3,"stype":stype
     }
-    return render_to_response(
-        "admissions/application/form.html",
-        extra_context, context_instance=RequestContext(request)
+    return render(
+        request, 'admissions/application/form.html', extra_context
     )
