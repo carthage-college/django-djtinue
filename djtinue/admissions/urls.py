@@ -1,10 +1,12 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView
 
-urlpatterns = patterns('djtinue.admissions.views',
+from djtinue.admissions import views
+
+urlpatterns = [
     # information request
     url(
-        r'^information-request/$','info_request',
+        r'^information-request/$', views.info_request,
         name='info_request'
     ),
     url(
@@ -23,11 +25,11 @@ urlpatterns = patterns('djtinue.admissions.views',
     ),
     url(
         r'^information-session/(?P<session_type>[a-zA-Z0-9_-]+)/$',
-        'info_session', name="info_session"
+        views.info_session, name='info_session'
     ),
     # application
-    url(
-        r'^application/',
-        include('djtinue.admissions.application.urls')
-    ),
-)
+    #url(
+        #r'^application/',
+        #include('djtinue.admissions.application.urls')
+    #),
+]
