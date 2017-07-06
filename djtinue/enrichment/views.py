@@ -60,6 +60,7 @@ def index(request):
                     email = contact.email
                 elif contact.email_work:
                     email = contact.email_work
+                TO_LIST.append(email)
                 sent = send_mail(
                     request, TO_LIST,
                     "Enrichment registration",
