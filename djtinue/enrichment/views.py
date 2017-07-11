@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
-from djtinue.enrichment import BCC, TO_LIST
 from djtinue.enrichment.models import Course, Registration
 from djtinue.enrichment.forms import RegistrationForm, RegistrationOrderForm
 
@@ -31,6 +30,14 @@ def index(request):
             if str(c.id) in selected_courses:
                 c.checked = True
         if form_reg.is_valid() and form_ord.is_valid():
+            BCC = settings.MANAGERS
+            if settings.DEBUG:
+                TO_LIST = [settings.ADMINS[0][1],]
+            else:
+                TO_LIST = [
+                    settings.CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL,
+                    settings.ADMINS[0][1]
+                ]
             contact = form_reg.save()
             contact.social_security_four = contact.social_security_number[-4:]
             contact.save()
