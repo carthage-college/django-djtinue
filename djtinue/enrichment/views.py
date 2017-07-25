@@ -36,7 +36,6 @@ def index(request):
             else:
                 TO_LIST = [
                     settings.CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL,
-                    settings.ADMINS[0][1]
                 ]
             contact = form_reg.save()
             contact.social_security_four = contact.social_security_number[-4:]
