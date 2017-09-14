@@ -32,8 +32,12 @@ HEAR_ABOUT =  [
     ('Other', 'Other'),
 ]
 ACADEMIC_PROGRAMS =  [
-    ('Semester Programs', 'Semester Programs'),
-    ('Accelerated Programs', 'Accelerated Programs'),
+    ('Part-Time Semester', 'Part-Time Semester'),
+    ('7-Week Adult Undergraduate', '7-Week Adult Undergraduate'),
+    (
+        'Master of Science in Business, Design and Innovation',
+        'Master of Science in Business, Design and Innovation'
+    ),
     ('Master of Education', 'Master of Education'),
     ('Loyola Master of Social Work', 'Loyola Master of Social Work'),
     (
@@ -45,7 +49,6 @@ ACADEMIC_PROGRAMS =  [
         'Enrichment and Continuing Education',
         'Enrichment and Continuing Education'
     ),
-    ('Summer Language Seminars', 'Summer Language Seminars'),
 ]
 
 # dictionary name corresponds to URL slug
