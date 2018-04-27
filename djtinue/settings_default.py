@@ -58,11 +58,11 @@ from djzbar.settings import INFORMIX_EARL_TEST
 INFORMIX_EARL = INFORMIX_EARL_TEST
 
 INSTALLED_APPS = (
-    'grappelli',
+    #'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.formtools',
+    #'django.contrib.formtools',
     'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.sessions',
@@ -70,14 +70,18 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djforms.core',
     'djforms.processors',
-    #'djtinue.admissions',
+    'djtinue.admissions',
     'djtinue.enrichment',
-    #'djtinue.administration.candidacy',
     'djtools',
     # third party projects
     'django_extensions',
+    # recaptcha
+    'captcha',
+    'userprofile',
 )
-GRAPPELLI_ADMIN_TITLE="Continuing Studies Dashboard"
+AUTH_PROFILE_MODULE = 'core.UserProfile'
+#GRAPPELLI_ADMIN_TITLE="Continuing Studies Dashboard"
+#GRAPPELLI_INDEX_DASHBOARD = 'djtinue.enrichment.dashboard.AdminDashboard'
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -181,6 +185,10 @@ TC_AVS = ""
 TC_AUTH_TYPE = ""
 TC_CYCLE = ""
 TC_OPERATOR = "DJTinueAdmissions"
+# recaptcha
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+NOCAPTCHA = True
 # logging
 LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")
 LOG_FILENAME = LOG_FILEPATH + "debug.log"

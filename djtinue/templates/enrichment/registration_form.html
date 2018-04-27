@@ -126,13 +126,6 @@ span.course {text-transform: uppercase;}
         {% for hidden in form_ord.hidden_fields %}
             {{ hidden }}
         {% endfor %}
-        <div id="security"><div style="margin-left:30px;">
-            <a href="https://www.securitymetrics.com/site_certificate.adp?s=carthage.edu&amp;i=131614"
-                target="_blank">
-                <img src="https://www.securitymetrics.com/images/sm_ccsafe_wh.gif"
-                    alt="SecurityMetrics" border="0">
-            </a>
-        </div></div>
         {% include "includes/required_text.html" %}
         {% if form_proc.errors or form_reg.errors or form_ord.errors %}
             <p class="error">

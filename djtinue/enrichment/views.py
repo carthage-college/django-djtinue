@@ -2,7 +2,7 @@ from django.conf import settings
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djtinue.enrichment.models import Course, Registration
@@ -101,12 +101,13 @@ def index(request):
         form_reg = RegistrationForm()
         form_ord = RegistrationOrderForm(initial=initial)
         form_proc = TrustCommerceForm()
-    return render_to_response(
+    return render(
+        request,
         'enrichment/registration_form.html',
         {
             'form_reg': form_reg,'form_proc':form_proc,'form_ord': form_ord,
             'status':status,'msg':msg,'discount':discount,'courses':courses
-        }, context_instance=RequestContext(request)
+        }
     )
 
 
@@ -116,8 +117,8 @@ def registration_print(request, rid):
     data = get_object_or_404(Registration, pk=rid)
     data.trans = data.order.first()
 
-    return render_to_response(
+    return render(
+        request,
         "enrichment/registration_print.html",
         {'data': data,},
-        context_instance=RequestContext(request)
     )

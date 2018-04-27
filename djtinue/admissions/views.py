@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.template import RequestContext
 from django.utils.timezone import localtime
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render
