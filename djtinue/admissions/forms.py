@@ -9,6 +9,8 @@ from djtools.fields import STATE_CHOICES
 
 from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
+import pytz
+
 TIME_OF_DAY =  [
     ('Morning', 'Morning'),
     ('Afternoon', 'Afternoon'),
@@ -115,27 +117,29 @@ class InfoSessionForm(forms.Form):
                 livewhale_events
             WHERE
                 id IN (
-                    select id2 from livewhale_tags2any where id1=%s
+                    select id2 from livewhale_tags2any where id1={}
                 )
             AND
                 id IN (
-                    select id2 from livewhale_tags2any where id1=%s
+                    select id2 from livewhale_tags2any where id1={}
                 )
             AND
                 date_dt > DATE(NOW())
             ORDER BY
                 date_dt
-        """ % (STYPES["information-session"],STYPES[session_type])
+        """.format(STYPES['information-session'], STYPES[session_type])
         cursor.execute(sql)
         # Wed. May 07, 2014 at 06pm (Master of Education & ACT Info Session)
         choices = [('','---choose a date---')]
         for event in cursor.fetchall():
-            lc = localtime(event[2])
+            lc = localtime(pytz.utc.localize(event[2]))
             df = DateFormat(lc)
             day = df.format('D')
             date = df.format('M d, Y')
             time = df.format('h:ia')
-            title = "%s. %s at %s (%s)" % (day, date, time , force_text(event[1]))
+            title = u'{}. {} at {} ({})'.format(
+                day, date, time , force_text(event[1])
+            )
 
             choices.append((event[0],title))
         self.fields['event'].choices = choices
