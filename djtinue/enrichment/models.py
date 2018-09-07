@@ -81,6 +81,15 @@ class Registration(Contact):
         max_length=8,
         null=True, blank=True
     )
+    gdpr = models.CharField(
+        """
+            Are you currently located in a European Union country,
+            Iceland, Liechtenstein, Norway, or Switzerland?
+        """, max_length=3, choices=BINARY_CHOICES
+    )
+    gdpr_cookies = models.BooleanField(default=False)
+    gdpr_transfer = models.BooleanField(default=False)
+    gdpr_collection = models.BooleanField(default=False)
     verify = models.BooleanField(
         """
             I understand that courses offered and/or taken through Carthage's

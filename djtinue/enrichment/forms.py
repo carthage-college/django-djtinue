@@ -62,7 +62,11 @@ class RegistrationForm(ContactForm):
         label = "Have you attended Carthage in the past?",
         choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
-
+    gdpr = forms.TypedChoiceField(
+        label = """Are you currently located in a European Union country,
+            Iceland, Liechtenstein, Norway, or Switzerland?
+        """, choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
 
     class Meta:
         model = Registration
@@ -70,7 +74,8 @@ class RegistrationForm(ContactForm):
             'first_name','second_name','last_name','previous_name',
             'address1','city','state','postal_code','phone','date_of_birth',
             'phone_home','phone_work','email_work','email','attended_before',
-            'social_security_number', 'collegeid','verify'
+            'gdpr','gdpr_cookies','gdpr_transfer','gdpr_collection',
+            'social_security_number','collegeid','verify'
         )
 
 

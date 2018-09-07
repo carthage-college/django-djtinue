@@ -13,6 +13,10 @@ from djforms.processors.forms import TrustCommerceForm
 
 from djtools.utils.mail import send_mail
 
+REQ = True
+if settings.DEBUG:
+    REQ = False
+
 
 def index(request):
     status = None
@@ -21,8 +25,12 @@ def index(request):
     # fetch active courses
     courses = Course.objects.filter(active=True)
     if request.POST:
-        form_reg = RegistrationForm(request.POST)
-        form_ord = RegistrationOrderForm(request.POST)
+        form_reg = RegistrationForm(
+            request.POST, label_suffix='', use_required_attribute=REQ
+        )
+        form_ord = RegistrationOrderForm(
+            request.POST, label_suffix='', use_required_attribute=REQ
+        )
         # process the courses selected and compare to courses active
         selected_courses = request.POST.getlist("courses[]")
         for c in courses:
@@ -46,7 +54,9 @@ def index(request):
                 total=data_ord["total"],auth="sale",status="In Process",
                 operator="DJTinueEnrichmentReg"
             )
-            form_proc = TrustCommerceForm(order, contact, request.POST)
+            form_proc = TrustCommerceForm(
+                order, contact, request.POST, use_required_attribute=REQ
+            )
             # add courses to contact object's m2m relationship
             for c in courses:
                 if c.checked:
@@ -93,18 +103,22 @@ def index(request):
                 status = order.status
                 order.reg = contact
         else:
-            form_proc = TrustCommerceForm(None, request.POST)
+            form_proc = TrustCommerceForm(
+                None, request.POST, use_required_attribute=REQ
+            )
             form_proc.is_valid()
             discount = form_reg.cleaned_data.get("attended_before")
     else:
         initial = {'avs':False,'auth':'sale'}
-        form_reg = RegistrationForm()
-        form_ord = RegistrationOrderForm(initial=initial)
-        form_proc = TrustCommerceForm()
+        form_reg = RegistrationForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+        form_ord = RegistrationOrderForm(
+            initial=initial, label_suffix='', use_required_attribute=REQ
+        )
+        form_proc = TrustCommerceForm(use_required_attribute=REQ)
     return render(
-        request,
-        'enrichment/registration_form.html',
-        {
+        request, 'enrichment/registration_form.html', {
             'form_reg': form_reg,'form_proc':form_proc,'form_ord': form_ord,
             'status':status,'msg':msg,'discount':discount,'courses':courses
         }
