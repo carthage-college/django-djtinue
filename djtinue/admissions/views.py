@@ -23,7 +23,7 @@ CEDU1 = [
     'Master of Science in Business, Design and Innovation'
 ]
 CEDU2 = [
-    'Enrichment and Continuing Education','Master of Education',
+    'Enrichment','Master of Education',
     'Accelerated Certification for Teachers','Summer Language Seminars',
     'Part-Time Semester','Paralegal Program','A.O.D.A.',
     '7-Week Adult Undergraduate',

@@ -47,10 +47,7 @@ ACADEMIC_PROGRAMS =  [
         'Accelerated Certification for Teachers'
     ),
     ('Paralegal Program', 'Paralegal Program'),
-    (
-        'Enrichment and Continuing Education',
-        'Enrichment and Continuing Education'
-    ),
+    ('Enrichment', 'Enrichment'),
 ]
 
 # dictionary name corresponds to URL slug
