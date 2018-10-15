@@ -41,7 +41,6 @@ ACADEMIC_PROGRAMS =  [
         'Master of Science in Business, Design and Innovation'
     ),
     ('Master of Education', 'Master of Education'),
-    ('Loyola Master of Social Work', 'Loyola Master of Social Work'),
     (
         'Accelerated Certification for Teachers',
         'Accelerated Certification for Teachers'

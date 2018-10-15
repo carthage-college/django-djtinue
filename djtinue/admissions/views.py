@@ -14,7 +14,6 @@ from djtools.utils.mail import send_mail
 BCC = settings.MANAGERS
 TO = [settings.SERVER_MAIL]
 
-LOYOLA = ['Loyola MBA for Executives','Loyola Master of Social Work']
 CEDU1 = [
     'Master of Education','Accelerated Certification for Teachers',
     'Summer Language Seminars','Part-Time Semester',
@@ -30,6 +29,7 @@ CEDU2 = [
     'Master of Science in Business, Design and Innovation'
 ]
 
+
 def info_request(request):
     if request.method == 'POST':
         form = InfoRequestForm(request.POST)
@@ -39,8 +39,6 @@ def info_request(request):
             if request.POST.has_key('academic_programs'):
                 academic_programs = request.POST.getlist('academic_programs')
                 for program in list(academic_programs):
-                    if program in LOYOLA:
-                        to.append('jweiser@carthage.edu')
                     if program in CEDU1 and 'jweiser@carthage.edu' not in to:
                         to.append('jweiser@carthage.edu')
                     if program in CEDU1 and 'taugustine@carthage.edu' not in to:
@@ -65,6 +63,7 @@ def info_request(request):
     return render(
         request, 'admissions/inforequest.html',{'form': form,}
     )
+
 
 def info_session(request, session_type):
     try:
