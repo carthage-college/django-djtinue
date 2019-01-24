@@ -41,10 +41,10 @@ def info_request(request):
                 for program in list(academic_programs):
                     if program in CEDU1 and 'jweiser@carthage.edu' not in to:
                         to.append('jweiser@carthage.edu')
-                    if program in CEDU1 and 'taugustine@carthage.edu' not in to:
-                        to.append('taugustine@carthage.edu')
-                    if program in CEDU2 and 'ldahl@carthage.edu' not in to:
-                        to.append('ldahl@carthage.edu')
+                    if program in CEDU1 and 'rschiferljr@carthage.edu' not in to:
+                        to.append('rschiferljr@carthage.edu')
+                    if program in CEDU2 and 'rschiferljr@carthage.edu' not in to:
+                        to.append('rschiferljr@carthage.edu')
             if to == []:
                 to.append('jweiser@carthage.edu')
             if settings.DEBUG:

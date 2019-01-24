@@ -99,7 +99,7 @@ class RegistrationOrderForm(OrderForm):
                     Please verify that you have chosen at least one course. If
                     you have done so and still see this error, please contact
                     the contact
-                    <a href="mailto:ldahl@carthage.edu">Lynn Dahl</a> |
+                    <a href="mailto:jweiser@carthage.edu">John Weiser</a> |
                     <a href="tel:(262)%20551-5924">(262) 551-5924</a>.
                     </p>
                 """

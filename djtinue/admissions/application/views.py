@@ -17,7 +17,7 @@ def admissions_application(request, stype):
     if settings.DEBUG:
         TO_LIST = [settings.SERVER_EMAIL,]
     else:
-        TO_LIST = ["tom@carthage.edu","jweiser@carthage.edu",]
+        TO_LIST = ["jweiser@carthage.edu",]
     BCC = settings.MANAGERS
 
     schools = []

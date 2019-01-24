@@ -9,6 +9,7 @@ from djtools.utils.users import in_group
 
 import datetime
 
+
 class LivewhaleEvents(models.Model):
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
     suggested = models.CharField(max_length=500, blank=True)
@@ -72,7 +73,7 @@ class LivewhaleEvents(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "http://www.carthage.edu/live/events/%s/" % self.id
+        return "https://www.carthage.edu/live/events/%s/" % self.id
 
     def tag(self, jid=None):
         return get_tag(self.id,jid)
