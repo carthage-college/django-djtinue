@@ -35,28 +35,17 @@ def info_request(request):
         form = InfoRequestForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            to = []
-            if request.POST.has_key('academic_programs'):
-                academic_programs = request.POST.getlist('academic_programs')
-                for program in list(academic_programs):
-                    if program in CEDU1 and 'jweiser@carthage.edu' not in to:
-                        to.append('jweiser@carthage.edu')
-                    if program in CEDU1 and 'rschiferljr@carthage.edu' not in to:
-                        to.append('rschiferljr@carthage.edu')
-                    if program in CEDU2 and 'rschiferljr@carthage.edu' not in to:
-                        to.append('rschiferljr@carthage.edu')
-            if to == []:
-                to.append('jweiser@carthage.edu')
+            to = settings.INFORMATION_REQUEST_EMAIL_LIST
             if settings.DEBUG:
                 to = TO
             to.append(cd['email'])
             subject = "OCS Information Request"
             send_mail(
-                request, to, subject, cd["email"],
-                "admissions/inforequest.txt", cd, BCC, content=""
+                request, to, subject, cd['email'],
+                'admissions/inforequest.txt', cd, BCC, content=''
             )
             return HttpResponseRedirect(
-                reverse_lazy("info_request_success")
+                reverse_lazy('info_request_success')
             )
     else:
         form = InfoRequestForm()
@@ -74,18 +63,18 @@ def info_session(request, session_type):
         form = InfoSessionForm(session_type,request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            cd["session_type"] = session_type
+            cd['session_type'] = session_type
             # fetch event
             event = Event.objects.using('livewhale').get(pk=cd['event'])
-            cd["event"] = event
+            cd['event'] = event
             # munge datetime
             lc = localtime(event.date_dt)
             df = DateFormat(lc)
             day = df.format('D')
             date = df.format('M d, Y')
             time = df.format('h:ia')
-            datetime = "%s. %s at %s" % (day, date, time)
-            cd["datetime"] = datetime
+            datetime = '%s. %s at %s' % (day, date, time)
+            cd['datetime'] = datetime
             # to
             recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
             to = recipients[session_type]
@@ -94,11 +83,11 @@ def info_session(request, session_type):
             subject = "OCS Information Session Request: "
             subject +="%s on %s" % (session_type, datetime)
             send_mail(
-                request, to, subject, cd["email"],
-                "admissions/infosession.txt", cd, BCC, content=""
+                request, to, subject, cd['email'],
+                'admissions/infosession.txt', cd, BCC, content=''
             )
             return HttpResponseRedirect(
-                reverse_lazy("info_session_success")
+                reverse_lazy('info_session_success')
             )
     else:
         form = InfoSessionForm(session_type)
