@@ -67,6 +67,7 @@ class LivewhaleEvents(models.Model):
     is_canceled = models.IntegerField(null=True, blank=True)
 
     class Meta:
+        managed = False
         db_table = u'livewhale_events'
 
     def __unicode__(self):
@@ -136,6 +137,7 @@ class LivewhaleEvents2Any(models.Model):
     type = models.CharField(max_length=765, primary_key=True)
     position = models.IntegerField()
     class Meta:
+        managed = False
         db_table = u'livewhale_events2any'
 
 class LivewhaleEventsCategories(models.Model):
@@ -144,6 +146,7 @@ class LivewhaleEventsCategories(models.Model):
     title = models.CharField(max_length=765)
     is_starred = models.IntegerField(null=True, blank=True)
     class Meta:
+        managed = False
         db_table = u'livewhale_events_categories'
 
 class LivewhaleEventsCategories2Any(models.Model):
@@ -151,6 +154,7 @@ class LivewhaleEventsCategories2Any(models.Model):
     id2 = models.IntegerField()
     type = models.CharField(max_length=765, primary_key=True)
     class Meta:
+        managed = False
         db_table = u'livewhale_events_categories2any'
 
 class LivewhaleEventsRegistrations(models.Model):
@@ -165,6 +169,7 @@ class LivewhaleEventsRegistrations(models.Model):
     is_cancelled = models.IntegerField(null=True, blank=True)
     status = models.IntegerField(null=True, blank=True)
     class Meta:
+        managed = False
         db_table = u'livewhale_events_registrations'
 
 class LivewhaleEventsSubscriptions(models.Model):
@@ -181,6 +186,7 @@ class LivewhaleEventsSubscriptions(models.Model):
     status = models.IntegerField()
     use_external = models.IntegerField(null=True, blank=True)
     class Meta:
+        managed = False
         db_table = u'livewhale_events_subscriptions'
 
 class LivewhaleTags(models.Model):
@@ -190,6 +196,7 @@ class LivewhaleTags(models.Model):
     is_starred = models.IntegerField(null=True, blank=True)
 
     class Meta:
+        managed = False
         db_table = u'livewhale_tags'
 
     def __unicode__(self):
@@ -201,4 +208,5 @@ class LivewhaleTags2Any(models.Model):
     type = models.CharField(max_length=765, primary_key=True)
 
     class Meta:
+        managed = False
         db_table = u'livewhale_tags2any'

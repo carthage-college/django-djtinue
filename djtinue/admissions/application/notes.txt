@@ -1,3 +1,16 @@
+task needs foreign key to main data model
+schools needs foreign key to  main data model [multiple schools]
+
+
+  KEY `application_graduatefellowship_6340c63c` (`user_id`),
+  KEY `application_graduatefellowship_3aeaff6a` (`updated_by_id`),
+  CONSTRAINT `updated_by_id_refs_id_9c82d33e` FOREIGN KEY (`updated_by_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `user_id_refs_id_9c82d33e` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+
+
+https://www.carthage.edu/forms/continuing-studies/admissions/music/
+
+
 apptmp_rec is the table and app_source is the column.
 
 AEA is the code for adult ed application

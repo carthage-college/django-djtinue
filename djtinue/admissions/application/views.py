@@ -11,13 +11,13 @@ from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
 from djtinue.admissions.application import _insert
 from djtinue.admissions.application.forms import *
-from djtinue.admissions.application.models import School
 
-def admissions_application(request, stype):
+
+def form_old(request, slug=None):
     if settings.DEBUG:
         TO_LIST = [settings.SERVER_EMAIL,]
     else:
-        TO_LIST = ["jweiser@carthage.edu",]
+        TO_LIST = [settings.SERVER_EMAIL,]
     BCC = settings.MANAGERS
 
     schools = []
