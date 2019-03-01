@@ -9,25 +9,26 @@ $(function() {
     } else {
         $(".placeholder").hide();
     }
-
-    /* payment options. hide credit card form if not cc. */
-    $('#id_payment_type_0').click(function() {
-        $('#payment-details').show();
-    });
-    $('#id_payment_type_1').click(function() {
-        $('#payment-details').hide();
-    });
-    $('#id_payment_type_2').click(function() {
-        $('#payment-details').hide();
-    });
     $('textarea').trumbowyg({
       btns: [
         ['formatting'], ['strong', 'em', 'del'], ['link'],
         ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
         ['unorderedList', 'orderedList'], ['horizontalRule'], ['viewHTML'],
       ],
-      semantic: true, autogrow: true, resetCss: true
+      tagsToRemove: ['script', 'link'],
+      removeformatPasted: true, semantic: true, autogrow: true, resetCss: true
     });
+    $('#id_payment_method_0').click(function() {
+      $('#creditcard-details').slideDown(200);
+    });
+    $('#id_payment_method_1').click(function() {
+      $('#creditcard-details').slideUp(200);
+    });
+    $('#id_payment_method_2').click(function() {
+      $('#creditcard-details').slideUp(200);
+    });
+    $('#id_total').attr('readonly', true);
+    $('#id_total').attr('value', "$35.00");
     $('form#profile').bind('submit', function (e) {
       // disable submit
       $('form#profile input[type=submit]').prop('disabled', true);

@@ -43,7 +43,7 @@ def form(request, slug=None):
             request.POST, label_suffix='', use_required_attribute=REQ
         )
         form_pay = TrustCommerceForm(
-            order, contact, request.POST
+            order, contact, request.POST, use_required_attribute=REQ
         )
     else:
         form_app = ApplicationForm(

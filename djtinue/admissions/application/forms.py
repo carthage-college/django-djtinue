@@ -89,8 +89,7 @@ class ApplicationForm(forms.ModelForm):
     )
     military = forms.TypedChoiceField(
         label="Have you ever served in the military?",
-        choices=BINARY_CHOICES, widget=forms.RadioSelect(),
-        required=False
+        choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
     entry_year = forms.TypedChoiceField(
         label="When do you plan to start your studies?",
@@ -113,10 +112,35 @@ class ApplicationForm(forms.ModelForm):
         label="Have you ever taken the GRE?",
         choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
+    payment_method = forms.TypedChoiceField(
+        choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),
+    )
 
     class Meta:
         model = Application
         fields = '__all__'
+
+    def clean(self):
+
+        cd = self.cleaned_data
+        if cd.get('gre') == 'Yes':
+            if not cd.get('gre_date'):
+                self.add_error('gre_date', "Required field")
+            if not cd.get('gre_score'):
+                self.add_error('gre_score', "Required field")
+        if cd.get('gmat') == 'Yes':
+            if not cd.get('gmat_date'):
+                self.add_error('gmat_date', "Required field")
+            if not cd.get('gmat_score'):
+                self.add_error('gmat_score', "Required field")
+        if cd.get('gdpr') == 'Yes':
+            if not cd.get('gdpr_cookies'):
+                self.add_error('gdpr_cookies', "Required field")
+            if not cd.get('gdpr_transfer'):
+                self.add_error('gdpr_transfer', "Required field")
+            if not cd.get('gdpr_collection'):
+                self.add_error('gdpr_collection', "Required field")
+        return cd
 
 
 class ContactForm(forms.ModelForm):

@@ -79,15 +79,14 @@ class Application(ApplicationContact):
     )
     military = models.CharField(
         "Have you ever served in the military?",
-        max_length=4, choices=BINARY_CHOICES,
-        null=True, blank=True
+        max_length=4, choices=BINARY_CHOICES
     )
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'admissions/CV'),
         validators=FILE_VALIDATORS,
-        max_length=768,
-        help_text="PDF format"
+        help_text="PDF format",
+        max_length=768, null=True, blank=True
     )
     program = models.CharField(
         max_length=254, null=True, blank=True,
