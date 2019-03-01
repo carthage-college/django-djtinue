@@ -2,8 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djforms.core.models import GenericChoice
-from djforms.processors.models import Contact
+from djforms.core.models import GenericChoice, GenericContact
+from djforms.processors.models import Contact as ApplicationContact
 from djtools.fields import BINARY_CHOICES, GENDER_CHOICES, PAYMENT_CHOICES
 from djtools.fields.helpers import upload_to_path
 from djtools.fields.validators import MimetypeValidator
@@ -17,7 +17,7 @@ from functools import partial
 FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
 
 
-class Application(Contact):
+class Application(ApplicationContact):
     # meta
     updated_by = models.ForeignKey(
         User,
@@ -32,12 +32,10 @@ class Application(Contact):
     phone_secondary = models.CharField(
         verbose_name='Work phone',
         max_length=16,
-        help_text="Format: XXX-XXX-XXXX"
     )
     phone_tertiary = models.CharField(
         verbose_name='Cell phone',
         max_length=16,
-        help_text="Format: XXX-XXX-XXXX"
     )
     birth_date = models.DateField(
         "Date of birth",
@@ -46,13 +44,14 @@ class Application(Contact):
     )
     birth_place = models.CharField(
         "Place of birth",
+        help_text="City, State, County",
         max_length=48, blank=True, null=True
     )
     gender = models.CharField(
         max_length=16, choices = GENDER_CHOICES
     )
-    hispanic = models.CharField(
-        "Are you Hispanic or Latino?",
+    latinx = models.CharField(
+        "Are you Hispanic or Latinx",
         max_length=4, choices=BINARY_CHOICES
     )
     race = models.ManyToManyField(
@@ -60,11 +59,8 @@ class Application(Contact):
         #related_name="application_race",
         help_text = 'Check all that apply'
     )
-    military = models.CharField(
-        max_length=4, choices=BINARY_CHOICES
-    )
     social_security_number = EncryptedCharField(
-        max_length=12, null=True, blank=True
+        max_length=16, null=True, blank=True
     )
     social_security_four = models.CharField(
         max_length=4, null=True, blank=True
@@ -77,7 +73,14 @@ class Application(Contact):
         max_length=128, null=True, blank=True
     )
     tuition_reimbursement = models.CharField(
-        max_length=4, choices=BINARY_CHOICES
+        "Does your employer offer tuition reimbursement?",
+        max_length=4, choices=BINARY_CHOICES,
+        null=True, blank=True
+    )
+    military = models.CharField(
+        "Have you ever served in the military?",
+        max_length=4, choices=BINARY_CHOICES,
+        null=True, blank=True
     )
     cv = models.FileField(
         "Résumé",
@@ -90,8 +93,16 @@ class Application(Contact):
         max_length=254, null=True, blank=True,
         default='Degree Seeking Masters Degree'
     )
-    entry_term = models.CharField(max_length=4)
+    entry_term = models.CharField(default='RA', max_length=4)
+    entry_month = models.CharField(
+        max_length=4,
+        blank=True, null=True
+    )
     entry_year = models.CharField(max_length=4)
+    fellowships = models.CharField(
+        "Do you intend to apply for fellowships and/or assistantships?",
+        max_length=4, choices=BINARY_CHOICES
+    )
     gmat = models.CharField(
         max_length=4, choices=BINARY_CHOICES
     )
@@ -109,18 +120,6 @@ class Application(Contact):
     )
     gre_score = models.CharField(
         max_length=10, blank=True, null=True
-    )
-    recommend_name_1 = models.CharField(
-        max_length=128, blank=True, null=True
-    )
-    recommend_email_1 = models.CharField(
-        max_length=254, blank=True, null=True
-    )
-    recommend_name_2 = models.CharField(
-        max_length=128, blank=True, null=True
-    )
-    recommend_email_2 = models.CharField(
-        max_length=254, blank=True, null=True
     )
     personal_statement = models.TextField(
         blank=True, null=True
@@ -146,7 +145,10 @@ class Application(Contact):
         db_table = 'djtinue_admissions_application'
 
 
-class Schools(models.Model):
+class School(models.Model):
+    """
+    generic institutions of education
+    """
     application = models.ForeignKey(Application)
     name = models.CharField(
         max_length=255, blank=True, null=True,
@@ -175,4 +177,14 @@ class Schools(models.Model):
     )
 
     class Meta:
-        db_table = 'djtinue_admissions_schools'
+        db_table = 'djtinue_admissions_school'
+
+
+class Contact(GenericContact):
+    """
+    generic contact for things like recommendations
+    """
+    application = models.ForeignKey(Application)
+
+    class Meta:
+        db_table = 'djtinue_admissions_contact'

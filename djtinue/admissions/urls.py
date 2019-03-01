@@ -28,8 +28,8 @@ urlpatterns = [
         views.info_session, name='info_session'
     ),
     # application
-    #url(
-        #r'^application/',
-        #include('djtinue.admissions.application.urls')
-    #),
+    url(
+        r'^application/',
+        include('djtinue.admissions.application.urls')
+    ),
 ]

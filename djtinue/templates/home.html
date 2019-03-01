@@ -5,6 +5,14 @@
     Continuing Studies &mdash;
     Carthage College
 {% endblock %}
+{% block extra_style %}
+{{block.super}}
+<style>
+.generic-subpage #secondary-navigation-wrap {
+    padding: 45px 0 0 45px;
+}
+</style>
+{% endblock %}
 {% block group_name %}
 <a href="/continuing-studies/">Continuing Studies</a>
 {% endblock %}

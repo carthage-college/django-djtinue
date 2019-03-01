@@ -5,14 +5,74 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 
+from djtinue.admissions.application import _insert
+from djtinue.admissions.application.forms import (
+    ApplicationForm, ContactForm, EducationForm, OrderForm
+)
 from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
-from djtinue.admissions.application import _insert
-from djtinue.admissions.application.forms import *
+
+REQ = True
+if settings.DEBUG:
+    REQ = False
 
 
+def form(request, slug=None):
+
+    if settings.DEBUG:
+        TO_LIST = [settings.SERVER_EMAIL,]
+    else:
+        TO_LIST = [settings.SERVER_EMAIL,]
+    BCC = settings.MANAGERS
+
+    if request.method=='POST':
+        order = None
+        contact = None
+        form_app = ApplicationForm(
+            request.POST, label_suffix='', use_required_attribute=REQ
+        )
+        form_con = ContactForm(
+            request.POST, label_suffix='', use_required_attribute=REQ
+        )
+        form_edu = EducationForm(
+            request.POST, label_suffix='', use_required_attribute=REQ
+        )
+        form_ord = OrderForm(
+            request.POST, label_suffix='', use_required_attribute=REQ
+        )
+        form_pay = TrustCommerceForm(
+            order, contact, request.POST
+        )
+    else:
+        form_app = ApplicationForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+        form_con = ContactForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+        form_edu = EducationForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+        form_ord = OrderForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+        form_pay = TrustCommerceForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+
+    extra_context = {
+        'form_app': form_app, 'form_con': form_con, 'form_edu': form_edu,
+        'form_ord': form_ord, 'form_proc': form_pay
+    }
+
+    return render(
+        request, 'admissions/application/form.html', extra_context
+    )
+
+
+'''
 def form_old(request, slug=None):
     if settings.DEBUG:
         TO_LIST = [settings.SERVER_EMAIL,]
@@ -160,3 +220,4 @@ def form_old(request, slug=None):
     return render(
         request, 'admissions/application/form.html', extra_context
     )
+'''

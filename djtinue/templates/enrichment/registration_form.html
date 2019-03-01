@@ -6,15 +6,15 @@
         type="text/javascript"></script>
     <script type="text/javascript">
         $(function() {
-            {% if form_reg.gdpr.value == "Yes" %}
+            {% if form_app.gdpr.value == "Yes" %}
                 $('#gdpr').toggle(true);
-              {% if form_reg.gdpr_cookies.value %}
+              {% if form_app.gdpr_cookies.value %}
                 $('#id_gdpr_cookies').prop('checked', true);
               {% endif %}
-              {% if form_reg.gdpr_transfer.value %}
+              {% if form_app.gdpr_transfer.value %}
                 $('#id_gdpr_transfer').prop('checked', true);
               {% endif %}
-              {% if form_reg.gdpr_collection.value %}
+              {% if form_app.gdpr_collection.value %}
                 $('#id_gdpr_collection').prop('checked', true);
               {% endif %}
             {% endif %}
@@ -114,6 +114,7 @@
     </script>
 {% endblock %}
 {% block extra_style %}
+{{ block.super }}
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.css"
     rel="stylesheet" type="text/css" media="screen" />
 <style type="text/css" media="screen, projection">
@@ -146,7 +147,7 @@ span.course {text-transform: uppercase;}
             {{ hidden }}
         {% endfor %}
         {% include "includes/required_text.html" %}
-        {% if form_proc.errors or form_reg.errors or form_ord.errors %}
+        {% if form_proc.errors or form_app.errors or form_ord.errors %}
             <p class="error">
                 There were errors with the data submitted, see below.
             </p>
@@ -154,30 +155,30 @@ span.course {text-transform: uppercase;}
         <div class="large-6 medium-12 small-12 clear cf">
             <fieldset class="blockLabels">
             <ol>
-            {% with form_reg.first_name as field %}
+            {% with form_app.first_name as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group ctrlHolder">
-                <h3>{{form_reg.second_name.label_tag}}</h3>
-                <div>{{form_reg.second_name}}</div>
+                <h3>{{form_app.second_name.label_tag}}</h3>
+                <div>{{form_app.second_name}}</div>
             </li>
-            {% with form_reg.last_name as field %}
+            {% with form_app.last_name as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group ctrlHolder">
-                <h3>{{form_reg.previous_name.label_tag}}</h3>
-                <div>{{form_reg.previous_name}}</div>
+                <h3>{{form_app.previous_name.label_tag}}</h3>
+                <div>{{form_app.previous_name}}</div>
             </li>
-            {% with form_reg.address1 as field %}
+            {% with form_app.address1 as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.city as field %}
+            {% with form_app.city as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.state as field %}
+            {% with form_app.state as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.postal_code as field %}
+            {% with form_app.postal_code as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             </ol>
@@ -186,27 +187,27 @@ span.course {text-transform: uppercase;}
         <div class="column2 large-6 medium-12 small-12">
             <fieldset class="blockLabels">
             <ol>
-            {% with form_reg.phone as field %}
+            {% with form_app.phone as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.phone_home as field %}
+            {% with form_app.phone_home as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.phone_work as field %}
+            {% with form_app.phone_work as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.email_work as field %}
+            {% with form_app.email_work as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.email as field %}
+            {% with form_app.email as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
-            {% with form_reg.social_security_number as field %}
+            {% with form_app.social_security_number as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group">
-                <h3>{{form_reg.date_of_birth.label_tag}}</h3>
-                {% if form_reg.date_of_birth.errors %}
+                <h3>{{form_app.date_of_birth.label_tag}}</h3>
+                {% if form_app.date_of_birth.errors %}
                 <div class="required warning">
                 <span class="error-message">
                     Enter a valid date. Format: mm/dd/yyyy
@@ -214,23 +215,23 @@ span.course {text-transform: uppercase;}
                 {% else %}
                 <div class="required">
                 {% endif %}
-                {{form_reg.date_of_birth}}
+                {{form_app.date_of_birth}}
                 </div>
             </li>
-            {% with form_reg.attended_before as field %}
+            {% with form_app.attended_before as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             <li class="form-group" id="collegeid" style="display:none;">
-                <h3>{{form_reg.collegeid.label_tag}}</h3>
-                {% if form_reg.collegeid.errors %}
+                <h3>{{form_app.collegeid.label_tag}}</h3>
+                {% if form_app.collegeid.errors %}
                 <div class="warning">
                 <span class="error-message">
-                  {{ form_reg.collegeid.errors|join:", "}}
+                  {{ form_app.collegeid.errors|join:", "}}
                 </span>
                 {% else %}
                 <div>
                 {% endif %}
-                {{form_reg.collegeid}}
+                {{form_app.collegeid}}
                 </div>
             </li>
             </ol>
@@ -239,7 +240,7 @@ span.course {text-transform: uppercase;}
         <div class="large-12 medium-12 small-12">
             <fieldset class="blockLabels">
             <ol>
-            {% with form_reg.gdpr as field %}
+            {% with form_app.gdpr as field %}
             {% include "form_field.inc.html" %}
             {% endwith %}
             </ol>
@@ -335,9 +336,9 @@ span.course {text-transform: uppercase;}
                     </div>
                 </li>
                 <li class="ctrlHolder">
-                    {{form_reg.verify}}
+                    {{form_app.verify}}
                     <label for="id_verify">
-                        {{form_reg.verify.label}}
+                        {{form_app.verify.label}}
                     </label>
                 </li>
             </ol>

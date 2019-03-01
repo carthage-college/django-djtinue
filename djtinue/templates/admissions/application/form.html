@@ -1,638 +1,346 @@
-{% extends "base.html" %}
-{% block title %}
-    {{stype|capfirst}} Admissions Application Form &mdash;
-    Continuing Education &mdash;
-    Carthage College
-{% endblock %}
+{% extends "admissions/application/done.html" %}
+{% load filters livewhale_api %}
 {% block extra_javascript %}
-<script src="//www.carthage.edu/static/vendor/js/spin.min.js"
-    type="text/javascript"></script>
-<script src="/static/forms/apps/InFieldLabels/jquery.infieldlabel.min.js"
-    type="text/javascript"></script>
+{{ block.super }}
+<!-- Include Editor style. -->
+<script src="//www.carthage.edu/static/vendor/jquery/plugins/trumbowyg/trumbowyg.min.js"></script>
+<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@2.9.3/js/froala_editor.min.js'></script>
+<script src="//www.carthage.edu/themes/korra/assets/fancybox/jquery.fancybox.js"
+  type="text/javascript"></script>
+<script src="/static/djtinue/js/admissions.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var doop = {{doop}};
     $(function() {
-        {% if education_goals_form.data.session7 %}
-        $('input[name=session14]:radio').attr('disabled', 'disabled');
+        {% if form_app.gdpr.value == "Yes" %}
+            $('#gdpr').toggle(true);
+          {% if form_app.gdpr_cookies.value %}
+            $('#id_gdpr_cookies').prop('checked', true);
+          {% endif %}
+          {% if form_app.gdpr_transfer.value %}
+            $('#id_gdpr_transfer').prop('checked', true);
+          {% endif %}
+          {% if form_app.gdpr_collection.value %}
+            $('#id_gdpr_collection').prop('checked', true);
+          {% endif %}
         {% endif %}
-        {% if education_goals_form.data.session14 %}
-        $('input[name=session7]:radio').attr('disabled', 'disabled');
-        {% endif %}
-        {% if education_goals_form.data.program == "7" %}
-        $('#id_program_1').attr('disabled', 'disabled');
-        {% endif %}
-        {% if education_goals_form.data.program == "14" %}
-        $('#id_program_0').attr('disabled', 'disabled');
-        {% endif %}
+        $('input[name="gdpr"]').bind('change',function(){
+            var $showOrHide = false;
+            if ( $(this).val() == "Yes" ) {
+                $showOrHide = true;
+            }
+            $('#gdpr').toggle($showOrHide);
+        });
+        $('#id_total').attr('readonly', true);
+        // toggle college id field
+        $('input[name="attended_before"]').bind('change',function(){
+            var $showOrHide = false;
+            var $attended = $(this).val();
+            if ( $attended == "Yes" ) {
+                $showOrHide = true;
+                if ($discount == "No" || $discount == "None") {
+                    update_total(-10);
+                    $discount = "Yes";
+                }
+            }else{
+                if ($discount == "Yes") {
+                    update_total(10);
+                    $discount = "No";
+                }
+            }
+            $('#collegeid').toggle($showOrHide);
+        });
+        $(".checkbox-toggle").change(function() {
+            var $cid = $(this).attr('id');
+            var $cred = $(this).attr('data-credit');
+            var $prefix = $cid.slice(0, -2);
+            var $suffix = $cid.substring($cid.length - 1);
+            if($(this).is(":checked")) {
+                if ( $suffix == 2 ) {
+                    $opposite = $prefix + "01";
+                    if($("#" + $opposite).is(":checked")) {
+                        $("#" + $opposite).attr("checked",false);
+                        update_total(-50 * $cred);
+                    }
+                    update_total(100 * $cred);
+                }else{
+                    $opposite = $prefix + "02";
+                    if($("#" + $opposite).is(":checked")) {
+                        $("#" + $prefix + "02").attr("checked",false);
+                        update_total(-100 * $cred);
+                    }
+                    update_total(50 * $cred);
+                }
+            }else{
+                update_total($suffix * -50 * $cred);
+            }
+        });
     });
 </script>
-<script src="/static/djtinue/js/admissions.js" type="text/javascript"></script>
 {% endblock %}
 {% block extra_style %}
-<style type="text/css">
-/* app specific css */
-.error, .notice, .success { padding: 0.4em; }
-#id_state {width:200px;border: 2px solid #f0dddd !important;background:#faf5f5;}
-#id_state:hover {border: 2px solid #d7d0a0 !important;}
-#id_state:focus {border: 2px solid #6caf2a !important;}
-#id_postal_code {width:170px;}
-.attended select {width:170px !important;}
-#id_security_code, #id_expiration_month, #id_expiration_year {width:70px;}
-.labelpad {font-weight:900 !important;}
-#doop_master, #graduate-plan, #undergraduate-plan, #paralegal-plan {
-display: none;}
-#states {width:100px;height:200px;margin-bottom:10px;}
-#cities, #schools {width:250px;height:200px;margin-bottom:10px;}
-dl dt {
-    background: none;
-    float: left;
-    width: 100px;
+{{block.super}}
+<link href="//www.carthage.edu/static/vendor/jquery/plugins/trumbowyg/trumbowyg.min.css"
+  rel="stylesheet" type="text/css" />
+<link href="//www.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.css"
+  rel="stylesheet" type="text/css" media="screen" />
+<style type="text/css" media="screen, projection">
+.column2 { padding-left:3%;}
+@media only screen and (max-width: 60em) {
+   .column2 { padding-left:0;}
 }
-{% if fee_form.data.payment_type == "Credit Card" %}
-#payment-details { display:inherit; }
-{% else %}
-#payment-details { display:none; }
-{% endif %}
-#payment-details { margin-bottom:20px; }
+.note-editor{width:500px;background: #fff; border: solid 1px #ccc;}
+#id_reg_fee {color:#800;font-weight:bold;}
+ul#id_race li {display:block;}
+#session-info > ol li {display:block;margin-bottom:5px;}
+#id_security_code, #id_reg_fee {width:100px;}
+#id_card_number {width:175px;}
+#id_postal_code, #id_date_of_birth, #id_total, #id_social_security_number,
+#id_expiration_month, #id_expiration_year {
+width:120px; }
+#security {color:#000099;float:right;padding:5px;}
+li.ctrlHolder div ul li {display:inline; padding-right:3px;}
+.cost { font-weight:bold; color:green; }
+#page-content-wrap .content h4 {
+    font-size: 1em;
+    margin-bottom: 0;
+    text-transform: none;
+}
 </style>
-{% endblock %}
-{% block group_name %}Continuing Studies{% endblock %}
-{% block left_nav %}
-    {% include "includes/left_nav.html" %}
-{% endblock %}
-{% block content_head %}
-    <h1 id="page_title">
-        {{stype|capfirst}} Admissions Form
-    </h1>
 {% endblock %}
 {% block content %}
 <div class="forms-container">
-    {% if personal_form.errors or contact_form.errors or employment_form.errors or education_goals_form.errors or payment_form.errors %}
-        <p class="error">
-            There were errors with the data submitted, see below.
-        </p>
-    {% endif %}
+  <form method="post" action="." class="form" id="profile">
+    {% csrf_token %}
+    {% for hidden in form_ord.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
     {% include "includes/required_text.html" %}
-    <form method="post" action="." class="form" id="profile">{% csrf_token %}
-        <fieldset class="blockLabels">
-            <h2>Contact Information</h2>
-            <h3>Name</h3>
-            <ul class="inline">
-                <li>
-                    <label for="id_first_name" class="placeholder">
-                        First name
-                    </label>
-                    <input class="medium required
-                        {% if contact_form.first_name.errors %}
-                            error
-                        {% endif %}" id="id_first_name"
-                        type="text" name="first_name" placeholder="First name"
-                        maxlength="100"
-                        value="{{contact_form.data.first_name}}" />
-                </li>
-                <li>
-                    <label for="id_second_name" class="placeholder">
-                        Middle name
-                    </label>
-                    <input class="medium" id="id_second_name" type="text"
-                        name="second_name" placeholder="Middle name"
-                        maxlength="100"
-                        value="{{contact_form.data.second_name}}" />
-                </li>
-                <li>
-                    <label for="id_last_name" class="placeholder">
-                        Last name
-                    </label>
-                    <input class="medium required
-                        {% if contact_form.last_name.errors %}
-                        error
-                        {% endif %}" id="id_last_name" type="text" name="last_name"
-                        placeholder="Last name" maxlength="100"
-                        value="{{contact_form.data.last_name}}" />
-                </li>
-                <li>
-                    <label for="id_previous_name" class="placeholder">
-                        Previous name
-                    </label>
-                    <input class="medium" id="id_previous_name" type="text"
-                        name="previous_name" placeholder="Previous name"
-                        maxlength="100"
-                        value="{{contact_form.data.previous_name}}" />
-                </li>
-            </ul>
-            <h3>Address</h3>
-            <ul class="inline">
-                <li>
-                    <label for="id_address1" class="placeholder">
-                        Address
-                    </label>
-                    <input class="large required
-                        {% if contact_form.address1.errors %}
-                        error
-                        {% endif %}" id="id_address1" type="text"
-                        name="address1" placeholder="Address" maxlength="255"
-                        value="{{contact_form.data.address1}}" />
-                </li>
-                <li>
-                    <label for="id_address2" class="placeholder">
-                        Address 2
-                    </label>
-                    <input class="large" id="id_address2" type="text"
-                        name="address2" placeholder="Address 2" maxlength="255"
-                        value="{{contact_form.data.address2}}" />
-                </li>
-            </ul>
-            <ul class="inline">
-                <li>
-                    <label for="id_city" class="placeholder">
-                        City
-                    </label>
-                    <input class="medium required
-                        {% if contact_form.city.errors %}
-                            error
-                        {% endif %}" id="id_city" type="text" name="city"
-                        placeholder="City" maxlength="255"
-                        value="{{contact_form.data.city}}" />
-                </li>
-                <li>
-                    {{contact_form.state}}
-                    {% if contact_form.state.errors %}
-                        <span class="error">State Required</span>
-                    {% endif %}
-                </li>
-                <li>
-                    <label for="id_postal_code" class="placeholder">
-                        Zip
-                    </label>
-                    <input class="required
-                        {% if contact_form.postal_code.errors %}
-                        error
-                        {% endif %}" id="id_postal_code" type="text"
-                        name="postal_code" placeholder="Zip" maxlength="10"
-                        value="{{contact_form.data.postal_code}}" />
-                        {% if contact_form.postal_code.errors %}
-                            <span class="error">e.g. XXXXX</span>
-                        {% endif %}
-                </li>
-            </ul>
-            <ul class="inline">
-                <li>
-                    <label for="id_email" class="placeholder">
-                        Email
-                    </label>
-                    <input class="large required
-                        {% if contact_form.email.errors %}
-                        error
-                        {% endif %}" id="id_email" type="email" name="email"
-                        placeholder="Email" maxlength="255"
-                        value="{{contact_form.data.email}}" />
-                </li>
-                <li>
-                    <label for="id_phone" class="placeholder">
-                        Phone: xxx-xxx-xxxx
-                    </label>
-                    <input class="large required
-                    {% if contact_form.phone.errors %}
-                    error
-                    {% endif %}" id="id_phone" type="text" name="phone"
-                    placeholder="Phone: xxx-xxx-xxxx" maxlength="255"
-                    value="{{contact_form.data.phone}}" />
-                    {% if contact_form.phone.errors %}
-                    <span class="error">Format: XXX-XXX-XXXX</span>
-                    {% endif %}
-                </li>
-            </ul>
-        </fieldset>
-        <fieldset class="blockLabels">
-            <h2>Personal Information</h2>
-            <h3 class="required">Gender</h3>
-            <ul class="inline">
-                <li>
-                    {{personal_form.gender.help_text}}
-                </li>
-            </ul>
-            <ul class="radin">
-                <li>
-                    <label for="id_gender_0">
-                        <input class="required"
-                        {% if personal_form.data.gender == "Male" %}
-                        checked="checked"
-                        {% endif %}
-                        type="radio" id="id_gender_0" value="Male"
-                        name="gender" />
-                        Male
-                    </label>
-                </li>
-                <li>
-                    <label for="id_gender_1">
-                        <input class="required"
-                        {% if personal_form.data.gender == "Female" %}
-                            checked="checked"
-                        {% endif %}
-                        type="radio" id="id_gender_1" value="Female"
-                        name="gender" />
-                        Female
-                    </label>
-                </li>
-                <li>
-                    <label for="id_gender_2">
-                        <input class="required"
-                        {% if personal_form.data.gender == "Decline to state" %}
-                            checked="checked"
-                        {% endif %}
-                        type="radio" id="id_gender_2" value="Decline to state"
-                        name="gender" />
-                        Decline to State
-                    </label>
-                </li>
-                {% if personal_form.gender.errors %}
-                    <li>
-                        <span class="error">Choose one</span>
-                    </li>
-                {% endif %}
-            </ul>
-            <ul class="inline">
-                <li>
-                    <label for="id_ss_num" class="placeholder">
-                        Social security number
-                    </label>
-                    <input class="required
-                    {% if personal_form.ss_num.errors %}
-                    error
-                    {% endif %}"
-                    style="width:180px;" type="text" name="ss_num"
-                    id="id_ss_num" placeholder="Social security number"
-                    maxlength="11" value="{{personal_form.data.ss_num}}" />
-                    {% if personal_form.ss_num.errors %}
-                        <span class="error">xxx-xx-xxxx</span>
-                    {% endif %}
-                </li>
-                <li>
-                    <label for="id_dob" class="placeholder">
-                        Date of birth: dd/mm/yyyy
-                    </label>
-                    <input class="required
-                    {% if personal_form.dob.errors %}
-                    error
-                    {% endif %}"
-                    style="width:200px;" type="text" name="dob" id="id_dob"
-                    placeholder="Date of birth: dd/mm/yyyy" maxlength="10"
-                    value="{{personal_form.data.dob}}" />
-                    {% if personal_form.dob.errors %}
-                        <span class="error">dd/mm/yyyy</span>
-                    {% endif %}
-                </li>
-            </ul>
-            <ul class="inline">
-                <li>
-                    <label for="id_pob" class="placeholder">
-                        Place of birth: city, state, zip, country
-                    </label>
-                    <input class="required
-                        {% if personal_form.pob.errors %}
-                            error
-                        {% endif %}"
-                        type="text" name="pob" id="id_pob"
-                        placeholder="Place of birth: city, state, zip, country"
-                        maxlength="255"
-                        value="{{personal_form.data.pob}}" />
-                </li>
-            </ul>
-            <h3 class="required">
-                Have you ever served in the military?
-            </h3>
-            <ul class="radin">
-                <li>
-                    <label for="id_military_0">
-                        <input type="radio" id="id_military_0" value="Yes"
-                            {% if personal_form.data.military == "Yes" %}
-                                checked="checked"
-                            {% endif %}
-                            name="military" />
-                            Yes
-                    </label>
-                </li>
-                <li>
-                    <label for="id_military_1">
-                        <input type="radio" id="id_military_1" value="No"
-                            {% if personal_form.data.military == "No" %}
-                                checked="checked"
-                            {% endif %}
-                            name="military" />
-                            No
-                    </label>
-                </li>
-                {% if personal_form.military.errors %}
-                    <li>
-                        <span class="error">Choose one</span>
-                    </li>
-                {% endif %}
-            </ul>
-        </fieldset>
-        <fieldset class="blockLabels">
-            <h2>Employment</h2>
-            <ul class="inline">
-                <li>
-                    <label for="id_employer" class="placeholder">
-                        Employer
-                    </label>
-                    <input class="large" id="id_employer" type="text"
-                        name="employer" placeholder="Employer" maxlength="128"
-                        value="{{employment_form.data.employer}}" />
-                </li>
-                <li>
-                    <label for="id_position" class="placeholder">
-                        Position
-                    </label>
-                    <input class="large" id="id_position" type="text"
-                        name="position" placeholder="Position" maxlength="128"
-                        value="{{employment_form.data.position}}" />
-                </li>
-            </ul>
-            <h3 class="required">
-                Does your employer offer tuition reimbursement?
-            </h3>
-            <ul class="radin">
-                <li>
-                    <label for="id_tuition_reimburse_0">
-                        <input
-                            {% if employment_form.data.tuition_reimburse == "Yes" %}
-                                checked="checked"
-                            {% endif %}
-                            type="radio" id="id_tuition_reimburse_0"
-                            value="Yes" name="tuition_reimburse" />
-                        Yes
-                    </label>
-                </li>
-                <li>
-                    <label for="id_tuition_reimburse_1">
-                        <input
-                            {% if employment_form.data.tuition_reimburse == "No" %}
-                                checked="checked"
-                            {% endif %}
-                            type="radio" id="id_tuition_reimburse_1" value="No"
-                            name="tuition_reimburse" />
-                        No
-                    </label>
-                </li>
-                {% if employment_form.tuition_reimburse.errors %}
-                    <li>
-                        <span class="error">
-                            Choose one
-                        </span>
-                    </li>
-                {% endif %}
-            </ul>
-        </fieldset>
-        <fieldset class="blockLabels">
-            <h2>{{stype|capfirst}} Plan</h2>
-            <div id="educational-plan" class="success">
-                {{educational_goals_form}}
-            </div>
-        </fieldset>
-        <fieldset class="blockLabels">
-            <h2>Schools you have attended</h2>
-            <div id="doop_master" class="success">
-                {% include "admissions/application/school_doop.html" %}
-            </div>
-            <div id="selected_schools">
-                <div id="selected_schools_introtext">
+    {% if form_proc.errors or form_app.errors or form_ord.errors %}
+    <p class="error">
+      There were errors with the data submitted, see below.
+    </p>
+    {% endif %}
+    <fieldset class="blockLabels">
+      <legend>Contact Information</legend>
+      <div class="large-6 medium-12 small-12 clear cf">
+        <ol>
+        {% with form_app.first_name as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        <li class="form-group ctrlHolder">
+          <h3>{{form_app.second_name.label_tag}}</h3>
+          <div>{{form_app.second_name}}</div>
+        </li>
+        {% with form_app.last_name as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        <li class="form-group ctrlHolder">
+          <h3>{{form_app.previous_name.label_tag}}</h3>
+          <div>{{form_app.previous_name}}</div>
+        </li>
+        {% with form_app.email as field %}
+            {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="column2 large-6 medium-12 small-12">
+        <ol>
+        {% with form_app.address1 as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.address2 as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.city as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.state as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.postal_code as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="large-6 medium-12 small-12 clear cf" style="border-top:2px dotted #cacaca;margin-top:16px;padding-top:12px;">
+        <ol>
+        {% with form_app.phone as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.phone_secondary as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="column2 large-6 medium-12 small-12" style="border-top:2px dotted #cacaca;margin-top:16px;padding-top:12px;">
+        <ol>
+        {% with form_app.phone_tertiary as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+    </fieldset>
+    <fieldset class="blockLabels">
+      <legend>Personal Information</legend>
+      <div class="large-6 medium-12 small-12 clear cf">
+        <ol>
+        {% with form_app.social_security_number as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.birth_date as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.birth_place as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.entry_year as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.fellowships as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+        </div>
+      <div class="column2 large-6 medium-12 small-12">
+        <ol>
+        {% with form_app.gender as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.latinx as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.race as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="large-12 medium-12 small-12">
+        <ol>
+        {% with form_app.gdpr as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="large-12 medium-12 small-12" id="gdpr" style="display:none;">
+        <ol>
+        <li>
+        {% get_lw_content as gdpr_intro blurbs 2630 %}
+        {{gdpr_intro.body}}
+        </li>
+        </ol>
+      </div>
+    </fieldset>
+    <fieldset class="blockLabels">
+      <legend>Employment Information</legend>
+      <div class="large-6 medium-12 small-12 clear cf">
+        <ol>
+        {% with form_app.employer as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.position as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.cv as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="column2 large-6 medium-12 small-12">
+        <ol>
+        {% with form_app.tuition_reimbursement as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        {% with form_app.military as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+    </fieldset>
+    <fieldset class="blockLabels">
+      <legend>Educational Background</legend>
+      <div class="large-6 medium-12 small-12 clear cf">
+        <ol>
+        {% with form_app.gmat as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="column2 large-6 medium-12 small-12">
+        <ol>
+        {% with form_app.gre as field %}
+        {% include "form_field.inc.html" %}
+        {% endwith %}
+        </ol>
+      </div>
+      <div class="large-12 medium-12 small-12">
+        <ol>
+        <li>
+        {% get_lw_content as personal_statement blurbs 2771 %}
+        {{personal_statement.body}}
+        </ol>
+      </div>
+      <div class="large-12 medium-12 small-12">
+        <ol>
+        <li>
+        {% get_lw_content as personal_statement blurbs 2770 %}
+        {{personal_statement.body}}
+        <div class="large-10 medium-12 small-12">
+        {{form_app.personal_statement}}
+        </li>
+        </ol>
+      </div>
+    </fieldset>
+    <fieldset class="blockLabels">
+      <legend>Payment Information</legend>
+      <div class="large-12 medium-12 small-12">
+            <fieldset class="blockLabels">
+            <legend>Credit Card Details</legend>
+            {% if form_proc.errors and status %}
+                <div style="padding-left:4px;">
                     <p class="notice">
-                        Please choose your school(s) from the selections below.
-                        Please make sure to click the "ADD" button once you
-                        have found your school and entered the appropriate
-                        dates. Once you have added a school, it will appear in
-                        this box. If a school does not appear in this box,
-                        it has not been added to your application. You can list
-                        as many schools as necessary.
+                        The transaction failed.
+                        {% if status == "baddata" or status == "decline" %}
+                            Error: <strong>{{status}}</strong>
+                        {% endif %}
                     </p>
-                    {% if schools %}
-                        {% for s in schools %}
-                            <div id="doop_master_{{forloop.counter}}"
-                                class="success">
-                            {% include "admissions/application/school_doop.html" %}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-            <div id="selectschool" style="height:200px">
-            <h3 style="margin-top:10px;">
-                Please select the state and then city to find your school.
-            </h3>
-            <div id="picker">
-                <div class="fleft">
-                    <select name="states" id="states" size="10">
-                    {% for state in states %}
-                        <option value="{{state.0}}" >{{state.0}}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-                <div class="fleft">
-                    <select name="cities" id="cities" size="10">
-                    </select>
-                </div>
-                <div class="fleft">
-                    <select name="schools" id="schools" size="10">
-                    </select>
-                </div>
-                <div style="clear:both;"></div>
-                <input type="hidden" name="school" id="school" value="" />
-            </div>
-            </div>
-            <div id="manualschool" style="display:none;height:200px;">
-                <h3>
-                    Please enter the name of the school and its city and state.
-                </h3>
-                <div>
-                    <label for="man_school" class="labelpad">School:</label>
-                    <input type="text" name="man_school" id="man_school" />
-                </div>
-                <div>
-                    <label for="man_city" class="labelpad">City:</label>
-                    <input type="text" name="man_city" id="man_city" />
-                </div>
-                <div>
-                    <label for="man_state" class="labelpad">State:</label>
-                    <select name="man_state" id="man_state" size="1">
-                        {% for state in states %}
-                            <option value="{{state.0}}" >{{state.0}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div style="padding-top:9px;padding-bottom:9px;">
-                <input type="button" name="toggle_schools"
-                    id="toggle_schools" class="button"
-                    value="Click here if your school is not listed" />
-            </div>
-            <div class="attended">
-                <label for="from_month_orig" class="labelpad">
-                    Attended from:
-                </label>
-                <select name="from_month_orig" id="from_month_orig">
-                    <option value="0"></option>
-                    {% for m,n in months.items %}
-                        <option value="{{m}}">{{n}}</option>
-                    {% endfor %}
-                </select>
-                <select name="from_year_orig" id="from_year_orig">
-                    <option value="0"></option>
-                    {% for year in years1 %}
-                        <option value="{{year}}">{{year}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="attended">
-                <label for="to_month_orig" class="labelpad">
-                    Attended to:
-                </label>
-                <select name="to_month_orig" id="to_month_orig">
-                    <option value="0"></option>
-                    {% for m,n in months.items %}
-                    <option value="{{m}}">{{n}}</option>
-                    {% endfor %}
-                </select>
-                <select name="to_year_orig" id="to_year_orig">
-                    <option value="0"></option>
-                    {% for year in years3 %}
-                        <option value="{{year}}">{{year}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="attended">
-                <label for="grad_month_orig" class="labelpad">
-                    Date of graduation:
-                </label>
-                <select name="grad_month_orig" id="grad_month_orig">
-                    <option value="0"></option>
-                    {% for m,n in months.items %}
-                        <option value="{{m}}">{{n}}</option>
-                    {% endfor %}
-                </select>
-                <select name="grad_year_orig" id="grad_year_orig">
-                    <option value="0"></option>
-                    {% for year in years3 %}
-                        <option value="{{year}}">{{year}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <input type="button" name="add_school" id="add_school"
-                    class="button" value=" ADD " />
-            </div>
-        </fieldset>
-        <fieldset class="blockLabels">
-            <h2>Method of Payment</h2>
-            <div class="notice">
-                <h3>
-                    <label for="id_amount">Application Fee: $10.00</label>
-                </h3>
-                <p>
-                NOTE: The Carthage web site supports
-                secure credit card transactions.
-                </p>
-            </div>
-            <input type="hidden" id="id_amount" value="10.00" name="amount" />
-            <ul class="radin">
-                <li>
-                    <label for="id_payment_type_0">
-                        <input type="radio" name="payment_type"
-                            value="Credit Card" id="id_payment_type_0"
-                            {% if fee_form.data.payment_type == "Credit Card" %}
-                                checked="checked"
-                            {% endif %}/>
-                        Credit Card
-                    </label>
-                </li>
-                <li>
-                    <label for="id_payment_type_1">
-                        <input type="radio" name="payment_type" value="Check"
-                            id="id_payment_type_1"
-                            {% if fee_form.data.payment_type == "Check" %}
-                                checked="checked"
-                            {% endif %}/>
-                        Check
-                    </label>
-                </li>
-                <li>
-                    <label for="id_payment_type_2">
-                        <input type="radio" name="payment_type"
-                            value="Cash/Money Order" id="id_payment_type_2"
-                            {% if fee_form.data.payment_type == "Cash/Money Order" %}
-                                checked="checked"
-                            {% endif %}/>
-                        Cash/Money Order
-                    </label>
-                </li>
-                {% if fee_form.payment_type.errors %}
-                    <li>
-                        <span class="error">
-                            Choose a payment type
-                        </span>
-                    </li>
-                {% endif %}
-            </ul>
-            {% if payment_form.errors and payment_form.non_field_errors and order %}
-                <div class="error">
-                    {{payment_form.non_field_errors}}
                 </div>
             {% endif %}
-            <div id="payment-details">
-                <ul class="inline">
-                    <li>
-                        <label for="id_billing_name" class="placeholder">
-                            Name on credit card
-                        </label>
-                        <input class="large required
-                            {% if payment_form.billing_name.errors %}
-                            error
-                            {% endif %}"
-                            id="id_billing_name" type="text" name="billing_name"
-                            placeholder="Name on credit card" maxlength="100"
-                            value="{{payment_form.data.billing_name}}" />
-                    </li>
-                    <li>
-                        <label for="id_billing_name" class="placeholder">
-                            Credit card number
-                        </label>
-                        <input class="large required
-                            {% if payment_form.card_number.errors %}
-                            error
-                            {% endif %}"
-                            id="id_card_number" type="text" name="card_number"
-                            placeholder="Credit card number" maxlength="100"
-                            value="{{payment_form.data.card_number}}" />
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <h4>Expiration date</h4>
-                        {{payment_form.expiration_month}}
-                        {{payment_form.expiration_year}}
-                        {% if payment_form.expiration_month.errors or payment_form.expiration_year.errors %}
-                            <p class="error">Invalid expiration date</p>
-                        {% endif %}
-                    </li>
-                    <li>
-                        <h4>
-                            3 or 4 digit security code
-                        </h4>
-                        <input class="required
-                            {% if payment_form.security_code.errors %}
-                            error
-                            {% endif %}"
-                            id="id_security_code" type="text" maxlength="100"
-                            name="security_code" max_length="4"
-                            value="{{payment_form.data.security_code}}" />
-                        <span class="help">
-                            (See back of card)
-                        </span>
-                    </li>
-                </ul>
-            </div>
-        </fieldset>
-        {% include "form_submit.inc.html" %}
-    </form>
+            <ol>
+            {% include "form_field_credit_card.inc.html" %}
+            </ol>
+            </fieldset>
+        </div>
+        <div class="column2 large-6 medium-12 small-12">
+            <fieldset>
+            <legend>Total and Register</legend>
+            {% if form_ord.errors %}
+                <span class="error-message">
+                  {{ form_ord.non_field_errors}}
+                </span>
+            {% endif %}
+            <ol class="fright">
+                <li class="ctrlHolder">
+                    <h3>
+                        <label for="id_or-total">Total Amount due</label>
+                    </h3>
+                    <div class="required">
+                        <span class="cost">$</span>
+                        <input type="text" name="total" id="id_total"
+                        class="required"
+                        value="{{form_ord.total.value|default:10}}">
+                    </div>
+                </li>
+            </ol>
+            <ol class="fright">
+                <li class="btnHolder">
+                    <label for="id_submit">&nbsp;&nbsp;</label>
+                    <input type="submit" value="Register" class="button" />
+                    <p>
+                </li>
+            </ol>
+            </fieldset>
+        </div>
+  </form>
+</div>
+<div style="display:none;">
 </div>
 {% endblock %}

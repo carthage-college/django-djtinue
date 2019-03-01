@@ -1,6 +1,26 @@
-{% extends "admissions/application/form.html" %}
+{% extends "home.html" %}
+{% load livewhale_api %}
+{% block title %}
+    {{slug|capfirst}} Admissions Application &mdash;
+    Continuing Studies &mdash;
+    Carthage College
+{% endblock %}
+{% block group_name %}
+<a href="/continuing-studies/">Continuing Studies</a>
+{% endblock %}
+{% block left_nav %}
+{% get_lw_content as nav blurbs 2587 %}
+{{nav.body}}
+{% endblock %}
+{% block content_head %}
+<h1 id="page_title">
+    {{slug|capfirst}} Admissions Application
+</h1>
+{% endblock %}
 {% block content %}
-<h2>Success</h2>
-<p>We have received your application to the Continuing Education Program at Carthage.</p>
-<p>Someone from admissions will be in contact with you presently.</p>
+    {% get_lw_content as success blurbs 2120 %}
+    {{success.body}}
+{% endblock %}
+{% block sidebar %}
+    {% include "includes/side_bar.html" %}
 {% endblock %}

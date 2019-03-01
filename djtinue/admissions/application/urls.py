@@ -13,7 +13,7 @@ urlpatterns = [
         name='admissions_application_success'
     ),
     url(
-        r'^/$',
+        r'^',
         views.form, name='admissions_application_default'
     ),
     url(

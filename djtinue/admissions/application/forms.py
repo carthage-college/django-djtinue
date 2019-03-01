@@ -1,15 +1,26 @@
 from django import forms
 from django.conf import settings
 
-from djtinue.admissions.application.models import Application
+from djtinue.admissions.application.models import Application, Contact, School
 
-from djtools.fields import GENDER_CHOICES, BINARY_CHOICES, PAYMENT_CHOICES
-
-from localflavor.us.forms import USPhoneNumberField, USZipCodeField
-from localflavor.us.forms import USSocialSecurityNumberField
+from djtools.fields import BINARY_CHOICES, GENDER_CHOICES, PAYMENT_CHOICES, TODAY
+from djforms.processors.models import Order
+from djforms.core.models import GenericChoice
+from djforms.processors.forms import ContactForm, OrderForm
 
 CHOICES = (
     ('',""),
+)
+
+RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
+
+year = TODAY.year
+if (TODAY.month > 9):
+    year += 1
+
+ENTRY_TERM_CHOICES = (
+    (year, 'Fall {}'.format(year)),
+    (year+1, 'Fall {}'.format(year+1))
 )
 
 
@@ -18,7 +29,124 @@ class ApplicationForm(forms.ModelForm):
     Continuing Studies admissions application form submission
     """
 
+    previous_name = forms.CharField(
+        label="Previous last name",
+        max_length=128, required=False
+    )
+    address1 = forms.CharField(
+        label="Address",
+        max_length=255, required=True
+    )
+    address2 = forms.CharField(
+        label="",
+        max_length=255, required=False
+    )
+    city = forms.CharField(
+        label="City",
+        max_length=128, required=True
+    )
+    state = forms.CharField(
+        label="State/Provence",
+        max_length=128, required=True
+    )
+    postal_code = forms.CharField(
+        label="Postal code",
+        max_length=10, required=True
+    )
+    phone = forms.CharField(
+        label="Home phone",
+        max_length=16, required=True
+    )
+    phone_secondary = forms.CharField(
+        label="Work phone",
+        max_length=16, required=True
+    )
+    phone_tertiary = forms.CharField(
+        label="Cell phone",
+        max_length=16, required=True
+    )
+    social_security_number = forms.CharField(
+        label="Social Security or National Identity number",
+        max_length=16, required=True
+    )
+    latinx = forms.TypedChoiceField(
+        label="Are you Hispanic or Latino?",
+        choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
+    race = forms.ModelMultipleChoiceField(
+        queryset = RACES,
+        help_text = 'Check all that apply',
+        widget = forms.CheckboxSelectMultiple()
+    )
+    gender = forms.TypedChoiceField(
+        choices = GENDER_CHOICES,
+        widget = forms.RadioSelect()
+    )
+    tuition_reimbursement = forms.TypedChoiceField(
+        label="Does your employer offer tuition reimbursement?",
+        choices=BINARY_CHOICES, widget=forms.RadioSelect(),
+        required=False
+    )
+    military = forms.TypedChoiceField(
+        label="Have you ever served in the military?",
+        choices=BINARY_CHOICES, widget=forms.RadioSelect(),
+        required=False
+    )
+    entry_year = forms.TypedChoiceField(
+        label="When do you plan to start your studies?",
+        choices=ENTRY_TERM_CHOICES, widget=forms.RadioSelect()
+    )
+    fellowships = forms.TypedChoiceField(
+        label="Do you intend to apply for fellowships and/or assistantships?",
+        choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
+    gdpr = forms.TypedChoiceField(
+        label="""Are you currently located in a European Union country,
+            Iceland, Liechtenstein, Norway, or Switzerland?
+        """, choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
+    gmat = forms.TypedChoiceField(
+        label="Have you ever taken the GMAT?",
+        choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
+    gre = forms.TypedChoiceField(
+        label="Have you ever taken the GRE?",
+        choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
+
     class Meta:
         model = Application
-        fields = __all__
+        fields = '__all__'
 
+
+class ContactForm(forms.ModelForm):
+    """
+    Continuing Studies admissions application contact form
+    """
+
+    class Meta:
+        model = Contact
+        fields = '__all__'
+
+
+class EducationForm(forms.ModelForm):
+    """
+    Continuing Studies admissions application education form
+    """
+
+    class Meta:
+        model = Contact
+        fields = '__all__'
+
+
+class OrderForm(OrderForm):
+    """
+    Credit Card transaction form
+    """
+    total = forms.CharField(
+        label="Application Fee",
+    )
+
+    class Meta:
+        model = Order
+        fields = ('total','avs','auth')

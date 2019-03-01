@@ -14,21 +14,6 @@ from djtools.utils.mail import send_mail
 BCC = settings.MANAGERS
 TO = [settings.SERVER_MAIL]
 
-CEDU1 = [
-    'Master of Education','Accelerated Certification for Teachers',
-    'Summer Language Seminars','Part-Time Semester',
-    '7-Week Adult Undergraduate',
-    'Paralegal Program','A.O.D.A.',
-    'Master of Science in Business, Design and Innovation'
-]
-CEDU2 = [
-    'Enrichment','Master of Education',
-    'Accelerated Certification for Teachers','Summer Language Seminars',
-    'Part-Time Semester','Paralegal Program','A.O.D.A.',
-    '7-Week Adult Undergraduate',
-    'Master of Science in Business, Design and Innovation'
-]
-
 
 def info_request(request):
     if request.method == 'POST':
