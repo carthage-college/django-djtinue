@@ -29,6 +29,13 @@ def form(request, slug=None):
         TO_LIST = [settings.SERVER_MAIL,]
     BCC = settings.MANAGERS
 
+    # templates for email and success page
+    p = 'admissions/application/'
+    if slug:
+        p = os.path.join(p, slug)
+    form_template = '{}/form.html'.format(p)
+    email_template = '{}/email.html'.format(p)
+
     if request.method=='POST':
 
         form_app = ApplicationForm(
@@ -85,27 +92,22 @@ def form(request, slug=None):
             ed1 = form_ed1.save(commit=False)
             ed1.application = app
             ed1.save()
-            ed2 = form_ed1.save(commit=False)
+            ed2 = form_ed2.save(commit=False)
             ed2.application = app
             ed2.save()
-            ed3 = form_ed1.save(commit=False)
+            ed3 = form_ed3.save(commit=False)
             ed3.application = app
             ed3.save()
-            ed4 = form_ed1.save(commit=False)
+            ed4 = form_ed4.save(commit=False)
             ed4.application = app
             ed4.save()
-            ed5 = form_ed1.save(commit=False)
+            ed5 = form_ed5.save(commit=False)
             ed5.application = app
             ed5.save()
             # transaction
             order = form_ord.save()
             order.total = 35.00
             order.operator = settings.TC_OPERATOR
-            # templates for email and success page
-            p = 'admissions/application/'
-            if slug:
-                p = os.path.join(p, slug)
-            template = '{}/email.html'.format(p)
             if app.payment_method == 'Credit Card':
 
                 form_proc = TrustCommerceForm(
@@ -125,7 +127,7 @@ def form(request, slug=None):
                     sent = send_mail(
                         request, TO_LIST,
                         "[Continuing Studies] Addmisions Application", app.email,
-                        template, order, BCC
+                        email_template, order, BCC
                     )
                     order.send_mail = sent
                     order.save()
@@ -157,7 +159,7 @@ def form(request, slug=None):
                 sent = send_mail(
                     request, TO_LIST,
                     "[Continuing Studies] Addmisions Application", app.email,
-                    template, order, BCC
+                    email_template, order, BCC
                 )
 
                 order.send_mail = sent
@@ -213,6 +215,4 @@ def form(request, slug=None):
         'form_ed4': form_ed4, 'form_ed5': form_ed5,
     }
 
-    return render(
-        request, 'admissions/application/form.html', extra_context
-    )
+    return render(request, form_template, extra_context)

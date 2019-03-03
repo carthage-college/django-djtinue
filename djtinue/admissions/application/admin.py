@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 from djtinue.admissions.application.models import Application
+from djtinue.admissions.application.forms import RACES
 
 
 class OrderInline(admin.TabularInline):
@@ -36,8 +37,12 @@ class OrderInline(admin.TabularInline):
 
 
 class ApplicationForm(forms.ModelForm):
-    #email = forms.EmailField(label="Personal Email", required=False)
     phone = forms.CharField(label="Home Phone")
+    race = forms.ModelMultipleChoiceField(
+        queryset = RACES,
+        help_text = 'Check all that apply',
+        widget = forms.CheckboxSelectMultiple()
+    )
 
     class Meta:
         model = Application
