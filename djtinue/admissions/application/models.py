@@ -10,8 +10,6 @@ from djtools.fields.validators import MimetypeValidator
 
 from django_extensions.db.fields.encrypted import EncryptedCharField
 
-from functools import partial
-
 #FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
 #FILE_VALIDATORS = []
 FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
@@ -26,8 +24,11 @@ class Application(ApplicationContact):
         editable=False,
         null=True, blank=True
     )
-    slug = models.SlugField(unique=True)
-    viewed = models.IntegerField()
+    slug = models.CharField(
+        max_length=64, default='generic',
+        blank=True, null=True
+    )
+    viewed = models.BooleanField(default=False)
     # core
     phone_secondary = models.CharField(
         verbose_name='Work phone',
@@ -44,7 +45,7 @@ class Application(ApplicationContact):
     )
     birth_place = models.CharField(
         "Place of birth",
-        help_text="City, State, County",
+        help_text="City, State/Provence, Country",
         max_length=48, blank=True, null=True
     )
     gender = models.CharField(
@@ -60,7 +61,7 @@ class Application(ApplicationContact):
         help_text = 'Check all that apply'
     )
     social_security_number = EncryptedCharField(
-        max_length=16, null=True, blank=True
+        max_length=254, null=True, blank=True
     )
     social_security_four = models.CharField(
         max_length=4, null=True, blank=True
@@ -83,7 +84,7 @@ class Application(ApplicationContact):
     )
     cv = models.FileField(
         "Résumé",
-        upload_to = partial(upload_to_path, 'admissions/CV'),
+        upload_to = upload_to_path,
         validators=FILE_VALIDATORS,
         help_text="PDF format",
         max_length=768, null=True, blank=True
@@ -92,7 +93,10 @@ class Application(ApplicationContact):
         max_length=254, null=True, blank=True,
         default='Degree Seeking Masters Degree'
     )
-    entry_term = models.CharField(default='RA', max_length=4)
+    entry_term = models.CharField(
+        default='RA', max_length=4,
+        blank=True, null=True
+    )
     entry_month = models.CharField(
         max_length=4,
         blank=True, null=True
@@ -143,6 +147,9 @@ class Application(ApplicationContact):
         verbose_name_plural = 'Submissions'
         db_table = 'djtinue_admissions_application'
 
+    def get_slug(self):
+        return 'files/admissions/application/'
+
 
 class School(models.Model):
     """
@@ -154,29 +161,34 @@ class School(models.Model):
         default=''
     )
     state = models.CharField(
+        "State/Provence",
         max_length=50, blank=True, null=True
     )
     degree = models.CharField(
-        max_length=255, blank=True, null=True
+        "Diploma/Degree", max_length=255, blank=True, null=True
     )
     attended = models.CharField(
-        max_length=255, blank=True, null=True
+        "Dates Attended", max_length=255, blank=True, null=True
     )
     majorminor = models.CharField(
-        max_length=255, blank=True, null=True
+        "Major(s)/Minor(s)", max_length=255, blank=True, null=True
     )
     gpa = models.DecimalField(
-        max_digits=4, decimal_places=2, blank=True, null=True
+        "GPA", max_digits=4, decimal_places=2, blank=True, null=True
     )
     transcript = models.FileField(
-        upload_to = partial(upload_to_path, 'admissions/transcript'),
+        "Upload Transcript (can be unofficial)",
+        upload_to = upload_to_path,
         validators=FILE_VALIDATORS,
-        max_length=768,
+        max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
 
     class Meta:
         db_table = 'djtinue_admissions_school'
+
+    def get_slug(self):
+        return 'files/admissions/school/'
 
 
 class Contact(GenericContact):

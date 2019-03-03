@@ -14,6 +14,8 @@ from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
 
+import os
+
 REQ = True
 if settings.DEBUG:
     REQ = False
@@ -22,202 +24,195 @@ if settings.DEBUG:
 def form(request, slug=None):
 
     if settings.DEBUG:
-        TO_LIST = [settings.SERVER_EMAIL,]
+        TO_LIST = [settings.SERVER_MAIL,]
     else:
-        TO_LIST = [settings.SERVER_EMAIL,]
+        TO_LIST = [settings.SERVER_MAIL,]
     BCC = settings.MANAGERS
 
     if request.method=='POST':
-        order = None
-        contact = None
+
         form_app = ApplicationForm(
-            request.POST, label_suffix='', use_required_attribute=REQ
+            request.POST, request.FILES, label_suffix='', use_required_attribute=REQ
         )
-        form_con = ContactForm(
-            request.POST, label_suffix='', use_required_attribute=REQ
+        form_ct1 = ContactForm(
+            request.POST, prefix='ct1',  label_suffix='', use_required_attribute=REQ
         )
-        form_edu = EducationForm(
-            request.POST, label_suffix='', use_required_attribute=REQ
+        form_ct2 = ContactForm(
+            request.POST, prefix='ct2',  label_suffix='', use_required_attribute=REQ
+        )
+        form_ed1 = EducationForm(
+            request.POST, request.FILES, prefix='ed1', label_suffix='',
+            use_required_attribute=REQ
+        )
+        form_ed2 = EducationForm(
+            request.POST, request.FILES, prefix='ed2', label_suffix='',
+            use_required_attribute=REQ
+        )
+        form_ed3 = EducationForm(
+            request.POST, request.FILES, prefix='ed3', label_suffix='',
+            use_required_attribute=REQ
+        )
+        form_ed4 = EducationForm(
+            request.POST, request.FILES, prefix='ed4', label_suffix='',
+            use_required_attribute=REQ
+        )
+        form_ed5 = EducationForm(
+            request.POST, request.FILES, prefix='ed5', label_suffix='',
+            use_required_attribute=REQ
         )
         form_ord = OrderForm(
+            request.POST, label_suffix='', use_required_attribute=REQ,
+            initial={'total':35, 'avs':False,'auth':'sale'}
+        )
+        form_proc = TrustCommerceForm(
             request.POST, label_suffix='', use_required_attribute=REQ
         )
-        form_pay = TrustCommerceForm(
-            order, contact, request.POST, use_required_attribute=REQ
-        )
-    else:
-        form_app = ApplicationForm(
-            label_suffix='', use_required_attribute=REQ
-        )
-        form_con = ContactForm(
-            label_suffix='', use_required_attribute=REQ
-        )
-        form_edu = EducationForm(
-            label_suffix='', use_required_attribute=REQ
-        )
-        form_ord = OrderForm(
-            label_suffix='', use_required_attribute=REQ
-        )
-        form_pay = TrustCommerceForm(
-            label_suffix='', use_required_attribute=REQ
-        )
+        if form_app.is_valid() and form_ct1.is_valid() and form_ct2.is_valid()\
+          and form_ord.is_valid():
 
-    extra_context = {
-        'form_app': form_app, 'form_con': form_con, 'form_edu': form_edu,
-        'form_ord': form_ord, 'form_proc': form_pay
-    }
+            app = form_app.save()
+            app.slug = slug
+            app.social_security_four = app.social_security_number[-4:]
+            app.save()
+            # recommendations
+            ct1 = form_ct1.save(commit=False)
+            ct1.application = app
+            ct1.save()
+            ct2 = form_ct2.save(commit=False)
+            ct2.application = app
+            ct2.save()
+            # schools
+            ed1 = form_ed1.save(commit=False)
+            ed1.application = app
+            ed1.save()
+            ed2 = form_ed1.save(commit=False)
+            ed2.application = app
+            ed2.save()
+            ed3 = form_ed1.save(commit=False)
+            ed3.application = app
+            ed3.save()
+            ed4 = form_ed1.save(commit=False)
+            ed4.application = app
+            ed4.save()
+            ed5 = form_ed1.save(commit=False)
+            ed5.application = app
+            ed5.save()
+            # transaction
+            order = form_ord.save()
+            order.total = 35.00
+            order.operator = settings.TC_OPERATOR
+            # templates for email and success page
+            p = 'admissions/application/'
+            if slug:
+                p = os.path.join(p, slug)
+            template = '{}/email.html'.format(p)
+            if app.payment_method == 'Credit Card':
 
-    return render(
-        request, 'admissions/application/form.html', extra_context
-    )
-
-
-'''
-def form_old(request, slug=None):
-    if settings.DEBUG:
-        TO_LIST = [settings.SERVER_EMAIL,]
-    else:
-        TO_LIST = [settings.SERVER_EMAIL,]
-    BCC = settings.MANAGERS
-
-    schools = []
-    order = None
-    if request.method=='POST':
-        try:
-            education_goals_form = eval(stype.capitalize()+"Form")(request.POST)
-        except:
-            raise Http404
-
-        contact_form = AdultContactForm(request.POST)
-        personal_form = PersonalForm(request.POST)
-        employment_form = EmploymentForm(request.POST)
-        fee_form = ApplicationFeeForm(request.POST)
-        # build the schools list
-        x = 0
-        while x < len(request.POST.getlist("school_name[]")):
-            school = School(
-                request.POST.getlist("school_code[]")[x],
-                request.POST.getlist("school_name[]")[x],
-                request.POST.getlist("school_city[]")[x],
-                request.POST.getlist("school_state[]")[x],
-                request.POST.getlist("from_month[]")[x],
-                request.POST.getlist("from_year[]")[x],
-                request.POST.getlist("to_month[]")[x],
-                request.POST.getlist("to_year[]")[x],
-                request.POST.getlist("grad_month[]")[x],
-                request.POST.getlist("grad_year[]")[x]
-            )
-            schools.append(school)
-            x += 1
-        # delete the 'doop' element used for javascript clone
-        del schools[0]
-
-        if contact_form.is_valid() and \
-          personal_form.is_valid() and \
-          employment_form.is_valid() and \
-          education_goals_form.is_valid() and fee_form.is_valid():
-            contact = contact_form.cleaned_data
-            personal = personal_form.cleaned_data
-            employment = employment_form.cleaned_data
-            education = education_goals_form.cleaned_data
-            fee = fee_form.cleaned_data
-            data = {
-                'contact':contact,'personal':personal,
-                'employment':employment,'education':education,
-                'schools':schools,'fee':fee
-            }
-            total = fee['amount']
-            # fetch the real name for educational goal,
-            # so we can display it in email rather than ID
-            goal = EDUCATION_GOAL[int(data['education']['educationalgoal'])-1][1]
-            data['education']['educationalgoalname'] = goal
-            subject = "[Undergraduate Admissions Application] %s, %s" % (
-                contact['last_name'],contact['first_name']
-            )
-            email = contact['email']
-            # credit card payment
-            if fee['payment_type'] == "Credit Card":
-                contact, created = Contact.objects.get_or_create(
-                    first_name=contact['first_name'],
-                    last_name=contact['last_name'],
-                    second_name=contact['second_name'],
-                    previous_name=contact['previous_name'],
-                    email=email,phone=contact['phone'],
-                    address1=contact['address1'],
-                    address2=contact['address2'],city=contact['city'],
-                    state=contact['state'],
-                    postal_code=contact['postal_code']
+                form_proc = TrustCommerceForm(
+                    order, app, request.POST, use_required_attribute=REQ
                 )
-                order = Order(
-                    total=total,auth="sale",status="In Process",
-                    operator="DJTinueUgradAdmish"
-                )
-                payment_form = TrustCommerceForm(order, contact, request.POST)
-                if payment_form.is_valid():
-                    r = payment_form.processor_response
+
+                if form_proc.is_valid():
+                    r = form_proc.processor_response
                     order.status = r.msg['status']
                     order.transid = r.msg['transid']
-                    order.cc_name = payment_form.name
-                    order.cc_4_digits = payment_form.card[-4:]
+                    order.cc_name = form_proc.name
+                    order.cc_4_digits = form_proc.card[-4:]
                     order.save()
-                    contact.order.add(order)
-                    data['order'] = order
-                    # insert into informix and send mail
-                    result = _insert(data)
-                    # TODO: send email if result = fail, log data
-                    send_mail(
-                        request, TO_LIST, subject, contact.email,
-                        "admissions/application/email.html", data, BCC
+                    app.order.add(order)
+                    order.reg = app
+                    order.contact = app
+                    sent = send_mail(
+                        request, TO_LIST,
+                        "[Continuing Studies] Addmisions Application", app.email,
+                        template, order, BCC
                     )
+                    order.send_mail = sent
+                    order.save()
+
                     return HttpResponseRedirect(
                         reverse('admissions_application_success')
                     )
+
                 else:
-                    r = payment_form.processor_response
-                    status = r.status
+                    r = form_proc.processor_response
                     if r:
-                        order.status = status
+                        order.status = r.status
                     else:
-                        order.status = "Blocked"
+                        order.status = 'Form Invalid'
+                    order.cc_name = form_proc.name
+                    if form_proc.card:
+                        order.cc_4_digits = form_proc.card[-4:]
                     order.save()
-                    contact.order.add(order)
+                    app.order.add(order)
             else:
-                # insert and send mail
-                result = _insert(data)
-                # TODO: send email if result = fail, log data
-                send_mail(
-                    request, TO_LIST, subject,contact["email"],
-                    "admissions/application/email.html", data, BCC
+                order.auth='COD'
+                order.status='Pay later'
+                order.save()
+                app.order.add(order)
+                # used for email rendering
+                #order.reg = app
+                #order.contact = app
+
+                sent = send_mail(
+                    request, TO_LIST,
+                    "[Continuing Studies] Addmisions Application", app.email,
+                    template, order, BCC
                 )
+
+                order.send_mail = sent
+                order.save()
                 return HttpResponseRedirect(
                     reverse('admissions_application_success')
                 )
         else:
-            if request.POST.get('payment_type') == "Credit Card":
-                payment_form = TrustCommerceForm(None, request.POST)
-                payment_form.is_valid()
+            if request.POST.get('payment_method') == 'Credit Card':
+                form_proc = TrustCommerceForm(
+                    None, request.POST, use_required_attribute=REQ
+                )
+                form_proc.is_valid()
             else:
-                payment_form = TrustCommerceForm()
+                form_proc = TrustCommerceForm(use_required_attribute=REQ)
     else:
-        try:
-            education_goals_form = eval(stype.capitalize()+"Form")()
-        except:
-            raise Http404
-        contact_form = AdultContactForm()
-        personal_form = PersonalForm()
-        employment_form = EmploymentForm()
-        fee_form = ApplicationFeeForm()
-        payment_form = TrustCommerceForm()
+        form_app = ApplicationForm(
+            label_suffix='', use_required_attribute=REQ
+        )
+        form_ct1 = ContactForm(
+           prefix='ct1',  label_suffix='', use_required_attribute=REQ
+        )
+        form_ct2 = ContactForm(
+           prefix='ct2',  label_suffix='', use_required_attribute=REQ
+        )
+        form_ed1 = EducationForm(
+            prefix='ed1', label_suffix='', use_required_attribute=REQ
+        )
+        form_ed2 = EducationForm(
+            prefix='ed2', label_suffix='', use_required_attribute=REQ
+        )
+        form_ed3 = EducationForm(
+            prefix='ed3', label_suffix='', use_required_attribute=REQ
+        )
+        form_ed4 = EducationForm(
+            prefix='ed4', label_suffix='', use_required_attribute=REQ
+        )
+        form_ed5 = EducationForm(
+            prefix='ed5', label_suffix='', use_required_attribute=REQ
+        )
+        form_ord = OrderForm(
+            label_suffix='', use_required_attribute=REQ,
+            initial={'total':35, 'avs':False,'auth':'sale'}
+        )
+        form_proc = TrustCommerceForm(
+            label_suffix='', use_required_attribute=REQ
+        )
 
     extra_context = {
-        "contact_form":contact_form,"personal_form":personal_form,
-        "order":order,"doop":len(schools),"states":STATE_CHOICES,
-        "employment_form":employment_form,
-        "education_goals_form":education_goals_form,
-        "schools":schools,"fee_form":fee_form,"payment_form":payment_form,
-        "months":MONTHS, "years1":YEARS1,"years3":YEARS3,"stype":stype
+        'form_app': form_app, 'form_ct1': form_ct1, 'form_ct2': form_ct2,
+        'form_ord': form_ord, 'form_proc': form_proc,
+        'form_ed1': form_ed1, 'form_ed2': form_ed2, 'form_ed3': form_ed3,
+        'form_ed4': form_ed4, 'form_ed5': form_ed5,
     }
+
     return render(
         request, 'admissions/application/form.html', extra_context
     )
-'''

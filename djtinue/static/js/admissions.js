@@ -28,7 +28,6 @@ $(function() {
       $('#creditcard-details').slideUp(200);
     });
     $('#id_total').attr('readonly', true);
-    $('#id_total').attr('value', "$35.00");
     $('form#profile').bind('submit', function (e) {
       // disable submit
       $('form#profile input[type=submit]').prop('disabled', true);

@@ -5,8 +5,8 @@ from djtinue.admissions.application.models import Application, Contact, School
 
 from djtools.fields import BINARY_CHOICES, GENDER_CHOICES, PAYMENT_CHOICES, TODAY
 from djforms.processors.models import Order
-from djforms.core.models import GenericChoice
-from djforms.processors.forms import ContactForm, OrderForm
+from djforms.core.models import GenericChoice, GenericContact
+from djforms.processors.forms import OrderForm
 
 CHOICES = (
     ('',""),
@@ -118,7 +118,7 @@ class ApplicationForm(forms.ModelForm):
 
     class Meta:
         model = Application
-        fields = '__all__'
+        exclude = ('slug','entry_term','social_security_four')
 
     def clean(self):
 
@@ -150,7 +150,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        fields = '__all__'
+        fields = ('first_name','last_name','email')
 
 
 class EducationForm(forms.ModelForm):
@@ -159,8 +159,8 @@ class EducationForm(forms.ModelForm):
     """
 
     class Meta:
-        model = Contact
-        fields = '__all__'
+        model = School
+        exclude = ('application',)
 
 
 class OrderForm(OrderForm):

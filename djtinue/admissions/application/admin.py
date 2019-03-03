@@ -47,11 +47,12 @@ class ApplicationForm(forms.ModelForm):
 class ApplicationAdmin(admin.ModelAdmin):
     form =  ApplicationForm
     list_display = (
-        'last_name', 'first_name', 'email','created_at','xdate'
+        'last_name', 'first_name', 'email','created_at','viewed'
     )
     search_fields = ('last_name', 'email','social_security_number')
     ordering = ['-created_at','last_name']
-    raw_id_fields = ("order",)
+    list_editable = ('viewed',)
+    raw_id_fields = ('order',)
     exclude = ('order',)
     inlines = [
         OrderInline,
@@ -63,10 +64,5 @@ class ApplicationAdmin(admin.ModelAdmin):
                 '/static/djtinue/css/admin.css',
             )
         }
-
-    def xdate(self, instance):
-        order = instance.order.all()[0]
-        return order.export_date
-    xdate.short_description = 'Export Date'
 
 admin.site.register(Application, ApplicationAdmin)
