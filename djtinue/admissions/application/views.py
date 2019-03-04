@@ -212,7 +212,7 @@ def form(request, slug=None):
         'form_app': form_app, 'form_ct1': form_ct1, 'form_ct2': form_ct2,
         'form_ord': form_ord, 'form_proc': form_proc,
         'form_ed1': form_ed1, 'form_ed2': form_ed2, 'form_ed3': form_ed3,
-        'form_ed4': form_ed4, 'form_ed5': form_ed5,
+        'form_ed4': form_ed4, 'form_ed5': form_ed5, 'slug': slug
     }
 
     return render(request, form_template, extra_context)

@@ -1,7 +1,12 @@
 {% extends "home.html" %}
 {% load livewhale_api %}
 {% block title %}
-    {{slug|capfirst}} Admissions Application &mdash;
+    {% if slug == 'music'%}
+    Master of Arts in Music
+    {% else %}{% if slug == 'bdi'%}
+    Master (MSc) in Business Design &amp; Innovation
+    {% endif %}{% endif %}
+    Admissions Application &mdash;
     Continuing Studies &mdash;
     Carthage College
 {% endblock %}
@@ -14,7 +19,12 @@
 {% endblock %}
 {% block content_head %}
 <h1 id="page_title">
-    {{slug|capfirst}} Admissions Application
+    {% if slug == 'music'%}
+    Master of Arts in Music
+    {% else %}{% if slug == 'bdi'%}
+    Master (MSc) in Business Design &amp; Innovation Application
+    {% else %} Admissions Application
+    {% endif %}{% endif %}
 </h1>
 {% endblock %}
 {% block content %}
