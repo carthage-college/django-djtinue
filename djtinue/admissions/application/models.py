@@ -190,6 +190,9 @@ class School(models.Model):
     def get_slug(self):
         return 'files/admissions/school/'
 
+    def __unicode__(self):
+        return self.name
+
 
 class Contact(GenericContact):
     """

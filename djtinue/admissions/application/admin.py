@@ -2,12 +2,35 @@ from django import forms
 from django.contrib import admin
 from django.utils import timezone
 
-from djtinue.admissions.application.models import Application
+from djtinue.admissions.application.models import Application, Contact, School
 from djtinue.admissions.application.forms import RACES
+
+
+class SchoolInline(admin.StackedInline):
+    model = School
+    can_delete = False
+    max_num = 5
+    fields = (
+        'state','degree','attended','majorminor','gpa','transcript'
+    )
+    show_change_link = True
+    verbose_name = "School"
+    verbose_name_plural = "Schools"
+
+
+class ContactInline(admin.TabularInline):
+    model = Contact
+    max_num = 2
+    can_delete = False
+    fields = ('last_name', 'first_name', 'email')
+    show_change_link = True
+    verbose_name = "Recommentation"
+    verbose_name_plural = "Recommentations"
 
 
 class OrderInline(admin.TabularInline):
     model = Application.order.through
+    verbose_name_plural = "Payment Information"
     max_num = 1
     exclude = ('order',)
     readonly_fields = [
@@ -60,7 +83,7 @@ class ApplicationAdmin(admin.ModelAdmin):
     raw_id_fields = ('order',)
     exclude = ('order',)
     inlines = [
-        OrderInline,
+        OrderInline, ContactInline, SchoolInline
     ]
 
     class Media:
