@@ -122,7 +122,6 @@ def form(request, slug=None):
                     order.cc_4_digits = form_proc.card[-4:]
                     order.save()
                     app.order.add(order)
-                    order.reg = app
                     order.contact = app
                     sent = send_mail(
                         request, TO_LIST,
@@ -216,3 +215,10 @@ def form(request, slug=None):
     }
 
     return render(request, form_template, extra_context)
+
+
+def detail(request):
+    data = Order.objects.get(pk=request.GET.get('pk'))
+    return render(
+        request, 'admissions/application/detail.html', {'data':data,}
+    )
