@@ -13,6 +13,10 @@ urlpatterns = [
         name='admissions_application_success'
     ),
     url(
+        r'^detail/$',
+        views.detail, name='admissions_application_detail'
+    ),
+    url(
         r'^$',
         views.form, name='admissions_application_default'
     ),

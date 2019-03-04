@@ -29,7 +29,7 @@ class Application(ApplicationContact):
         blank=True, null=True
     )
     viewed = models.BooleanField(default=False)
-    # core
+    # contact information
     phone_secondary = models.CharField(
         verbose_name='Work phone',
         max_length=16,
@@ -38,6 +38,7 @@ class Application(ApplicationContact):
         verbose_name='Cell phone',
         max_length=16,
     )
+    # personal information
     birth_date = models.DateField(
         "Date of birth",
         help_text="Format: mm/dd/yyyy",
@@ -66,7 +67,24 @@ class Application(ApplicationContact):
     social_security_four = models.CharField(
         max_length=4, null=True, blank=True
     )
-    # third party data
+    program = models.CharField(
+        max_length=254, null=True, blank=True,
+        default='Degree Seeking Masters Degree'
+    )
+    entry_term = models.CharField(
+        default='RA', max_length=4,
+        blank=True, null=True
+    )
+    entry_month = models.CharField(
+        max_length=4,
+        blank=True, null=True
+    )
+    entry_year = models.CharField(max_length=4)
+    fellowships = models.CharField(
+        "Do you intend to apply for fellowships and/or assistantships?",
+        max_length=4, choices=BINARY_CHOICES
+    )
+    # employment information
     employer = models.CharField(
         max_length=128, null=True, blank=True
     )
@@ -89,23 +107,7 @@ class Application(ApplicationContact):
         help_text="PDF format",
         max_length=768, null=True, blank=True
     )
-    program = models.CharField(
-        max_length=254, null=True, blank=True,
-        default='Degree Seeking Masters Degree'
-    )
-    entry_term = models.CharField(
-        default='RA', max_length=4,
-        blank=True, null=True
-    )
-    entry_month = models.CharField(
-        max_length=4,
-        blank=True, null=True
-    )
-    entry_year = models.CharField(max_length=4)
-    fellowships = models.CharField(
-        "Do you intend to apply for fellowships and/or assistantships?",
-        max_length=4, choices=BINARY_CHOICES
-    )
+    # educational information
     gmat = models.CharField(
         max_length=4, choices=BINARY_CHOICES
     )
@@ -150,15 +152,22 @@ class Application(ApplicationContact):
     def get_slug(self):
         return 'files/admissions/application/'
 
+    def get_race(self):
+        race = ""
+        for r in self.race.all():
+            race += "{}, ".format(r)
+        return race[:-1]
+
 
 class School(models.Model):
     """
     generic institutions of education
     """
-    application = models.ForeignKey(Application)
+    application = models.ForeignKey(
+        Application, related_name='schools'
+    )
     name = models.CharField(
-        max_length=255, blank=True, null=True,
-        default=''
+        max_length=255, blank=True, null=True
     )
     state = models.CharField(
         "State/Provence",
@@ -198,7 +207,9 @@ class Contact(GenericContact):
     """
     generic contact for things like recommendations
     """
-    application = models.ForeignKey(Application)
+    application = models.ForeignKey(
+        Application, related_name='contacts'
+    )
 
     class Meta:
         db_table = 'djtinue_admissions_contact'

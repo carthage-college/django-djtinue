@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 
-from djtinue.admissions.application import _insert
+from djtinue.admissions.application.models import Application
 from djtinue.admissions.application.forms import (
     ApplicationForm, ContactForm, EducationForm, OrderForm
 )
@@ -152,13 +152,12 @@ def form(request, slug=None):
                 order.save()
                 app.order.add(order)
                 # used for email rendering
-                #order.reg = app
-                #order.contact = app
+                order.app = app
 
                 sent = send_mail(
                     request, TO_LIST,
                     "[Continuing Studies] Addmisions Application", app.email,
-                    email_template, order, BCC
+                    email_template, app, BCC
                 )
 
                 order.send_mail = sent
@@ -218,7 +217,8 @@ def form(request, slug=None):
 
 
 def detail(request):
-    data = Order.objects.get(pk=request.GET.get('pk'))
+    data = Application.objects.get(pk=request.GET.get('pk'))
     return render(
-        request, 'admissions/application/detail.html', {'data':data,}
+        request, 'admissions/application/email.html',
+        {'data': {'app':data,},}
     )

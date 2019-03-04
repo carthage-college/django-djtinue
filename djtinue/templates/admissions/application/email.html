@@ -20,99 +20,150 @@ padding:5px 0;
 </head>
 <body>
 <h1>
-{% if slug == 'music'%}
+{% if data.app.slug == 'music'%}
 Master of Arts in Music
-{% else %}{% if slug == 'bdi'%}
+{% else %}{% if data.app.slug == 'bdi'%}
 Master (MSc) in Business Design &amp; Innovation Application
 {% else %} Admissions Application
 {% endif %}{% endif %}
 </h1>
 <p>
   <strong>
-    ${{data.total}} Payment type: {{data.contact.payment_type}}
+    Payment type: {{data.app.payment_method}}
   </strong>
-  {% if data.contact.payment_type == "Credit Card" %}[Transaction ID: {{data.order.transid}}]{% endif %}</p>
+</p>
 <h2>Contact Information</h2>
 <dl style="margin-bottom:50px;">
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">First name</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.first_name}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Second name</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.second_name|default:"&nbsp;"}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Last name</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.last_name}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Previous name</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.previous_name}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Email</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.email}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Address</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.address1}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Address2</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.address2|default:"&nbsp;"}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">City</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.city}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">State</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.state}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Zip</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.postal_code}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Phone</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.contact.phone}}</dd>
+    <dt {{dl_dt}}>
+      First name
+    </dt>
+    <dd {{dl_dd}}>
+      {{data.app.first_name}}
+    </dd>
+    <dt {{dl_dt}}>
+      Middle name
+    </dt>
+    <dd {{dl_dd}}>
+      {{data.app.second_name|default:"&nbsp;"}}
+    </dd>
+    <dt {{dl_dt}}>Last name</dt>
+    <dd {{dl_dd}}>{{data.app.last_name}}</dd>
+    <dt {{dl_dt}}>Previous last name</dt>
+    <dd {{dl_dd}}>{{data.app.previous_name|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Email</dt>
+    <dd {{dl_dd}}>{{data.app.email}}</dd>
+    <dt {{dl_dt}}>Address</dt>
+    <dd {{dl_dd}}>{{data.app.address1}}</dd>
+    <dt {{dl_dt}}>Address2</dt>
+    <dd {{dl_dd}}>{{data.app.address2|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>City</dt>
+    <dd {{dl_dd}}>{{data.app.city}}</dd>
+    <dt {{dl_dt}}>State</dt>
+    <dd {{dl_dd}}>{{data.app.state}}</dd>
+    <dt {{dl_dt}}>Zip</dt>
+    <dd {{dl_dd}}>{{data.app.postal_code}}</dd>
+    <dt {{dl_dt}}>Home Phone</dt>
+    <dd {{dl_dd}}>{{data.app.phone}}</dd>
+    <dt {{dl_dt}}>Work Phone</dt>
+    <dd {{dl_dd}}>{{data.app.phone_secondary}}</dd>
+    <dt {{dl_dt}}>Mobile Phone</dt>
+    <dd {{dl_dd}}>{{data.app.phone_tertiary}}</dd>
 </dl>
 <h2>Personal Information</h2>
 <dl style="margin-bottom:50px;">
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Social security</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.ss_num}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Date of birth</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.dob}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Birth city</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.cob}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Birth state</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.sob}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Birth country</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.pob}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Gender</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.gender}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Military Service?</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.personal.military}}</dd>
+    <dt {{dl_dt}}>Social security</dt>
+    <dd {{dl_dd}}>x{{data.app.social_security_four}}</dd>
+    <dt {{dl_dt}}>Date of birth</dt>
+    <dd {{dl_dd}}>{{data.app.birth_date|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Birth place</dt>
+    <dd {{dl_dd}}>{{data.app.birth_place|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Gender</dt>
+    <dd {{dl_dd}}>{{data.app.gender}}</dd>
+    <dt {{dl_dt}}>Hispanic or Latinx?</dt>
+    <dd {{dl_dd}}>{{data.app.latinx}}</dd>
+    <dt {{dl_dt}}>Race</dt>
+    <dd {{dl_dd}}>{{data.app.get_race}}</dd>
+    <dt {{dl_dt}}>Fellowships?</dt>
+    <dd {{dl_dd}}>{{data.app.fellowships|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>European Union</dt>
+    <dd {{dl_dd}}>{{data.app.gdpr}}</dd>
+    <dt {{dl_dt}}>Entry Term</dt>
+    <dd {{dl_dd}}>{{data.app.entry_term}}</dd>
+    <dt {{dl_dt}}>Entry Year</dt>
+    <dd {{dl_dd}}>{{data.app.entry_year}}</dd>
 </dl>
-<h2>Employment</h2>
+<h2>Employment Information</h2>
 <dl style="margin-bottom:50px;">
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Employer</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.employment.employer|default:"&nbsp;"}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Position</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.employment.position|default:"&nbsp;"}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Tuituion Reimbursement</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.employment.tuition_reimburse|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Employer</dt>
+    <dd {{dl_dd}}>{{data.app.employer|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Position</dt>
+    <dd {{dl_dd}}>{{data.app.position|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Tuituion Reimbursement</dt>
+    <dd {{dl_dd}}>{{data.app.tuition_reimbursement|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Military Service?</dt>
+    <dd {{dl_dd}}>{{data.app.military}}</dd>
+    <dt {{dl_dt}}>CV</dt>
+    <dd {{dl_dd}}>
+      {% if data.app.cv %}
+      <a href="https://{{server_url}}{{media_url}}{{data.app.cv}}">Download</a>
+      {% endif %}
+    </dd>
 </dl>
-<h2>Education</h2>
+<h2>Educational Background</h2>
 <dl style="margin-bottom:50px;">
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Educational goal</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.education.educationalgoalname}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Program</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.education.program}} week</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Session</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{% if data.education.session7 %}{{data.education.session7}}{% else %}{{data.education.session14}}{% endif %}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Intended major</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.education.intended_major|default:"&nbsp;"}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Intended minor</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.education.intended_minor|default:"&nbsp;"}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Intended certificiation</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{data.education.certificiation|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>GMAT?</dt>
+    <dd {{dl_dd}}>{{data.app.gmat}}</dd>
+    {% if data.app.gmat == 'Yes'%}
+    <dt {{dl_dt}}>GMAT date</dt>
+    <dd {{dl_dd}}>{{data.app.gmat_date}}</dd>
+    <dt {{dl_dt}}>GMAT score</dt>
+    <dd {{dl_dd}}>{{data.app.gmat_score}}</dd>
+    {% endif %}
+    <dt {{dl_dt}}>GRE?</dt>
+    <dd {{dl_dd}}>{{data.app.gre}}</dd>
+    {% if data.app.gre == 'Yes'%}
+    <dt {{dl_dt}}>GRE date</dt>
+    <dd {{dl_dd}}>{{data.app.gre_date}}</dd>
+    <dt {{dl_dt}}>GRE score</dt>
+    <dd {{dl_dd}}>{{data.app.gre_score}}</dd>
+    {% endif %}
 </dl>
+{% if data.app.personal_statement %}
+<h3>Personal Statement</h3>
+{{data.app.personal_statement|safe}}
+{% endif %}
+<h2>References</h2>
+{% for c in data.app.contacts.all %}
+<h3>Contact {{forloop.counter}}</h3>
+<dl style="margin-bottom:50px;">
+  <dt {{dl_dt}}>Name</dt>
+  <dd {{dl_dd}}>{{c.last_name}}, {{c.first_name}}</dd>
+  <dt {{dl_dt}}>Email</dt>
+  <dd {{dl_dd}}><a href="mailto:{{c.email}}">{{c.email}}</a></dd>
+</dl>
+{% endfor %}
 <h2>Schools Attended</h2>
-{% for s in data.schools %}
+{% for s in data.app.schools.all %}
+<h3>School {{forloop.counter}}</h3>
 <dl style="margin-bottom:50px;">
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Name & code</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{s.school_name}} [{{s.school_code}}]</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">City</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{s.school_city}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">State</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{s.school_state}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">From</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{s.from_month}}/{{s.from_year}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">To</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{s.to_month}}/{{s.to_year}}</dd>
-    <dt style="background:#5f9be3;color:#fff;float:left;font-weight:bold;margin-right:10px;padding:5px;width:200px;">Graduation Date</dt>
-    <dd style="margin:2px 0;padding:5px 0;">{{s.grad_month}}/{{s.grad_year}}</dd>
+    <dt {{dl_dt}}>Name</dt>
+    <dd {{dl_dd}}>{{s.name}}</dd>
+    <dt {{dl_dt}}>State/Provence</dt>
+    <dd {{dl_dd}}>{{s.state}}</dd>
+    <dt {{dl_dt}}>Degree</dt>
+    <dd {{dl_dd}}>{{s.degree}}</dd>
+    <dt {{dl_dt}}>Dates Attended</dt>
+    <dd {{dl_dd}}>{{s.attended}}</dd>
+    <dt {{dl_dt}}>Major/Minor</dt>
+    <dd {{dl_dd}}>{{s.majorminor}}</dd>
+    <dt {{dl_dt}}>GPA</dt>
+    <dd {{dl_dd}}>{{s.gpa}}</dd>
+    <dt {{dl_dt}}>Transcript</dt>
+    <dd {{dl_dd}}>
+      {% if s.transcript %}
+      <a href="https://{{server_url}}{{media_url}}{{s.transcript}}">Download</a>
+      {% endif %}
+    </dd>
 </dl>
 {% endfor %}
 </body>
