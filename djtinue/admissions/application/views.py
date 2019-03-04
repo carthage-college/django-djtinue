@@ -26,7 +26,7 @@ def form(request, slug=None):
     if settings.DEBUG:
         TO_LIST = [settings.SERVER_MAIL,]
     else:
-        TO_LIST = [settings.SERVER_MAIL,]
+        TO_LIST = settings.ADMISSIONS_EMAIL_LIST
     BCC = settings.MANAGERS
 
     # templates for email and success page
