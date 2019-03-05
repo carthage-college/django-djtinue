@@ -122,7 +122,7 @@ def form(request, slug=None):
                     order.cc_4_digits = form_proc.card[-4:]
                     order.save()
                     app.order.add(order)
-                    order.contact = app
+                    order.app = app
                     sent = send_mail(
                         request, TO_LIST,
                         "[Continuing Studies] Addmisions Application", app.email,
