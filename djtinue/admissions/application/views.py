@@ -26,7 +26,12 @@ def form(request, slug=None):
     if settings.DEBUG:
         TO_LIST = [settings.SERVER_MAIL,]
     else:
-        TO_LIST = settings.ADMISSIONS_EMAIL_LIST
+        TO_LIST = settings.ADMISSIONS_EMAILS['default']
+        # this will throw an error if someone uses a slug that does
+        # not exist, which is fine for now
+        if slug:
+            TO_LIST = settings.ADMISSIONS_EMAILS[slug]
+
     BCC = settings.MANAGERS
 
     # templates for email and success page
