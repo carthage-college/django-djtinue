@@ -11,12 +11,12 @@ from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
 import pytz
 
-TIME_OF_DAY =  [
+TIME_OF_DAY = (
     ('Morning', 'Morning'),
     ('Afternoon', 'Afternoon'),
     ('Evening', 'Evening'),
-]
-HEAR_ABOUT =  [
+)
+HEAR_ABOUT = (
     ('Education/Career Fair', 'Education/Career Fair'),
     ('Radio', 'Radio'),
     ('Newspaper', 'Newspaper'),
@@ -32,22 +32,12 @@ HEAR_ABOUT =  [
     ('I am a Carthage Graduate', 'I am a Carthage Graduate'),
     ('Carthage Website', 'Carthage Website'),
     ('Other', 'Other'),
-]
-ACADEMIC_PROGRAMS =  [
-    ('Part-Time Semester', 'Part-Time Semester'),
-    ('7-Week Adult Undergraduate', '7-Week Adult Undergraduate'),
-    (
-        'Master of Science in Business, Design and Innovation',
-        'Master of Science in Business, Design and Innovation'
-    ),
-    ('Master of Education', 'Master of Education'),
-    (
-        'Accelerated Certification for Teachers',
-        'Accelerated Certification for Teachers'
-    ),
-    ('Paralegal Program', 'Paralegal Program'),
-    ('Enrichment', 'Enrichment'),
-]
+)
+ACADEMIC_PROGRAMS =  (
+    ("Undergraduate/Bachelor's Degree", "Undergraduate/Bachelor's Degree"),
+    ("Graduate/Master's Degree", "Graduate/Master's Degree"),
+    ('Teacher Certification', 'Teacher Certification'),
+)
 
 # dictionary name corresponds to URL slug
 STYPES = {
@@ -58,6 +48,7 @@ STYPES = {
     "paralegal":971,
     "business-design-innnovation":1081
 }
+
 
 class InfoRequestForm(forms.Form):
     first_name = forms.CharField()
@@ -71,22 +62,23 @@ class InfoRequestForm(forms.Form):
         widget=forms.Select(choices=STATE_CHOICES)
     )
     postal_code = USZipCodeField(required=False,label="Zip Code")
-    time_of_day = forms.TypedChoiceField(
+    time_of_day = forms.MultipleChoiceField(
         label="When would you like to be contacted?",
-        choices=TIME_OF_DAY, widget=forms.RadioSelect()
+        choices=TIME_OF_DAY, widget=forms.CheckboxSelectMultiple()
+    )
+    areas_study = forms.CharField(
+        label="Intended Areas of Major/Study",
+        widget=forms.Textarea
     )
     academic_programs = forms.MultipleChoiceField(
         choices=ACADEMIC_PROGRAMS,
         widget=forms.CheckboxSelectMultiple()
     )
-    hear_about = forms.TypedChoiceField(
+    hear_about = forms.CharField(
         label="How did you hear about us?",
-        choices=HEAR_ABOUT, widget=forms.RadioSelect()
+        widget=forms.Textarea
     )
-    hear_other = forms.CharField(
-        label="If other, please specify",
-        required=False, widget=forms.Textarea
-    )
+
 
 class InfoSessionForm(forms.Form):
     event = forms.ChoiceField(choices=())
@@ -125,7 +117,7 @@ class InfoSessionForm(forms.Form):
                 date_dt
         """.format(STYPES['information-session'], STYPES[session_type])
         cursor.execute(sql)
-        # Wed. May 07, 2014 at 06pm (Master of Education & ACT Info Session)
+        # Wed. May 01, 2020 at 06pm (Master of Education & ACT Info Session)
         choices = [('','---choose a date---')]
         for event in cursor.fetchall():
             lc = localtime(pytz.utc.localize(event[2]))
