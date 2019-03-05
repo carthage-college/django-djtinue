@@ -12,7 +12,7 @@ from djtinue.admissions.models import LivewhaleEvents as Event
 from djtools.utils.mail import send_mail
 
 BCC = settings.MANAGERS
-TO = [settings.SERVER_MAIL]
+TO = [settings.SERVER_MAIL,]
 
 
 def info_request(request):

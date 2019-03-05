@@ -1,7 +1,7 @@
 Thank you for your interest in the following programs:
 
 {% for program in data.academic_programs %}
-{{program}}{% endfor %}
+{{program|safe}}{% endfor %}
 
 The Admissions Director will be in touch with you shortly
 to answer any questions you might have.
@@ -15,20 +15,18 @@ ZIP Code:....................{{data.postal_code}}
 Phone:.......................{{data.phone}}
 Email:.......................<{{data.email}}>
 
+Intended Areas of Major/Study:
+
+{{data.areas_study}}
 
 Best time to contact:
 
-{{data.time_of_day}}
+{% for t in data.time_of_day %}{{t|safe}} {% endfor %}
 
 How did you hear about the program?
 
 {{data.hear_about}}
-{% if data.hear_other %}
-If other, please specify:
-
-{{data.hear_other}}
-{% endif %}
 
 CSV:
 
-{{data.first_name}}	{{data.last_name}}	{{data.address}}	{{data.city}}	{{data.state}}	{{data.postal_code}}	{{data.phone}}	{{data.email}}	{% for program in data.academic_programs %}{{program}} {% endfor %}	{{data.time_of_day}}	{{data.hear_about}}	{{data.hear_other}}
+{{data.first_name}}	{{data.last_name}}	{{data.address}}	{{data.city}}	{{data.state}}	{{data.postal_code}}	{{data.phone}}	{{data.email}}	{% for program in data.academic_programs %}{{program|safe}} {% endfor %}	{% for t in data.time_of_day %}{{t|safe}} {% endfor %}	{{data.hear_about}}
