@@ -8,10 +8,6 @@ from djforms.processors.models import Order
 from djforms.core.models import GenericChoice, GenericContact
 from djforms.processors.forms import OrderForm
 
-CHOICES = (
-    ('',""),
-)
-
 RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
 
 year = TODAY.year

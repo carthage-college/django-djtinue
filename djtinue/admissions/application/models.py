@@ -109,7 +109,8 @@ class Application(ApplicationContact):
     )
     # educational information
     gmat = models.CharField(
-        max_length=4, choices=BINARY_CHOICES
+        max_length=4, choices=BINARY_CHOICES,
+        blank=True, null=True
     )
     gmat_date = models.DateField(
         blank=True, null=True
@@ -118,7 +119,8 @@ class Application(ApplicationContact):
         max_length=10, blank=True, null=True
     )
     gre = models.CharField(
-        max_length=4, choices=BINARY_CHOICES
+        max_length=4, choices=BINARY_CHOICES,
+        blank=True, null=True
     )
     gre_date = models.DateField(
         blank=True, null=True

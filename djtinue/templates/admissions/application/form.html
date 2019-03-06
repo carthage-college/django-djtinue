@@ -366,6 +366,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </div>
         </div>
       </div>
+      {% block gmat %}
       <div class="large-6 medium-12 small-12 clear cf">
         <ol>
         {% with form_app.gmat as field %}
@@ -390,6 +391,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         </ol>
       </div>
+      {% endblock gmat %}
+      {% block gre %}
       <div class="column2 large-6 medium-12 small-12">
         <ol>
         {% with form_app.gre as field %}
@@ -414,6 +417,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         </ol>
       </div>
+      {% endblock gre %}
       <div class="large-12 medium-12 small-12">
         <ol>
         <li>
@@ -436,6 +440,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </ol>
         </div>
       </div>
+      {% block personal_statement %}
       <div class="large-12 medium-12 small-12">
         <ol>
         <li>
@@ -446,6 +451,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </li>
         </ol>
       </div>
+      {% endblock personal_statement %}
     </fieldset>
     <fieldset class="blockLabels">
       <legend>Payment Information</legend>
