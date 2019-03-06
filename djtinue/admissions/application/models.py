@@ -202,7 +202,7 @@ class School(models.Model):
         return 'files/admissions/school/'
 
     def __unicode__(self):
-        return self.name
+        return u'{}'.format(self.name)
 
 
 class Contact(GenericContact):

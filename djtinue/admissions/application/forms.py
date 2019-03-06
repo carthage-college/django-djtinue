@@ -100,14 +100,6 @@ class ApplicationForm(forms.ModelForm):
             Iceland, Liechtenstein, Norway, or Switzerland?
         """, choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
-    gmat = forms.TypedChoiceField(
-        label="Have you ever taken the GMAT?",
-        choices=BINARY_CHOICES, widget=forms.RadioSelect()
-    )
-    gre = forms.TypedChoiceField(
-        label="Have you ever taken the GRE?",
-        choices=BINARY_CHOICES, widget=forms.RadioSelect()
-    )
     payment_method = forms.TypedChoiceField(
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),
     )

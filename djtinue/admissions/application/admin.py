@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 from djtinue.admissions.application.models import Application, Contact, School
 from djtinue.admissions.application.forms import RACES
@@ -8,7 +9,7 @@ from djtinue.admissions.application.forms import RACES
 
 class SchoolInline(admin.StackedInline):
     model = School
-    can_delete = False
+    can_delete = True
     max_num = 5
     fields = (
         'state','degree','attended','majorminor','gpa','transcript'
@@ -75,7 +76,7 @@ class ApplicationForm(forms.ModelForm):
 class ApplicationAdmin(admin.ModelAdmin):
     form =  ApplicationForm
     list_display = (
-        'last_name', 'first_name', 'email','created_at','viewed'
+        'last_name_print', 'first_name', 'email','created_at','viewed'
     )
     search_fields = ('last_name', 'email','social_security_number')
     ordering = ['-created_at','last_name']
@@ -93,4 +94,14 @@ class ApplicationAdmin(admin.ModelAdmin):
             )
         }
 
+    def last_name_print(self, obj):
+        return u'<a href="{}" target="_blank">{}</a>'.format(
+            reverse('admissions_application_detail', args=(obj.id,)),
+            obj.last_name
+        )
+    last_name_print.allow_tags = True
+    last_name_print.short_description = "Last Name (print)"
+
 admin.site.register(Application, ApplicationAdmin)
+admin.site.register(Contact)
+admin.site.register(School)

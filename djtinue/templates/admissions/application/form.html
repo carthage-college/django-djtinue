@@ -117,6 +117,9 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       There were errors with the data submitted, see below.
     </p>
     {% endif %}
+    {{form_proc.errors}}
+    {{form_app.errors}}
+    {{form_ord.errors}}
     <fieldset class="blockLabels">
       <legend>Contact Information</legend>
       <div class="large-6 medium-12 small-12 clear cf">

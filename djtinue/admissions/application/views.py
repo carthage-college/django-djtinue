@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.utils.dates import MONTHS
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 
 from djtinue.admissions.application.models import Application
@@ -13,6 +13,7 @@ from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
+from djzbar.decorators.auth import portal_auth_required
 
 import os
 
@@ -77,7 +78,7 @@ def form(request, slug=None):
             initial={'total':35, 'avs':False,'auth':'sale'}
         )
         form_proc = TrustCommerceForm(
-            request.POST, label_suffix='', use_required_attribute=REQ
+            request.POST, label_suffix='', use_required_attribute=False
         )
         if form_app.is_valid() and form_ct1.is_valid() and form_ct2.is_valid()\
           and form_ord.is_valid():
@@ -116,7 +117,7 @@ def form(request, slug=None):
             if app.payment_method == 'Credit Card':
 
                 form_proc = TrustCommerceForm(
-                    order, app, request.POST, use_required_attribute=REQ
+                    order, app, request.POST, use_required_attribute=False
                 )
 
                 if form_proc.is_valid():
@@ -162,7 +163,7 @@ def form(request, slug=None):
                 sent = send_mail(
                     request, TO_LIST,
                     "[Continuing Studies] Addmisions Application", app.email,
-                    email_template, app, BCC
+                    email_template, order, BCC
                 )
 
                 order.send_mail = sent
@@ -173,11 +174,11 @@ def form(request, slug=None):
         else:
             if request.POST.get('payment_method') == 'Credit Card':
                 form_proc = TrustCommerceForm(
-                    None, request.POST, use_required_attribute=REQ
+                    None, request.POST, use_required_attribute=False
                 )
                 form_proc.is_valid()
             else:
-                form_proc = TrustCommerceForm(use_required_attribute=REQ)
+                form_proc = TrustCommerceForm(use_required_attribute=False)
     else:
         form_app = ApplicationForm(
             label_suffix='', use_required_attribute=REQ
@@ -208,7 +209,7 @@ def form(request, slug=None):
             initial={'total':35, 'avs':False,'auth':'sale'}
         )
         form_proc = TrustCommerceForm(
-            label_suffix='', use_required_attribute=REQ
+            label_suffix='', use_required_attribute=False
         )
 
     extra_context = {
@@ -221,8 +222,13 @@ def form(request, slug=None):
     return render(request, form_template, extra_context)
 
 
-def detail(request):
-    data = Application.objects.get(pk=request.GET.get('pk'))
+@portal_auth_required(
+    group=settings.CONTINUING_STUDIES_GROUP,
+    session_var='DJTINUE_AUTH',
+    redirect_url=reverse_lazy('access_denied')
+)
+def detail(request, aid):
+    data = get_object_or_404(Application, pk=aid)
     return render(
         request, 'admissions/application/email.html',
         {'data': {'app':data,},}

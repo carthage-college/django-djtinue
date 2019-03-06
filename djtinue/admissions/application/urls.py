@@ -6,6 +6,10 @@ from djtinue.admissions.application import views
 
 urlpatterns = [
     url(
+        r'^$',
+        views.form, name='admissions_application_default'
+    ),
+    url(
         r'^success/$',
         TemplateView.as_view(
             template_name='admissions/application/done.html'
@@ -13,12 +17,8 @@ urlpatterns = [
         name='admissions_application_success'
     ),
     url(
-        r'^detail/$',
+        r'^(?P<aid>\d+)/detail/$',
         views.detail, name='admissions_application_detail'
-    ),
-    url(
-        r'^$',
-        views.form, name='admissions_application_default'
     ),
     url(
         r'^(?P<slug>[a-zA-Z0-9_-]+)/$',
