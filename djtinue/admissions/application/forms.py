@@ -42,7 +42,7 @@ class ApplicationForm(forms.ModelForm):
         max_length=128, required=True
     )
     state = forms.CharField(
-        label="State/Provence",
+        label="State/Province",
         max_length=128, required=True
     )
     postal_code = forms.CharField(
@@ -67,12 +67,14 @@ class ApplicationForm(forms.ModelForm):
     )
     latinx = forms.TypedChoiceField(
         label="Are you Hispanic or Latino?",
-        choices=BINARY_CHOICES, widget=forms.RadioSelect()
+        choices=BINARY_CHOICES, widget=forms.RadioSelect(),
+        required=False
     )
     race = forms.ModelMultipleChoiceField(
         queryset = RACES,
         help_text = 'Check all that apply',
-        widget = forms.CheckboxSelectMultiple()
+        widget = forms.CheckboxSelectMultiple(),
+        required=False
     )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES,
@@ -160,7 +162,7 @@ class EducationRequiredForm(forms.ModelForm):
         required=True, max_length=255
     )
     state = forms.CharField(
-        label="State/Provence", required=True, max_length=50
+        label="State/Province", required=True, max_length=50
     )
     degree = forms.CharField(
         label="Diploma/Degree", required=True, max_length=255

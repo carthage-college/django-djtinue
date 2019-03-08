@@ -56,12 +56,14 @@ class Application(ApplicationContact):
     )
     latinx = models.CharField(
         "Are you Hispanic or Latinx",
-        max_length=4, choices=BINARY_CHOICES
+        max_length=4, choices=BINARY_CHOICES,
+        blank=True, null=True
     )
     race = models.ManyToManyField(
         GenericChoice,
         #related_name="application_race",
-        help_text = 'Check all that apply'
+        help_text = 'Check all that apply',
+        blank=True, null=True
     )
     social_security_number = EncryptedCharField(
         max_length=254, null=True, blank=True
