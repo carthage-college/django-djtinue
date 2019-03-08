@@ -50,7 +50,7 @@ class ApplicationForm(forms.ModelForm):
         max_length=10, required=True
     )
     phone = forms.CharField(
-        label="Main phone",
+        label="Primary phone",
         max_length=16, required=True
     )
     phone_secondary = forms.CharField(

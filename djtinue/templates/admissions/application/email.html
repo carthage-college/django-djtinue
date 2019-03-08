@@ -65,9 +65,9 @@ Master (MSc) in Business Design &amp; Innovation Application
     <dt {{dl_dt}}>Home Phone</dt>
     <dd {{dl_dd}}>{{data.app.phone}}</dd>
     <dt {{dl_dt}}>Work Phone</dt>
-    <dd {{dl_dd}}>{{data.app.phone_secondary}}</dd>
+    <dd {{dl_dd}}>{{data.app.phone_secondary|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Mobile Phone</dt>
-    <dd {{dl_dd}}>{{data.app.phone_tertiary}}</dd>
+    <dd {{dl_dd}}>{{data.app.phone_tertiary|default:"&nbsp;"}}</dd>
 </dl>
 <h2>Personal Information</h2>
 <dl style="margin-bottom:50px;">
@@ -109,25 +109,6 @@ Master (MSc) in Business Design &amp; Innovation Application
       {% endif %}
     </dd>
 </dl>
-<h2>Educational Background</h2>
-<dl style="margin-bottom:50px;">
-    <dt {{dl_dt}}>GMAT?</dt>
-    <dd {{dl_dd}}>{{data.app.gmat}}</dd>
-    {% if data.app.gmat == 'Yes'%}
-    <dt {{dl_dt}}>GMAT date</dt>
-    <dd {{dl_dd}}>{{data.app.gmat_date}}</dd>
-    <dt {{dl_dt}}>GMAT score</dt>
-    <dd {{dl_dd}}>{{data.app.gmat_score}}</dd>
-    {% endif %}
-    <dt {{dl_dt}}>GRE?</dt>
-    <dd {{dl_dd}}>{{data.app.gre}}</dd>
-    {% if data.app.gre == 'Yes'%}
-    <dt {{dl_dt}}>GRE date</dt>
-    <dd {{dl_dd}}>{{data.app.gre_date}}</dd>
-    <dt {{dl_dt}}>GRE score</dt>
-    <dd {{dl_dd}}>{{data.app.gre_score}}</dd>
-    {% endif %}
-</dl>
 {% if data.app.personal_statement %}
 <h3>Personal Statement</h3>
 {{data.app.personal_statement|safe}}
@@ -158,12 +139,6 @@ Master (MSc) in Business Design &amp; Innovation Application
     <dd {{dl_dd}}>{{s.majorminor}}</dd>
     <dt {{dl_dt}}>GPA</dt>
     <dd {{dl_dd}}>{{s.gpa}}</dd>
-    <dt {{dl_dt}}>Transcript</dt>
-    <dd {{dl_dd}}>
-      {% if s.transcript %}
-      <a href="https://{{server_url}}{{media_url}}{{s.transcript}}">Download</a>
-      {% endif %}
-    </dd>
 </dl>
 {% endfor %}
 </body>
