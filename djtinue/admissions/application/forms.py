@@ -50,20 +50,20 @@ class ApplicationForm(forms.ModelForm):
         max_length=10, required=True
     )
     phone = forms.CharField(
-        label="Home phone",
+        label="Main phone",
         max_length=16, required=True
     )
     phone_secondary = forms.CharField(
-        label="Work phone",
-        max_length=16, required=True
+        label="Phone 2",
+        max_length=16, required=False
     )
     phone_tertiary = forms.CharField(
-        label="Cell phone",
-        max_length=16, required=True
+        label="Phone 3",
+        max_length=16, required=False
     )
     social_security_number = forms.CharField(
         label="Social Security or National Identity number",
-        max_length=16, required=True
+        max_length=16, required=False
     )
     latinx = forms.TypedChoiceField(
         label="Are you Hispanic or Latino?",
@@ -148,7 +148,36 @@ class EducationForm(forms.ModelForm):
 
     class Meta:
         model = School
-        exclude = ('application',)
+        exclude = ('application','transcript')
+
+
+class EducationRequiredForm(forms.ModelForm):
+    """
+    Continuing Studies admissions application education form
+    """
+
+    name = forms.CharField(
+        required=True, max_length=255
+    )
+    state = forms.CharField(
+        label="State/Provence", required=True, max_length=50
+    )
+    degree = forms.CharField(
+        label="Diploma/Degree", required=True, max_length=255
+    )
+    attended = forms.CharField(
+        label="Dates Attended", required=True, max_length=255
+    )
+    majorminor = forms.CharField(
+        label="Major(s)/Minor(s)", required=True, max_length=255
+    )
+    gpa = forms.DecimalField(
+        label="GPA", required=True, max_digits=4, decimal_places=2
+    )
+
+    class Meta:
+        model = School
+        exclude = ('application','transcript')
 
 
 class OrderForm(OrderForm):

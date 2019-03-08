@@ -31,12 +31,14 @@ class Application(ApplicationContact):
     viewed = models.BooleanField(default=False)
     # contact information
     phone_secondary = models.CharField(
-        verbose_name='Work phone',
+        verbose_name='Phone 2',
         max_length=16,
+        null=True, blank=True
     )
     phone_tertiary = models.CharField(
-        verbose_name='Cell phone',
+        verbose_name='Phone 3',
         max_length=16,
+        null=True, blank=True
     )
     # personal information
     birth_date = models.DateField(

@@ -20,49 +20,6 @@ $(function() {
     }
     $('#gdpr').toggle($showOrHide);
   });
-  // toggle college id field
-  $('input[name="attended_before"]').bind('change',function(){
-    var $showOrHide = false;
-    var $attended = $(this).val();
-    if ( $attended == "Yes" ) {
-      $showOrHide = true;
-      if ($discount == "No" || $discount == "None") {
-        update_total(-10);
-        $discount = "Yes";
-      }
-    }else{
-      if ($discount == "Yes") {
-        update_total(10);
-        $discount = "No";
-      }
-    }
-    $('#collegeid').toggle($showOrHide);
-  });
-  $(".checkbox-toggle").change(function() {
-    var $cid = $(this).attr('id');
-    var $cred = $(this).attr('data-credit');
-    var $prefix = $cid.slice(0, -2);
-    var $suffix = $cid.substring($cid.length - 1);
-    if($(this).is(":checked")) {
-      if ( $suffix == 2 ) {
-        $opposite = $prefix + "01";
-        if($("#" + $opposite).is(":checked")) {
-          $("#" + $opposite).attr("checked",false);
-          update_total(-50 * $cred);
-        }
-        update_total(100 * $cred);
-      }else{
-        $opposite = $prefix + "02";
-        if($("#" + $opposite).is(":checked")) {
-          $("#" + $prefix + "02").attr("checked",false);
-          update_total(-100 * $cred);
-        }
-        update_total(50 * $cred);
-      }
-    }else{
-      update_total($suffix * -50 * $cred);
-    }
-  });
 });
 </script>
 {% endblock %}
@@ -294,12 +251,12 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </li>
         </ol>
         <div class="school cf clear">
-          <h3 class="ordinal">First School</h3>
+          <h3 class="ordinal">Previous School</h3>
           <div class="large-6 medium-12 small-12 clear cf">
           <ol>
             {% for field in form_ed1.visible_fields %}
               {% include "form_field.inc.html" %}
-              {% if field.name == "attended" %}
+              {% if field.name == "degree" %}
                 </ol></div>
                 <div class="column2 large-6 medium-12 small-12">
                 <ol>
@@ -314,7 +271,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           <ol>
             {% for field in form_ed2.visible_fields %}
               {% include "form_field.inc.html" %}
-              {% if field.name == "attended" %}
+              {% if field.name == "degree" %}
                 </ol></div>
                 <div class="column2 large-6 medium-12 small-12">
                 <ol>
@@ -329,7 +286,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           <ol>
             {% for field in form_ed3.visible_fields %}
               {% include "form_field.inc.html" %}
-              {% if field.name == "attended" %}
+              {% if field.name == "degree" %}
                 </ol></div>
                 <div class="column2 large-6 medium-12 small-12">
                 <ol>
@@ -344,7 +301,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           <ol>
             {% for field in form_ed4.visible_fields %}
               {% include "form_field.inc.html" %}
-              {% if field.name == "attended" %}
+              {% if field.name == "degree" %}
                 </ol></div>
                 <div class="column2 large-6 medium-12 small-12">
                 <ol>
@@ -359,7 +316,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           <ol>
             {% for field in form_ed5.visible_fields %}
               {% include "form_field.inc.html" %}
-              {% if field.name == "attended" %}
+              {% if field.name == "degree" %}
                 </ol></div>
                 <div class="column2 large-6 medium-12 small-12">
                 <ol>
@@ -468,9 +425,17 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </div>
         <div class="column2 large-6 medium-12 small-12">
           <ol>
-          {% with form_ord.total as field %}
-          {% include "form_field.inc.html" %}
-          {% endwith %}
+                <li class="ctrlHolder">
+                    <h3>
+                        <label for="id_or-total">Application Fee</label>
+                    </h3>
+                    <div class="required">
+                        <span class="cost">$</span>
+                        <input type="text" name="total" id="id_total"
+                        class="required" readonly="readonly"
+                        value="35">
+                    </div>
+                </li>
           </ol>
         </div>
       </div>

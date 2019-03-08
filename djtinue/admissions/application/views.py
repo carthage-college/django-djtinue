@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, Http404
 
 from djtinue.admissions.application.models import Application
 from djtinue.admissions.application.forms import (
-    ApplicationForm, ContactForm, EducationForm, OrderForm
+    ApplicationForm, ContactForm, EducationForm, EducationRequiredForm, OrderForm
 )
 from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
@@ -33,6 +33,7 @@ def form(request, slug=None):
         if slug:
             TO_LIST = settings.ADMISSIONS_EMAILS[slug]
 
+    SUBJECT = "Application for Carthage M.M. in Music Theatre Vocal Pedagogy"
     BCC = settings.MANAGERS
 
     # templates for email and success page
@@ -53,24 +54,24 @@ def form(request, slug=None):
         form_ct2 = ContactForm(
             request.POST, prefix='ct2',  label_suffix='', use_required_attribute=REQ
         )
-        form_ed1 = EducationForm(
-            request.POST, request.FILES, prefix='ed1', label_suffix='',
+        form_ed1 = EducationRequiredForm(
+            request.POST,  prefix='ed1', label_suffix='',
             use_required_attribute=REQ
         )
         form_ed2 = EducationForm(
-            request.POST, request.FILES, prefix='ed2', label_suffix='',
+            request.POST, prefix='ed2', label_suffix='',
             use_required_attribute=REQ
         )
         form_ed3 = EducationForm(
-            request.POST, request.FILES, prefix='ed3', label_suffix='',
+            request.POST, prefix='ed3', label_suffix='',
             use_required_attribute=REQ
         )
         form_ed4 = EducationForm(
-            request.POST, request.FILES, prefix='ed4', label_suffix='',
+            request.POST, prefix='ed4', label_suffix='',
             use_required_attribute=REQ
         )
         form_ed5 = EducationForm(
-            request.POST, request.FILES, prefix='ed5', label_suffix='',
+            request.POST, prefix='ed5', label_suffix='',
             use_required_attribute=REQ
         )
         form_ord = OrderForm(
@@ -81,7 +82,7 @@ def form(request, slug=None):
             request.POST, label_suffix='', use_required_attribute=False
         )
         if form_app.is_valid() and form_ct1.is_valid() and form_ct2.is_valid()\
-          and form_ord.is_valid():
+          and form_ed1.is_valid() and form_ord.is_valid():
 
             app = form_app.save()
             app.slug = slug
@@ -130,9 +131,8 @@ def form(request, slug=None):
                     app.order.add(order)
                     order.app = app
                     sent = send_mail(
-                        request, TO_LIST,
-                        "[Continuing Studies] Addmisions Application", app.email,
-                        email_template, order, BCC
+                        request, TO_LIST, SUBJECT, app.email, email_template,
+                        order, BCC
                     )
                     order.send_mail = sent
                     order.save()
@@ -161,9 +161,8 @@ def form(request, slug=None):
                 order.app = app
 
                 sent = send_mail(
-                    request, TO_LIST,
-                    "[Continuing Studies] Addmisions Application", app.email,
-                    email_template, order, BCC
+                    request, TO_LIST, SUBJECT, app.email, email_template,
+                    order, BCC
                 )
 
                 order.send_mail = sent
@@ -189,7 +188,7 @@ def form(request, slug=None):
         form_ct2 = ContactForm(
            prefix='ct2',  label_suffix='', use_required_attribute=REQ
         )
-        form_ed1 = EducationForm(
+        form_ed1 = EducationRequiredForm(
             prefix='ed1', label_suffix='', use_required_attribute=REQ
         )
         form_ed2 = EducationForm(
