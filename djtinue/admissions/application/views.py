@@ -115,6 +115,7 @@ def form(request, slug=None):
             order = form_ord.save()
             order.total = 35.00
             order.operator = settings.TC_OPERATOR
+            subject = '{}: ({}, {})'.format(SUBJECT, app.last_name, app.first_name)
             if app.payment_method == 'Credit Card':
 
                 form_proc = TrustCommerceForm(
@@ -131,7 +132,7 @@ def form(request, slug=None):
                     app.order.add(order)
                     order.app = app
                     sent = send_mail(
-                        request, TO_LIST, SUBJECT, app.email, email_template,
+                        request, TO_LIST, subject, app.email, email_template,
                         order, BCC
                     )
                     order.send_mail = sent
@@ -161,7 +162,7 @@ def form(request, slug=None):
                 order.app = app
 
                 sent = send_mail(
-                    request, TO_LIST, SUBJECT, app.email, email_template,
+                    request, TO_LIST, subject, app.email, email_template,
                     order, BCC
                 )
 
