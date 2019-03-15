@@ -6,8 +6,9 @@ from django.utils.dateformat import DateFormat
 
 from djtinue.admissions.models import LivewhaleEvents
 from djtools.fields import STATE_CHOICES
+from djtools.fields.localflavor import USPhoneNumberField
 
-from localflavor.us.forms import USPhoneNumberField, USZipCodeField
+from localflavor.us.forms import USZipCodeField
 
 import pytz
 

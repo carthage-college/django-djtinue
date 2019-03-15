@@ -4,12 +4,12 @@ from django.utils.safestring import mark_safe
 from djtinue.enrichment.models import Registration
 
 from djtools.fields import BINARY_CHOICES
+from djtools.fields.localflavor import USPhoneNumberField
 from djforms.processors.models import Order
 from djforms.processors.forms import ContactForm, OrderForm
 from djforms.core.models import REQ, STATE_CHOICES
 
-from localflavor.us.forms import USPhoneNumberField, USZipCodeField
-from localflavor.us.forms import USSocialSecurityNumberField
+from localflavor.us.forms import USSocialSecurityNumberField, USZipCodeField
 
 
 class RegistrationForm(ContactForm):

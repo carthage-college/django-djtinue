@@ -15,11 +15,6 @@ class CourseAdmin(admin.ModelAdmin):
     )
     ordering = ['active','title','course_number']
 
-    class Media:
-        js = [
-            '/static/djtinue/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
-            '/static/djtinue/grappelli/tinymce_setup/tinymce_setup.js',
-        ]
 
 class OrderInline(admin.TabularInline):
     model = Registration.order.through

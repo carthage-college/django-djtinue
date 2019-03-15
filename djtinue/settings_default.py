@@ -58,7 +58,6 @@ from djzbar.settings import INFORMIX_EARL_TEST
 INFORMIX_EARL = INFORMIX_EARL_TEST
 
 INSTALLED_APPS = (
-    #'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,8 +79,6 @@ INSTALLED_APPS = (
     'userprofile',
 )
 AUTH_PROFILE_MODULE = 'core.UserProfile'
-#GRAPPELLI_ADMIN_TITLE="Continuing Studies Dashboard"
-#GRAPPELLI_INDEX_DASHBOARD = 'djtinue.enrichment.dashboard.AdminDashboard'
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
