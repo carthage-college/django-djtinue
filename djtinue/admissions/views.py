@@ -12,7 +12,6 @@ from djtinue.admissions.models import LivewhaleEvents as Event
 from djtools.utils.mail import send_mail
 
 BCC = settings.MANAGERS
-TO = [settings.SERVER_MAIL,]
 
 
 def info_request(request):
@@ -22,8 +21,7 @@ def info_request(request):
             cd = form.cleaned_data
             to = settings.INFORMATION_REQUEST_EMAIL_LIST
             if settings.DEBUG:
-                to = TO
-            to.append(cd['email'])
+                to = [settings.SERVER_MAIL,]
             subject = "OCS Information Request"
             send_mail(
                 request, to, subject, cd['email'],
@@ -64,7 +62,7 @@ def info_session(request, session_type):
             recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
             to = recipients[session_type]
             if settings.DEBUG:
-                to = TO
+                to = [settings.SERVER_MAIL,]
             subject = "OCS Information Session Request: "
             subject +="%s on %s" % (session_type, datetime)
             send_mail(
