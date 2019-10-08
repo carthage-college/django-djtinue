@@ -13,7 +13,6 @@ urlpatterns = [
     url(
         r'^admissions/', include('djtinue.admissions.urls')
     ),
-    #url(r'^bureau/', include('djtinue.bureau.urls')),
     url(
         r'^enrichment/', include('djtinue.enrichment.urls')
     ),

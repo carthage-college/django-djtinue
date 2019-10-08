@@ -53,9 +53,6 @@ DATABASES = {
         'PASSWORD': ''
     },
 }
-# informix connection string
-from djzbar.settings import INFORMIX_EARL_TEST
-INFORMIX_EARL = INFORMIX_EARL_TEST
 # sqlserver connection string
 MSSQL_EARL = ''
 

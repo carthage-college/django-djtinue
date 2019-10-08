@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils.dates import MONTHS
 from django.template import RequestContext
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 
@@ -13,7 +14,6 @@ from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
 from djforms.processors.forms import TrustCommerceForm
-from djzbar.decorators.auth import portal_auth_required
 
 import os
 
@@ -221,12 +221,7 @@ def form(request, slug=None):
 
     return render(request, form_template, extra_context)
 
-
-@portal_auth_required(
-    group=settings.CONTINUING_STUDIES_GROUP,
-    session_var='DJTINUE_AUTH',
-    redirect_url=reverse_lazy('access_denied')
-)
+@login_required
 def detail(request, aid):
     data = get_object_or_404(Application, pk=aid)
     return render(
