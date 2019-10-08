@@ -69,7 +69,6 @@ INSTALLED_APPS = (
     'djforms.core',
     'djforms.processors',
     'djtinue.admissions',
-    'djtinue.enrichment',
     'djtools',
     # third party projects
     'django_extensions',
@@ -146,7 +145,6 @@ CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {
     "paralegal":["",],
     "business-design-innnovation":["",]
 }
-CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL = ""
 CONTINUING_STUDIES_GROUP='Continuing Studies'
 INFORMATION_REQUEST_EMAIL_LIST = []
 ADMISSIONS_EMAILS = {
