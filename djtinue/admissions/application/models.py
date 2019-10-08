@@ -145,6 +145,17 @@ class Application(ApplicationContact):
     gdpr_cookies = models.BooleanField(default=False)
     gdpr_transfer = models.BooleanField(default=False)
     gdpr_collection = models.BooleanField(default=False)
+    # audition information
+    audition_date = models.ForeignKey(
+        GenericChoice,
+        verbose_name="Audition Date",
+        related_name="audition_date"
+    )
+    audition_time = models.ForeignKey(
+        GenericChoice,
+        verbose_name="Audition Time",
+        related_name="audition_time"
+    )
     # payment
     payment_method = models.CharField(
         choices=PAYMENT_CHOICES, max_length=24

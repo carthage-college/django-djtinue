@@ -9,6 +9,8 @@ from djforms.core.models import GenericChoice, GenericContact
 from djforms.processors.forms import OrderForm
 
 RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
+DATES = GenericChoice.objects.filter(tags__name='Audition Date').order_by('ranking')
+TIMES = GenericChoice.objects.filter(tags__name='Audition Time').order_by('ranking')
 
 year = TODAY.year
 if (TODAY.month > 9):
@@ -101,6 +103,14 @@ class ApplicationForm(forms.ModelForm):
         label="""Are you currently located in a European Union country,
             Iceland, Liechtenstein, Norway, or Switzerland?
         """, choices=BINARY_CHOICES, widget=forms.RadioSelect()
+    )
+    audition_date = forms.ModelChoiceField(
+        label="Please choose an audition date",
+        queryset=DATES
+    )
+    audition_time = forms.ModelChoiceField(
+        label="Please choose preferred audition time block",
+        queryset=TIMES, help_text="(times are not guaranteed)"
     )
     payment_method = forms.TypedChoiceField(
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),

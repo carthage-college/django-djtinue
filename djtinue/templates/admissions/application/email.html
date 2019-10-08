@@ -141,5 +141,14 @@ Master (MSc) in Business Design &amp; Innovation Application
     <dd {{dl_dd}}>{{s.gpa}}</dd>
 </dl>
 {% endfor %}
+{% if data.app.audition_date %}
+<h2>Audition Information</h2>
+<dl style="margin-bottom:50px;">
+  <dt {{dl_dt}}>Date</dt>
+  <dd {{dl_dd}}>{{data.app.audition_date}}</dd>
+  <dt {{dl_dt}}>Time</dt>
+  <dd {{dl_dd}}>{{data.app.audition_time}}</dd>
+</dl>
+{% endif %}
 </body>
 </html>

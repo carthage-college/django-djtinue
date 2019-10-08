@@ -1,4 +1,28 @@
 {% extends "admissions/application/form.html" %}
+{% load livewhale_api %}
 {% block gmat %}{% endblock %}
 {% block gre %}{% endblock %}
 {% block personal_statement %}{% endblock %}
+{% block audition %}
+<fieldset class="blockLabels">
+  <legend>Audition Information</legend>
+  <div class="large-12 medium-12 small-12">
+  <div class="large-6 medium-6 small-12">
+  <ol>
+    {% with form_app.audition_date as field %}
+    {% include "form_field.inc.html" %}
+    {% endwith %}
+  </ol>
+  </div>
+  <div class="large-6 medium-6 small-12">
+  <ol>
+    {% with form_app.audition_time as field %}
+    {% include "form_field.inc.html" %}
+    {% endwith %}
+  </ol>
+  </div>
+  {% get_lw_content as audition blurbs 2847 %}
+  {{audition.body}}
+  </div>
+</fieldset>
+{% endblock audition %}
