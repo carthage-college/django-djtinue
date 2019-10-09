@@ -110,7 +110,7 @@ class ApplicationForm(forms.ModelForm):
     )
     audition_time = forms.ModelChoiceField(
         label="Please choose preferred audition time block",
-        queryset=TIMES, help_text="(times are not guaranteed)"
+        queryset=TIMES
     )
     payment_method = forms.TypedChoiceField(
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),
