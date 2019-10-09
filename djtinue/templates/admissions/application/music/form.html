@@ -19,10 +19,17 @@
     {% with form_app.audition_time as field %}
     {% include "form_field.inc.html" %}
     {% endwith %}
+    <p class="help" style="margin-left:16px">(times are not guaranteed)</p>
   </ol>
   </div>
-  {% get_lw_content as audition blurbs 2847 %}
-  {{audition.body}}
+  <div class="large-10 medium-12 small-12">
+  <ol>
+    <li>
+    {% get_lw_content as audition blurbs 2847 %}
+    {{audition.body}}
+    </li>
+  </ol>
+  </div>
   </div>
 </fieldset>
 {% endblock audition %}
