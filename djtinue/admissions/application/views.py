@@ -17,9 +17,7 @@ from djforms.processors.forms import TrustCommerceForm
 
 import os
 
-REQ = True
-if settings.DEBUG:
-    REQ = False
+REQ = False
 
 
 def form(request, slug=None):
