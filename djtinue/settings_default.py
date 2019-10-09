@@ -186,10 +186,10 @@ TC_AVS = ""
 TC_AUTH_TYPE = ""
 TC_CYCLE = ""
 TC_OPERATOR = "DJTinueAdmissions"
-# recaptcha
-RECAPTCHA_PUBLIC_KEY = ''
-RECAPTCHA_PRIVATE_KEY = ''
-NOCAPTCHA = True
+# simple captcha
+CAPTCHA_BACKGROUND_COLOR='#ffffff'
+CAPTCHA_FOREGROUND_COLOR='#000000'
+CAPTCHA_NOISE_FUNCTIONS=('captcha.helpers.noise_null',)
 # logging
 LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")
 LOG_FILENAME = LOG_FILEPATH + "debug.log"
