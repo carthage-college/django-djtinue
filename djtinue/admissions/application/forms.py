@@ -9,6 +9,7 @@ from djforms.core.models import GenericChoice, GenericContact
 from djforms.processors.forms import OrderForm
 
 RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
+FELLOWSHIPS = GenericChoice.objects.filter(tags__name__in=['Fellowships']).order_by('ranking')
 DATES = GenericChoice.objects.filter(tags__name='Audition Date').order_by('ranking')
 TIMES = GenericChoice.objects.filter(tags__name='Audition Time').order_by('ranking')
 
@@ -95,9 +96,12 @@ class ApplicationForm(forms.ModelForm):
         label="When do you plan to start your studies?",
         choices=ENTRY_TERM_CHOICES, widget=forms.RadioSelect()
     )
-    fellowships = forms.TypedChoiceField(
+    fellowships = forms.ModelMultipleChoiceField(
         label="Do you intend to apply for fellowships and/or assistantships?",
-        choices=BINARY_CHOICES, widget=forms.RadioSelect()
+        queryset = FELLOWSHIPS,
+        help_text = 'Check all that apply',
+        widget = forms.CheckboxSelectMultiple(),
+        required=False
     )
     gdpr = forms.TypedChoiceField(
         label="""Are you currently located in a European Union country,

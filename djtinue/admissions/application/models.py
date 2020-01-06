@@ -60,9 +60,7 @@ class Application(ApplicationContact):
         blank=True, null=True
     )
     race = models.ManyToManyField(
-        GenericChoice,
-        #related_name="application_race",
-        help_text = 'Check all that apply',
+        GenericChoice, help_text = 'Check all that apply',
         blank=True, null=True
     )
     social_security_number = EncryptedCharField(
@@ -84,9 +82,10 @@ class Application(ApplicationContact):
         blank=True, null=True
     )
     entry_year = models.CharField(max_length=4)
-    fellowships = models.CharField(
-        "Do you intend to apply for fellowships and/or assistantships?",
-        max_length=4, choices=BINARY_CHOICES
+    fellowships = models.ManyToManyField(
+        GenericChoice, related_name="fellowship_programs", verbose_name = """
+            Do you intend to apply for fellowships and/or assistantships?
+        """, help_text = 'Check all that apply', blank=True, null=True
     )
     # employment information
     employer = models.CharField(
@@ -168,6 +167,12 @@ class Application(ApplicationContact):
 
     def get_slug(self):
         return 'files/admissions/application/'
+
+    def get_fellowships(self):
+        fellowships = ""
+        for f in self.fellowships.all():
+            fellowships += "{}, ".format(f)
+        return fellowships[:-1]
 
     def get_race(self):
         race = ""

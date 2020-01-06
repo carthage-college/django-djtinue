@@ -82,9 +82,9 @@ Master (MSc) in Business Design &amp; Innovation Application
     <dt {{dl_dt}}>Hispanic or Latinx?</dt>
     <dd {{dl_dd}}>{{data.app.latinx}}</dd>
     <dt {{dl_dt}}>Race</dt>
-    <dd {{dl_dd}}>{{data.app.get_race}}</dd>
+    <dd {{dl_dd}}>{{data.app.get_race|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Fellowships?</dt>
-    <dd {{dl_dd}}>{{data.app.fellowships|default:"&nbsp;"}}</dd>
+    <dd {{dl_dd}}>{{data.app.get_fellowships|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>European Union</dt>
     <dd {{dl_dd}}>{{data.app.gdpr}}</dd>
     <dt {{dl_dt}}>Entry Term</dt>
