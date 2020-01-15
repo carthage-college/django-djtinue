@@ -38,6 +38,7 @@ ACADEMIC_PROGRAMS =  (
     ("Undergraduate/Bachelor's Degree", "Undergraduate/Bachelor's Degree"),
     ("Graduate/Master's Degree", "Graduate/Master's Degree"),
     ('Teacher Certification', 'Teacher Certification'),
+    ('RN to BSN', 'RN to BSN'),
 )
 
 # dictionary name corresponds to URL slug
