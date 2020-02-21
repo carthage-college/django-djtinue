@@ -24,12 +24,18 @@ padding:5px 0;
 Master of Music (M.M.) in Music Theatre Vocal Pedagogy
 {% else %}{% if data.app.slug == 'bdi'%}
 Master (MSc) in Business Design &amp; Innovation Application
-{% else %} Admissions Application
-{% endif %}{% endif %}
+{% else %}{% if slug == 'bsn' %}
+RN to BSN
+{% else %}
+Admissions Application
+{% endif %}{% endif %}{% endif %}
 </h1>
 <p>
   <strong>
     Payment type: {{data.app.payment_method}}
+    {% if data.app.payment_method == 'Waiver Code' %}
+    [{{data.app.payment_waiver}}]
+    {% endif %}
   </strong>
 </p>
 <h2>Contact Information</h2>
@@ -128,17 +134,24 @@ Master (MSc) in Business Design &amp; Innovation Application
 <h3>School {{forloop.counter}}</h3>
 <dl style="margin-bottom:50px;">
     <dt {{dl_dt}}>Name</dt>
-    <dd {{dl_dd}}>{{s.name}}</dd>
+    <dd {{dl_dd}}>{{s.name|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>State/Provence</dt>
-    <dd {{dl_dd}}>{{s.state}}</dd>
+    <dd {{dl_dd}}>{{s.state|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Degree</dt>
-    <dd {{dl_dd}}>{{s.degree}}</dd>
+    <dd {{dl_dd}}>{{s.degree|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Dates Attended</dt>
-    <dd {{dl_dd}}>{{s.attended}}</dd>
+    <dd {{dl_dd}}>{{s.attended|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Major/Minor</dt>
-    <dd {{dl_dd}}>{{s.majorminor}}</dd>
+    <dd {{dl_dd}}>{{s.majorminor|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>GPA</dt>
-    <dd {{dl_dd}}>{{s.gpa}}</dd>
+    <dd {{dl_dd}}>{{s.gpa|default:"&nbsp;"}}</dd>
+    <dt {{dl_dt}}>Transcript</dt>
+    <dd {{dl_dd}}>
+    {% if s.transcript %}
+    <a href="https://{{server_url}}{{media_url}}/{{s.transcript}}">
+      Download</a>
+    </dd>
+    {% else %}&nbsp;{% endif %}
 </dl>
 {% endfor %}
 {% if data.app.audition_date %}

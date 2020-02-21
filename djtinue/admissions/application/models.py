@@ -154,12 +154,16 @@ class Application(ApplicationContact):
     audition_date = models.ForeignKey(
         GenericChoice,
         verbose_name="Audition Date",
-        related_name="audition_date"
+        related_name="audition_date",
+        blank=True,
+        null=True,
     )
     audition_time = models.ForeignKey(
         GenericChoice,
         verbose_name="Audition Time",
-        related_name="audition_time"
+        related_name="audition_time",
+        blank=True,
+        null=True,
     )
     # payment
     payment_method = models.CharField(

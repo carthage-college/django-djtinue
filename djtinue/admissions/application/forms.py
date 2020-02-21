@@ -121,11 +121,13 @@ class ApplicationForm(forms.ModelForm):
     )
     audition_date = forms.ModelChoiceField(
         label="Please choose an audition date",
-        queryset=DATES
+        queryset=DATES,
+        required=False,
     )
     audition_time = forms.ModelChoiceField(
         label="Please choose preferred audition time block",
-        queryset=TIMES
+        queryset=TIMES,
+        required=False,
     )
     payment_method = forms.TypedChoiceField(
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),
@@ -160,7 +162,7 @@ class ApplicationForm(forms.ModelForm):
         if cd.get('payment_method') == 'Waiver Code':
             if code:
                 valid = GenericChoice.objects.filter(value=code).filter(
-                    tags__name='Admissions Waiver Code'
+                    tags__name=settings.ADMISSIONS_WAIVER_CODE_TAG,
                 )
                 if not valid:
                     self.add_error('payment_waiver', "Invalid waiver code")

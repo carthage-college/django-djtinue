@@ -19,6 +19,12 @@ from djforms.processors.forms import TrustCommerceForm
 import os
 
 REQ = False
+PROGRAM = {
+    'bdi': 'Master (MSc) in Business Design &amp; Innovation Application',
+    'bsn': 'RSN to BSN',
+    'music': 'M.M. in Music Theatre Vocal Pedagogy',
+}
+SUBJECT = "Application for Carthage"
 
 
 def form(request, slug=None):
@@ -32,8 +38,6 @@ def form(request, slug=None):
         if slug:
             TO_LIST = settings.ADMISSIONS_EMAILS[slug]
 
-    SUBJECT = "Application for Carthage M.M. in Music Theatre Vocal Pedagogy"
-    BCC = settings.MANAGERS
 
     # templates for email and success page
     p = 'admissions/application/'
@@ -64,30 +68,35 @@ def form(request, slug=None):
         )
         form_ed1 = EducationRequiredForm(
             request.POST,
+            request.FILES,
             prefix='ed1',
             label_suffix='',
             use_required_attribute=REQ,
         )
         form_ed2 = EducationForm(
             request.POST,
+            request.FILES,
             prefix='ed2',
             label_suffix='',
             use_required_attribute=REQ,
         )
         form_ed3 = EducationForm(
             request.POST,
+            request.FILES,
             prefix='ed3',
             label_suffix='',
             use_required_attribute=REQ,
         )
         form_ed4 = EducationForm(
             request.POST,
+            request.FILES,
             prefix='ed4',
             label_suffix='',
             use_required_attribute=REQ,
         )
         form_ed5 = EducationForm(
             request.POST,
+            request.FILES,
             prefix='ed5',
             label_suffix='',
             use_required_attribute=REQ,
@@ -137,7 +146,9 @@ def form(request, slug=None):
             order = form_ord.save()
             order.total = 35.00
             order.operator = settings.TC_OPERATOR
-            subject = '{}: ({}, {})'.format(SUBJECT, app.last_name, app.first_name)
+            subject = '{} {}: ({}, {})'.format(
+                SUBJECT, PROGRAM[slug], app.last_name, app.first_name
+            )
             if app.payment_method == 'Credit Card':
 
                 form_proc = TrustCommerceForm(
@@ -155,13 +166,16 @@ def form(request, slug=None):
                     order.app = app
                     sent = send_mail(
                         request, TO_LIST, subject, app.email, email_template,
-                        order, BCC
+                        order,
                     )
                     order.send_mail = sent
                     order.save()
 
                     return HttpResponseRedirect(
-                        reverse('admissions_application_success', args=(slug))
+                        reverse(
+                            'admissions_application_success',
+                            kwargs={'slug':slug},
+                        )
                     )
 
                 else:
@@ -184,12 +198,15 @@ def form(request, slug=None):
                 order.app = app
                 sent = send_mail(
                     request, TO_LIST, subject, app.email, email_template,
-                    order, BCC
+                    order,
                 )
                 order.send_mail = sent
                 order.save()
                 return HttpResponseRedirect(
-                    reverse('admissions_application_success', args=(slug))
+                    reverse(
+                        'admissions_application_success',
+                        kwargs={'slug':slug},
+                    )
                 )
         else:
             if request.POST.get('payment_method') == 'Credit Card':
