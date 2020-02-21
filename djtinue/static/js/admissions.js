@@ -20,12 +20,23 @@ $(function() {
     });
     $('#id_payment_method_0').click(function() {
       $('#creditcard-details').slideDown(200);
+      $('#payment-total').slideDown(200)
+      $('#payment-waiver').slideUp(200)
     });
     $('#id_payment_method_1').click(function() {
       $('#creditcard-details').slideUp(200);
+      $('#payment-total').slideDown(200)
+      $('#payment-waiver').slideUp(200)
     });
     $('#id_payment_method_2').click(function() {
       $('#creditcard-details').slideUp(200);
+      $('#payment-total').slideDown(200)
+      $('#payment-waiver').slideUp(200)
+    });
+    $('#id_payment_method_3').click(function() {
+      $('#creditcard-details').slideUp(200);
+      $('#payment-total').slideUp(200)
+      $('#payment-waiver').slideDown(200)
     });
     $('#id_total').attr('readonly', true);
     $('form#profile').bind('submit', function (e) {

@@ -8,7 +8,8 @@ from django.http import HttpResponseRedirect, Http404
 
 from djtinue.admissions.application.models import Application
 from djtinue.admissions.application.forms import (
-    ApplicationForm, ContactForm, EducationForm, EducationRequiredForm, OrderForm
+    ApplicationForm, ContactForm, EducationForm, EducationRequiredForm,
+    OrderForm,
 )
 from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
@@ -44,40 +45,63 @@ def form(request, slug=None):
     if request.method=='POST':
 
         form_app = ApplicationForm(
-            request.POST, request.FILES, label_suffix='', use_required_attribute=REQ
+            request.POST,
+            request.FILES,
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ct1 = ContactForm(
-            request.POST, prefix='ct1',  label_suffix='', use_required_attribute=REQ
+            request.POST,
+            prefix='ct1',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ct2 = ContactForm(
-            request.POST, prefix='ct2',  label_suffix='', use_required_attribute=REQ
+            request.POST,
+            prefix='ct2',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ed1 = EducationRequiredForm(
-            request.POST,  prefix='ed1', label_suffix='',
-            use_required_attribute=REQ
+            request.POST,
+            prefix='ed1',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ed2 = EducationForm(
-            request.POST, prefix='ed2', label_suffix='',
-            use_required_attribute=REQ
+            request.POST,
+            prefix='ed2',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ed3 = EducationForm(
-            request.POST, prefix='ed3', label_suffix='',
-            use_required_attribute=REQ
+            request.POST,
+            prefix='ed3',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ed4 = EducationForm(
-            request.POST, prefix='ed4', label_suffix='',
-            use_required_attribute=REQ
+            request.POST,
+            prefix='ed4',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ed5 = EducationForm(
-            request.POST, prefix='ed5', label_suffix='',
-            use_required_attribute=REQ
+            request.POST,
+            prefix='ed5',
+            label_suffix='',
+            use_required_attribute=REQ,
         )
         form_ord = OrderForm(
-            request.POST, label_suffix='', use_required_attribute=REQ,
-            initial={'total':35, 'avs':False,'auth':'sale'}
+            request.POST,
+            label_suffix='',
+            use_required_attribute=REQ,
+            initial={'total':35, 'avs':False,'auth':'sale'},
         )
         form_proc = TrustCommerceForm(
-            request.POST, label_suffix='', use_required_attribute=False
+            request.POST,
+            label_suffix='',
+            use_required_attribute=False,
         )
         if form_app.is_valid() and form_ct1.is_valid() and form_ct2.is_valid()\
           and form_ed1.is_valid() and form_ord.is_valid():
@@ -137,7 +161,7 @@ def form(request, slug=None):
                     order.save()
 
                     return HttpResponseRedirect(
-                        reverse('admissions_application_success')
+                        reverse('admissions_application_success', args=(slug))
                     )
 
                 else:
@@ -158,16 +182,14 @@ def form(request, slug=None):
                 app.order.add(order)
                 # used for email rendering
                 order.app = app
-
                 sent = send_mail(
                     request, TO_LIST, subject, app.email, email_template,
                     order, BCC
                 )
-
                 order.send_mail = sent
                 order.save()
                 return HttpResponseRedirect(
-                    reverse('admissions_application_success')
+                    reverse('admissions_application_success', args=(slug))
                 )
         else:
             if request.POST.get('payment_method') == 'Credit Card':
@@ -211,13 +233,21 @@ def form(request, slug=None):
         )
 
     extra_context = {
-        'form_app': form_app, 'form_ct1': form_ct1, 'form_ct2': form_ct2,
-        'form_ord': form_ord, 'form_proc': form_proc,
-        'form_ed1': form_ed1, 'form_ed2': form_ed2, 'form_ed3': form_ed3,
-        'form_ed4': form_ed4, 'form_ed5': form_ed5, 'slug': slug
+        'form_app': form_app,
+        'form_ct1': form_ct1,
+        'form_ct2': form_ct2,
+        'form_ord': form_ord,
+        'form_ed1': form_ed1,
+        'form_ed2': form_ed2,
+        'form_ed3': form_ed3,
+        'form_ed4': form_ed4,
+        'form_ed5': form_ed5,
+        'form_proc': form_proc,
+        'slug': slug,
     }
 
     return render(request, form_template, extra_context)
+
 
 @login_required
 def detail(request, aid):
@@ -226,3 +256,9 @@ def detail(request, aid):
         request, 'admissions/application/email.html',
         {'data': {'app':data,},}
     )
+
+
+def success(request, slug):
+    """Redirect here after user submits application form."""
+    template = 'admissions/application/done.html'
+    return render(request, template, {'slug':slug})

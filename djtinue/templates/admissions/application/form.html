@@ -35,6 +35,14 @@ $(function() {
 {% else %}
 #creditcard-details { display:none; }
 {% endif %}
+{% if form_app.payment_method.value == "Waiver Code" %}
+#creditcard-details { display:none; }
+#payment-total { display:none; }
+#payment-waiver { display:inherit }
+{% else %}
+#payment-total { display:inherit; }
+#payment-waiver { display:none; }
+{% endif %}
 .column2 { padding-left:3%;}
 @media only screen and (max-width: 60em) {
    .column2 { padding-left:0;}
@@ -46,7 +54,7 @@ ul#id_race li, ul#id_fellowships li {display:block;}
 #id_security_code, #id_reg_fee {width:100px;}
 #id_card_number {width:175px;}
 #id_postal_code, #id_date_of_birth, #id_total, #id_social_security_number,
-#id_expiration_month, #id_expiration_year {
+#id_expiration_month, #id_expiration_year, #id_payment_waiver {
 width:120px; }
 #security {color:#000099;float:right;padding:5px;}
 li.ctrlHolder div ul li {display:inline; padding-right:3px;}
@@ -423,17 +431,33 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </div>
         <div class="column2 large-6 medium-12 small-12">
           <ol>
-                <li class="ctrlHolder">
-                    <h3>
-                        <label for="id_or-total">Application Fee</label>
-                    </h3>
-                    <div class="required">
-                        <span class="cost">$</span>
-                        <input type="text" name="total" id="id_total"
-                        class="required" readonly="readonly"
-                        value="35">
-                    </div>
-                </li>
+            <li class="ctrlHolder" id="payment-total">
+              <h3>
+                <label for="id_or-total">Application Fee</label>
+              </h3>
+              <div class="required">
+                <span class="cost">$</span>
+                <input type="text" name="total" id="id_total"
+                class="required" readonly="readonly"
+                value="35">
+              </div>
+            </li>
+            <li class="ctrlHolder" id="payment-waiver">
+              <h3>
+                <label for="id_or-total">Waiver Code</label>
+              </h3>
+              {% if form_app.payment_waiver.errors %}
+              <div class="required warning">
+                <span class="error-message">
+                  {{ form_app.payment_waiver.errors|join:", "}}
+                </span>
+              {% else %}
+              <div>
+              {% endif %}
+                <input value="{{form_app.payment_waiver.value|default_if_none:''}}"
+                  type="text" name="payment_waiver" id="id_payment_waiver">
+              </div>
+            </li>
           </ol>
         </div>
       </div>

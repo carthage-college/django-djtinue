@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from djforms.core.models import GenericChoice, GenericContact
 from djforms.processors.models import Contact as ApplicationContact
-from djtools.fields import BINARY_CHOICES, GENDER_CHOICES, PAYMENT_CHOICES
+from djtools.fields import BINARY_CHOICES, GENDER_CHOICES
 from djtools.fields.helpers import upload_to_path
 from djtools.fields.validators import MimetypeValidator
 
@@ -13,6 +13,12 @@ from django_extensions.db.fields.encrypted import EncryptedCharField
 #FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
 #FILE_VALIDATORS = []
 FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+PAYMENT_CHOICES = (
+    ('Credit Card', 'Credit Card'),
+    ('Check', 'Check'),
+    ('Cash/Money Order', 'Cash/Money Order'),
+    ('Waiver Code', 'Waiver Code'),
+)
 
 
 class Application(ApplicationContact):
@@ -158,6 +164,9 @@ class Application(ApplicationContact):
     # payment
     payment_method = models.CharField(
         choices=PAYMENT_CHOICES, max_length=24
+    )
+    payment_waiver = models.CharField(
+        "Payment waiver code", max_length=255, null=True, blank=True
     )
 
     class Meta:
