@@ -221,11 +221,15 @@ class School(models.Model):
         "GPA", max_digits=4, decimal_places=2, blank=True, null=True
     )
     transcript = models.FileField(
-        "Upload Transcript (can be unofficial)",
+        "Transcript (can be unofficial) in PDF",
         upload_to = upload_to_path,
         validators=FILE_VALIDATORS,
         max_length=768, null=True, blank=True,
-        help_text="PDF format"
+        help_text="""
+            Transcripts may be submitted after you submit your
+            application for admission. Application will not be
+            reviewed until transcripts are received.
+        """
     )
 
     class Meta:
