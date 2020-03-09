@@ -20,8 +20,11 @@ def info_request(request):
         if form.is_valid():
             cd = form.cleaned_data
             to = settings.INFORMATION_REQUEST_EMAIL_LIST
-            if settings.DEBUG:
-                to = [settings.SERVER_MAIL,]
+            if 'RN to BSN' in cd['academic_programs']:
+                to = settings.RN_BSN_EMAIL_LIST
+            for program in cd['academic_programs']:
+                if program == 'RN to BSN':
+                    to = settings.RN_BSN_EMAIL_LIST
             subject = "OCS Information Request"
             send_mail(
                 request, to, subject, cd['email'],
@@ -61,8 +64,6 @@ def info_session(request, session_type):
             # to
             recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
             to = recipients[session_type]
-            if settings.DEBUG:
-                to = [settings.SERVER_MAIL,]
             subject = "OCS Information Session Request: "
             subject +="%s on %s" % (session_type, datetime)
             send_mail(
