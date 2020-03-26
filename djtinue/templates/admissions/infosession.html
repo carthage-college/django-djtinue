@@ -1,16 +1,21 @@
 {% extends "home.html" %}
+{% load livewhale_api %}
 {% block title %}
-    Information Sessions &mdash;
-    Continuing Studies &mdash;
-    Carthage College
+  Information Sessions &mdash;
+  Continuing Studies &mdash;
+  Carthage College
 {% endblock %}
 {% block content_head %}
-    <h1 id="page_title">
-        Information Session Signup
-    </h1>
+<h1 id="page_title">
+  Information Session Signup
+</h1>
 {% endblock %}
 {% block content %}
-    <div class="forms-container">
-        {% include "includes/generic_form.html" %}
-    </div>
+<div class="large-10 medium-12 small-12">
+  {% get_lw_content as nav blurbs 2920 %}
+  {{nav.body}}
+</div>
+<div class="forms-container">
+  {% include "includes/generic_form.html" %}
+</div>
 {% endblock %}
