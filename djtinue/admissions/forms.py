@@ -4,6 +4,7 @@ from django.utils.timezone import localtime
 from django.utils.encoding import force_text
 from django.utils.dateformat import DateFormat
 
+from djforms.core.models import GenericChoice
 from djtinue.admissions.models import LivewhaleEvents
 from djtools.fields import STATE_CHOICES
 from djtools.fields.localflavor import USPhoneNumberField
@@ -40,7 +41,6 @@ ACADEMIC_PROGRAMS =  (
     ('Teacher Certification', 'Teacher Certification'),
     ('RN to BSN', 'RN to BSN'),
 )
-
 # dictionary name corresponds to URL slug
 STYPES = {
     "information-session":970,
@@ -50,6 +50,15 @@ STYPES = {
     "paralegal":971,
     "business-design-innnovation":1081
 }
+
+def limit_format():
+    formats = [('','----select----')]
+    choices = GenericChoice.objects.filter(
+        tags__name__in=['Admissions Contact Platform'],
+    ).order_by('ranking')
+    for choice in choices:
+        formats.append((choice.name, choice.value))
+    return formats
 
 
 class InfoRequestForm(forms.Form):
@@ -95,6 +104,9 @@ class InfoSessionForm(forms.Form):
     hear_about = forms.CharField(
         label="How did you hear about the program?",
         widget=forms.Textarea
+    )
+    meeting_format = forms.CharField(
+        widget=forms.Select(choices=limit_format())
     )
 
     def __init__(self,session_type,*args,**kwargs):
