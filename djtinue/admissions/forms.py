@@ -36,10 +36,25 @@ HEAR_ABOUT = (
     ('Other', 'Other'),
 )
 ACADEMIC_PROGRAMS =  (
-    ("Undergraduate/Bachelor's Degree", "Undergraduate/Bachelor's Degree"),
-    ("Graduate/Master's Degree", "Graduate/Master's Degree"),
-    ('Teacher Certification', 'Teacher Certification'),
-    ('RN to BSN', 'RN to BSN'),
+    (
+        "Undergraduate/Bachelor's Degree",
+        "Undergraduate/Bachelor's Degree",
+    ),
+    (
+        'Master of Science in Business Design and Innovation',
+        'Master of Science in Business Design and Innovation',
+    ),
+    (
+        'Master of Science in Business: Sports Management Track',
+        'Master of Science in Business: Sports Management Track',
+    ),
+    ('Master of Music', 'Master of Music'),
+    ('Master of Education', 'Master of Education'),
+    (
+        'RN to BSN Completion Program',
+        'RN to BSN Completion Program',
+    ),
+    ('Teacher Certification','Teacher Certification'),
 )
 # dictionary name corresponds to URL slug
 STYPES = {
