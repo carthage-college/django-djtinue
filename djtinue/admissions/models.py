@@ -134,7 +134,7 @@ class LivewhaleEvents(models.Model):
 class LivewhaleEvents2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
     position = models.IntegerField()
     class Meta:
         managed = False
@@ -152,7 +152,7 @@ class LivewhaleEventsCategories(models.Model):
 class LivewhaleEventsCategories2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
     class Meta:
         managed = False
         db_table = u'livewhale_events_categories2any'
@@ -205,7 +205,7 @@ class LivewhaleTags(models.Model):
 class LivewhaleTags2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
 
     class Meta:
         managed = False
