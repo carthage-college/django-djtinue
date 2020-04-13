@@ -20,10 +20,10 @@ def info_request(request):
         if form.is_valid():
             cd = form.cleaned_data
             to = settings.INFORMATION_REQUEST_EMAIL_LIST
-            if 'RN to BSN' in cd['academic_programs']:
-                to = settings.RN_BSN_EMAIL_LIST
-            for program in cd['academic_programs']:
-                if program == 'RN to BSN':
+            # cleaned_data converts the data to a list so we do not
+            # need to use getlist()
+            for program in cd.get('academic_programs'):
+                if program == 'RN to BSN Completion Program':
                     to = settings.RN_BSN_EMAIL_LIST
             subject = "OCS Information Request"
             send_mail(
