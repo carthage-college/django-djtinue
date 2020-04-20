@@ -30,20 +30,13 @@ SUBJECT = "Application for Carthage"
 
 def form(request, slug=None):
 
-    if settings.DEBUG:
-        TO_LIST = [settings.SERVER_MAIL,]
-    else:
-        TO_LIST = settings.ADMISSIONS_EMAILS['default']
-        # this will throw an error if someone uses a slug that does
-        # not exist, which is fine for now
-        if slug:
-            TO_LIST = settings.ADMISSIONS_EMAILS[slug]
-
-
-    # templates for email and success page
-    p = 'admissions/application/'
-    if slug:
+    to_list = settings.ADMISSIONS_EMAILS.get(slug)
+    if to_list:
         p = os.path.join(p, slug)
+    else:
+        to_list = settings.ADMISSIONS_EMAILS['default']
+        p = 'admissions/application/'
+
     form_template = '{}/form.html'.format(p)
     email_template = '{}/email.html'.format(p)
 
@@ -166,7 +159,7 @@ def form(request, slug=None):
                     app.order.add(order)
                     order.app = app
                     sent = send_mail(
-                        request, TO_LIST, subject, app.email, email_template,
+                        request, to_list, subject, app.email, email_template,
                         order,
                     )
                     order.send_mail = sent
@@ -198,7 +191,7 @@ def form(request, slug=None):
                 # used for email rendering
                 order.app = app
                 sent = send_mail(
-                    request, TO_LIST, subject, app.email, email_template,
+                    request, to_list, subject, app.email, email_template,
                     order,
                 )
                 order.send_mail = sent
