@@ -31,11 +31,11 @@ SUBJECT = "Application for Carthage"
 def form(request, slug=None):
 
     to_list = settings.ADMISSIONS_EMAILS.get(slug)
+    p = 'admissions/application/'
     if to_list:
         p = os.path.join(p, slug)
     else:
         to_list = settings.ADMISSIONS_EMAILS['default']
-        p = 'admissions/application/'
 
     form_template = '{}/form.html'.format(p)
     email_template = '{}/email.html'.format(p)
