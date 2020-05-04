@@ -39,27 +39,29 @@ def form(request, slug=None):
 
     form_template = '{}/form.html'.format(p)
     email_template = '{}/email.html'.format(p)
-
+    # recommendations are not required for some applications
+    form_ct1 = None
+    form_ct2= None
     if request.method=='POST':
-
         form_app = ApplicationForm(
             request.POST,
             request.FILES,
             label_suffix='',
             use_required_attribute=REQ,
         )
-        form_ct1 = ContactForm(
-            request.POST,
-            prefix='ct1',
-            label_suffix='',
-            use_required_attribute=REQ,
-        )
-        form_ct2 = ContactForm(
-            request.POST,
-            prefix='ct2',
-            label_suffix='',
-            use_required_attribute=REQ,
-        )
+        if slug not in ['bsn']:
+            form_ct1 = ContactForm(
+                request.POST,
+                prefix='ct1',
+                label_suffix='',
+                use_required_attribute=REQ,
+            )
+            form_ct2 = ContactForm(
+                request.POST,
+                prefix='ct2',
+                label_suffix='',
+                use_required_attribute=REQ,
+            )
         form_ed1 = EducationRequiredForm(
             request.POST,
             request.FILES,
@@ -106,20 +108,19 @@ def form(request, slug=None):
             label_suffix='',
             use_required_attribute=False,
         )
-        if form_app.is_valid() and form_ct1.is_valid() and form_ct2.is_valid()\
-          and form_ed1.is_valid() and form_ord.is_valid():
-
+        if form_app.is_valid() and form_ed1.is_valid() and form_ord.is_valid():
             app = form_app.save()
             app.slug = slug
             app.social_security_four = app.social_security_number[-4:]
             app.save()
             # recommendations
-            ct1 = form_ct1.save(commit=False)
-            ct1.application = app
-            ct1.save()
-            ct2 = form_ct2.save(commit=False)
-            ct2.application = app
-            ct2.save()
+            if slug not in ['bsn']:
+                ct1 = form_ct1.save(commit=False)
+                ct1.application = app
+                ct1.save()
+                ct2 = form_ct2.save(commit=False)
+                ct2.application = app
+                ct2.save()
             # schools
             ed1 = form_ed1.save(commit=False)
             ed1.application = app
@@ -214,12 +215,13 @@ def form(request, slug=None):
         form_app = ApplicationForm(
             label_suffix='', use_required_attribute=REQ
         )
-        form_ct1 = ContactForm(
-           prefix='ct1',  label_suffix='', use_required_attribute=REQ
-        )
-        form_ct2 = ContactForm(
-           prefix='ct2',  label_suffix='', use_required_attribute=REQ
-        )
+        if slug not in ['bsn']:
+            form_ct1 = ContactForm(
+                prefix='ct1',  label_suffix='', use_required_attribute=REQ
+            )
+            form_ct2 = ContactForm(
+                prefix='ct2',  label_suffix='', use_required_attribute=REQ
+            )
         form_ed1 = EducationRequiredForm(
             prefix='ed1', label_suffix='', use_required_attribute=REQ
         )
