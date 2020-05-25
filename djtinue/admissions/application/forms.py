@@ -8,7 +8,7 @@ from djtinue.admissions.application.models import School
 
 from djtools.fields import BINARY_CHOICES, GENDER_CHOICES, TODAY
 from djforms.processors.models import Order
-from djforms.core.models import GenericChoice, GenericContact
+from djforms.core.models import GenericChoice
 from djforms.processors.forms import OrderForm
 
 RACES = GenericChoice.objects.filter(
