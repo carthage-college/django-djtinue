@@ -86,7 +86,7 @@ Admissions Application
     <dt {{dl_dt}}>Gender</dt>
     <dd {{dl_dd}}>{{data.app.gender}}</dd>
     <dt {{dl_dt}}>Hispanic or Latinx?</dt>
-    <dd {{dl_dd}}>{{data.app.latinx}}</dd>
+    <dd {{dl_dd}}>{{data.app.latinx|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Race</dt>
     <dd {{dl_dd}}>{{data.app.get_race|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Fellowships?</dt>

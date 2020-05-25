@@ -108,19 +108,26 @@ def form(request, slug=None):
             label_suffix='',
             use_required_attribute=False,
         )
-        if form_app.is_valid() and form_ed1.is_valid() and form_ord.is_valid():
+        contacts = True
+        if form_ct1 and form_ct2:
+            contacts = (
+                form_ct1.is_valid() and form_ct2.is_valid()
+            )
+        if form_app.is_valid() and form_ed1.is_valid() and form_ord.is_valid() and contacts:
             app = form_app.save()
             app.slug = slug
             app.social_security_four = app.social_security_number[-4:]
             app.save()
             # recommendations
             if slug not in ['bsn']:
-                ct1 = form_ct1.save(commit=False)
-                ct1.application = app
-                ct1.save()
-                ct2 = form_ct2.save(commit=False)
-                ct2.application = app
-                ct2.save()
+                if form_ct1.is_valid():
+                    ct1 = form_ct1.save(commit=False)
+                    ct1.application = app
+                    ct1.save()
+                if form_ct2.is_valid():
+                    ct2 = form_ct2.save(commit=False)
+                    ct2.application = app
+                    ct2.save()
             # schools
             ed1 = form_ed1.save(commit=False)
             ed1.application = app
