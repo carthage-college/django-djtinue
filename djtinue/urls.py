@@ -31,6 +31,10 @@ urlpatterns = [
         r'^admissions/', include('djtinue.admissions.urls')
     ),
     url(
+        r'^enrichment/', include('djtinue.enrichment.urls')
+    ),
+    # misc
+    url(
         r'^denied/$',
         TemplateView.as_view(template_name='denied.html'), name='access_denied'
     ),
