@@ -13,7 +13,7 @@ django-imagekit==4.0.2
 django-countries==5.3.3
 django-recaptcha==2.0.2
 django-localflavor==2.1
-django-loginas==0.3.8
+django-loginas==0.3.6
 django-extensions==2.1.6
 django-bootstrap-form==3.4
 django-simple-captcha==0.5.11
