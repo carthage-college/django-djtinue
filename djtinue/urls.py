@@ -8,9 +8,11 @@ from djauth.views import loggedout
 
 
 urlpatterns = [
-    url(
-        r'^admin/', include(admin.site.urls)
-    ),
+    # django admin and loginas
+    url('rocinante/', include('loginas.urls')),
+    url('rocinante/', admin.site.urls),
+    # admin honeypot
+    url('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     # auth
     url(
         r'^accounts/login/$', auth_views.login,
