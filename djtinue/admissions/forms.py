@@ -5,7 +5,6 @@ from django.utils.encoding import force_text
 from django.utils.dateformat import DateFormat
 
 from djforms.core.models import GenericChoice
-from djtinue.admissions.models import LivewhaleEvents
 from djtools.fields import STATE_CHOICES
 from djtools.fields.localflavor import USPhoneNumberField
 
