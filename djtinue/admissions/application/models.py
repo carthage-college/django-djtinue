@@ -118,24 +118,30 @@ class Application(ApplicationContact):
     )
     # educational information
     gmat = models.CharField(
-        max_length=4, choices=BINARY_CHOICES,
-        blank=True, null=True
+        "GMAT",
+        max_length=4,
+        choices=BINARY_CHOICES,
+        blank=True,
+        null=True,
     )
     gmat_date = models.DateField(
-        blank=True, null=True
+        blank=True, null=True, default='',
     )
     gmat_score = models.CharField(
-        max_length=10, blank=True, null=True
+        max_length=10, blank=True, null=True,
     )
     gre = models.CharField(
-        max_length=4, choices=BINARY_CHOICES,
-        blank=True, null=True
+        "GRE",
+        max_length=4,
+        choices=BINARY_CHOICES,
+        blank=True,
+        null=True,
     )
     gre_date = models.DateField(
-        blank=True, null=True
+        blank=True, null=True, default='',
     )
     gre_score = models.CharField(
-        max_length=10, blank=True, null=True
+        max_length=10, blank=True, null=True,
     )
     personal_statement = models.TextField(
         blank=True, null=True
