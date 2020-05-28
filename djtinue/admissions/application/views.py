@@ -20,7 +20,7 @@ import os
 
 REQ = False
 PROGRAM = {
-    'bdi': 'Master (MSc) in Business Design &amp; Innovation Application',
+    'bdi': 'Master (MSc) in Business Design & Innovation Application',
     'bsm': 'Master (MSc) in Business Sports Management Application',
     'bsn': 'RSN to BSN',
     'music': 'M.M. in Music Theatre Vocal Pedagogy',
