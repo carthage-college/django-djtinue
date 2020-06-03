@@ -50,7 +50,8 @@ class Application(ApplicationContact):
     birth_date = models.DateField(
         "Date of birth",
         help_text="Format: mm/dd/yyyy",
-        blank=True, null=True
+        blank=True,
+        null=True,
     )
     birth_place = models.CharField(
         "Place of birth",
@@ -125,7 +126,7 @@ class Application(ApplicationContact):
         null=True,
     )
     gmat_date = models.DateField(
-        blank=True, null=True, default='',
+        blank=True, null=True,
     )
     gmat_score = models.CharField(
         max_length=10, blank=True, null=True,
@@ -138,7 +139,7 @@ class Application(ApplicationContact):
         null=True,
     )
     gre_date = models.DateField(
-        blank=True, null=True, default='',
+        blank=True, null=True,
     )
     gre_score = models.CharField(
         max_length=10, blank=True, null=True,

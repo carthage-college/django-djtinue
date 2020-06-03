@@ -354,8 +354,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
                 {{ form_app.gmat_date.errors|join:", "}}
               </span>
             {% endif %}
-            <input type="date" name="gmat_date" class="form-control"
-              id="id_gmat_date" value="{{form_app.gmat_date.value}}">
+            <input name="gmat_date" class="form-control"
+              id="id_gmat_date" value="{{form_app.gmat_date.value|default_if_none:''}}">
           </div>
         </li>
         {% with form_app.gmat_score as field %}
@@ -380,8 +380,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
                 {{ form_app.gre_date.errors|join:", "}}
               </span>
             {% endif %}
-            <input type="date" name="gre_date" class="form-control"
-              id="id_gre_date" value="{{form_app.gre_date.value}}">
+            <input name="gre_date" class="form-control"
+              id="id_gre_date" value="{{form_app.gre_date.value|default_if_none:''}}">
           </div>
         </li>
         {% with form_app.gre_score as field %}

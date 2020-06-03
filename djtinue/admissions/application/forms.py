@@ -79,6 +79,13 @@ class ApplicationForm(forms.ModelForm):
         label="Social Security or National Identity number",
         max_length=16, required=False
     )
+    birth_date = forms.DateField(
+        label='Date of birth',
+        input_formats=settings.DATE_INPUT_FORMATS,
+        required=False,
+        widget=forms.DateInput(format='%m/%d/%Y'),
+        help_text="Format: mm/dd/yyyy",
+    )
     latinx = forms.TypedChoiceField(
         label="Are you Hispanic or Latino?",
         choices=BINARY_CHOICES, widget=forms.RadioSelect(),
@@ -133,6 +140,20 @@ class ApplicationForm(forms.ModelForm):
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),
     )
     payment_waiver = forms.CharField(required=False)
+    gmat_date = forms.DateField(
+        label='Gmat date',
+        input_formats=settings.DATE_INPUT_FORMATS,
+        required=False,
+        widget=forms.DateInput(format='%m/%d/%Y'),
+        help_text="Format: mm/dd/yyyy",
+    )
+    gre_date = forms.DateField(
+        label='GRE date',
+        input_formats=settings.DATE_INPUT_FORMATS,
+        required=False,
+        widget=forms.DateInput(format='%m/%d/%Y'),
+        help_text="Format: mm/dd/yyyy",
+    )
 
     class Meta:
         model = Application
