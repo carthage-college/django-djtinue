@@ -5,13 +5,12 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect, Http404
 
-from djtinue.admissions.forms import InfoRequestForm, STYPES
+from djtinue.admissions.forms import InfoRequestForm
 from djtinue.admissions.forms import InfoSessionForm
+from djtinue.admissions.forms import SESSION_TYPES
 from djtinue.admissions.models import LivewhaleEvents as Event
 
 from djtools.utils.mail import send_mail
-
-BCC = settings.MANAGERS
 
 
 def info_request(request):
@@ -19,16 +18,24 @@ def info_request(request):
         form = InfoRequestForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            to = settings.INFORMATION_REQUEST_EMAIL_LIST
+            # create out recipient list
+            to = []
             # cleaned_data converts the data to a list so we do not
             # need to use getlist()
             for program in cd.get('academic_programs'):
-                if program == 'RN to BSN Completion Program':
-                    to = settings.RN_BSN_EMAIL_LIST
+                to = to + settings.CONTINUING_STUDIES_INFOREQUEST_RECIPIENTS[program]
+            if settings.DEBUG:
+                cd['to'] = to
+                to = [settings.MANAGERS[0][1]]
             subject = "OCS Information Request"
             send_mail(
-                request, to, subject, cd['email'],
-                'admissions/inforequest.txt', cd, BCC, content=''
+                request,
+                to,
+                subject,
+                cd['email'],
+                'admissions/inforequest.txt',
+                cd,
+                content='',
             )
             return HttpResponseRedirect(
                 reverse_lazy('info_request_success')
@@ -42,7 +49,7 @@ def info_request(request):
 
 def info_session(request, session_type):
     try:
-        STYPES[session_type]
+        SESSION_TYPES[session_type]
     except:
         raise Http404, "Page not found"
     if request.method == 'POST':
@@ -68,7 +75,7 @@ def info_session(request, session_type):
             subject +="%s on %s" % (session_type, datetime)
             send_mail(
                 request, to, subject, cd['email'],
-                'admissions/infosession.txt', cd, BCC, content=''
+                'admissions/infosession.txt', cd, content=''
             )
             return HttpResponseRedirect(
                 reverse_lazy('info_session_success')

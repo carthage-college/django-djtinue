@@ -30,3 +30,7 @@ How did you hear about the program?
 CSV:
 
 {{data.first_name}}	{{data.last_name}}	{{data.address}}	{{data.city}}	{{data.state}}	{{data.postal_code}}	{{data.phone}}	{{data.email}}	{% for program in data.academic_programs %}{{program|safe}} {% endfor %}	{% for t in data.time_of_day %}{{t|safe}} {% endfor %}	{{data.hear_about}}
+
+{% if data.to %}
+{{data.to|safe}}
+{% endif %}

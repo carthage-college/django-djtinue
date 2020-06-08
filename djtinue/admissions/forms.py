@@ -40,23 +40,26 @@ ACADEMIC_PROGRAMS =  (
         "Undergraduate/Bachelor's Degree",
     ),
     (
-        'Master of Science in Business Design and Innovation',
-        'Master of Science in Business Design and Innovation',
+        'Master of Science in Business: Design and Innovation Track',
+        'Master of Science in Business: Design and Innovation Track',
     ),
     (
         'Master of Science in Business: Sports Management Track',
         'Master of Science in Business: Sports Management Track',
     ),
-    ('Master of Music', 'Master of Music'),
+    (
+        'Master of Music in Business: Music Theatre Vocal Pedagogy',
+        'Master of Music in Business: Music Theatre Vocal Pedagogy',
+    ),
     ('Master of Education', 'Master of Education'),
     (
-        'RN to BSN Completion Program',
-        'RN to BSN Completion Program',
+        'RN-to-BSN Completion Program',
+        'RN-to-BSN Completion Program',
     ),
     ('Teacher Certification','Teacher Certification'),
 )
 # dictionary name corresponds to URL slug
-STYPES = {
+SESSION_TYPES = {
     "information-session":970,
     "graduate-education":972,
     "undergraduate-studies":973,
@@ -143,7 +146,9 @@ class InfoSessionForm(forms.Form):
                 date_dt > DATE(NOW())
             ORDER BY
                 date_dt
-        """.format(STYPES['information-session'], STYPES[session_type])
+        """.format(
+            SESSION_TYPES['information-session'], SESSION_TYPES[session_type],
+        )
         cursor.execute(sql)
         # Wed. May 01, 2020 at 06pm (Master of Education & ACT Info Session)
         choices = [('','---choose a date---')]

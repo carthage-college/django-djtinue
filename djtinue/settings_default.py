@@ -139,20 +139,29 @@ DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL=''
 CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {
-    "master-social-work":["",],
-    "graduate-education":["",],
-    "undergraduate-studies":["",],
-    "paralegal":["",],
-    "business-design-innnovation":["",]
+    'master-social-work': [],
+    'graduate-education': [],
+    'undergraduate-studies': [],
+    'paralegal': [],
+    'business-design-innnovation': [],
 }
-CONTINUING_STUDIES_GROUP='Continuing Studies'
+CONTINUING_STUDIES_INFOREQUEST_RECIPIENTS = {
+    "Undergraduate/Bachelor's Degree": [],
+    'Master of Science in Business: Design and Innovation Track': [],
+    'Master of Science in Business: Sports Management Track': [],
+    'Master of Music: in Business: Music Theatre Vocal Pedagogy': [],
+    'Master of Education': [],
+    'RN-to-BSN Completion Program': [],
+    'Teacher Certification': [],
+}
+CONTINUING_STUDIES_GROUP = 'Continuing Studies'
 INFORMATION_REQUEST_EMAIL_LIST = []
-RN_BSN_EMAIL_LIST = [
-ADMISSIONS_WAIVER_CODE_TAG='Admissions Waiver Code'
+RN_BSN_EMAIL_LIST = []
+ADMISSIONS_WAIVER_CODE_TAG = 'Admissions Waiver Code'
 ADMISSIONS_EMAILS = {
     'music': [],
     'bdi': [],
-    'default': []
+    'default': [],
 }
 ENCRYPTED_FIELD_KEYS_DIR = ''
 # App settings (needed for livewhale events model)
