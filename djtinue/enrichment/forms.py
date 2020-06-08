@@ -13,9 +13,7 @@ from localflavor.us.forms import USSocialSecurityNumberField, USZipCodeField
 
 
 class RegistrationForm(ContactForm):
-    """
-    Registration form for enrichment courses
-    """
+    """Registration form for enrichment courses."""
 
     previous_name = forms.CharField(
         label = "Previous Last Name",
