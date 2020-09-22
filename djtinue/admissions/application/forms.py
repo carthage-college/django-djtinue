@@ -29,8 +29,9 @@ if (TODAY.month > 9):
     year += 1
 
 ENTRY_TERM_CHOICES = (
-    (year, 'Fall {}'.format(year)),
-    (year+1, 'Fall {}'.format(year+1))
+    (year, 'Fall {0}'.format(year)),
+    (year+1, 'Fall {0}'.format(year+1)),
+    (year+2, 'Fall {0}'.format(year+2)),
 )
 
 
