@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.conf import settings
 
@@ -28,10 +29,14 @@ year = TODAY.year
 if (TODAY.month > 9):
     year += 1
 
+ENTRY_YEAR_CHOICES = (
+    (year, year),
+    (year+1, year+1),
+    (year+2, year+2),
+)
 ENTRY_TERM_CHOICES = (
-    (year, 'Fall {0}'.format(year)),
-    (year+1, 'Fall {0}'.format(year+1)),
-    (year+2, 'Fall {0}'.format(year+2)),
+    ('RA', 'Fall'),
+    ('RC', 'Spring'),
 )
 
 
@@ -112,8 +117,14 @@ class ApplicationForm(forms.ModelForm):
         choices=BINARY_CHOICES, widget=forms.RadioSelect()
     )
     entry_year = forms.TypedChoiceField(
-        label="When do you plan to start your studies?",
-        choices=ENTRY_TERM_CHOICES, widget=forms.RadioSelect()
+        label="Year in which you plan to start your studies",
+        choices=ENTRY_YEAR_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    entry_term = forms.TypedChoiceField(
+        label="Term in which you plan to start your studies",
+        choices=ENTRY_TERM_CHOICES,
+        widget=forms.RadioSelect(),
     )
     fellowships = forms.ModelMultipleChoiceField(
         label="Do you intend to apply for fellowships and/or assistantships?",
@@ -158,7 +169,7 @@ class ApplicationForm(forms.ModelForm):
 
     class Meta:
         model = Application
-        exclude = ('slug','entry_term','social_security_four')
+        exclude = ('slug','entry_month','social_security_four')
 
     def clean(self):
 

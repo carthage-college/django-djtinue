@@ -1,16 +1,23 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.dates import MONTHS
 from django.template import RequestContext
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.http import Http404
 
 from djtinue.admissions.application.models import Application
-from djtinue.admissions.application.forms import (
-    ApplicationForm, ContactForm, EducationForm, EducationRequiredForm,
-    OrderForm,
-)
+from djtinue.admissions.application.forms import ApplicationForm
+from djtinue.admissions.application.forms import ContactForm
+from djtinue.admissions.application.forms import EducationForm
+from djtinue.admissions.application.forms import EducationRequiredForm
+from djtinue.admissions.application.forms import ENTRY_YEAR_CHOICES
+from djtinue.admissions.application.forms import ENTRY_TERM_CHOICES
+from djtinue.admissions.application.forms import OrderForm
 from djtools.fields import STATE_CHOICES
 from djtools.utils.mail import send_mail
 from djforms.processors.models import Order
@@ -264,6 +271,8 @@ def form(request, slug=None):
         'form_ed5': form_ed5,
         'form_proc': form_proc,
         'slug': slug,
+        'years': ENTRY_YEAR_CHOICES,
+        'terms': ENTRY_YEAR_CHOICES,
     }
 
     return render(request, form_template, extra_context)

@@ -67,6 +67,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     text-transform: none;
 }
 .error-message{font-weight: 800;background-color:#feefb3;padding:1px;}
+#id_entry_year li, #id_entry_term li {display:block;}
 </style>
 {% endblock %}
 {% block content %}
@@ -156,9 +157,40 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% with form_app.birth_place as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
-        {% with form_app.entry_year as field %}
-        {% include "form_field.inc.html" %}
-        {% endwith %}
+        <li class="form-group ctrlHolder">
+          <h3 class="required">
+            <label>When do you plan to start your studies?</label>
+          </h3>
+          <div class="required">
+            <ul id="id_entry_term" class="fleft" style="width:30%;">
+              <li>
+                <label for="id_entry_term_0">
+                  <input type="radio" name="entry_term" value="RA" id="id_entry_term_0"{% if form_app.entry_term.value == 'RA' %} checked{% endif %}> Fall
+                </label>
+              </li>
+              <li>
+                <label for="id_entry_term_1">
+                  <input type="radio" name="entry_term" value="RC" id="id_entry_term_1"{% if form_app.entry_term.value == 'RC' %} checked{% endif %}> Spring
+                </label>
+              </li>
+            </ul>
+            <ul id="id_entry_year" class="fright" style="width:70%;">
+            {% for year in years %}
+              <li>
+                <label for="id_entry_year_{{forloop.counter0}}">
+                  <input
+                    type="radio"
+                    name="entry_year"
+                    value="{{year.0}}"
+                    id="id_entry_year_{{forloop.counter0}}"
+                    {% if form_app.entry_year.value == year.0|lower %} checked{% endif %}>
+                  {{year.1}}
+                </label>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </li>
         {% block fellowships %}
         {% with form_app.fellowships as field %}
         {% include "form_field.inc.html" %}

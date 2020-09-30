@@ -65,30 +65,34 @@ class Application(ApplicationContact):
     )
     latinx = models.CharField(
         "Are you Hispanic or Latinx",
-        max_length=4, choices=BINARY_CHOICES,
-        blank=True, null=True
+        max_length=4,
+        choices=BINARY_CHOICES,
+        blank=True,
+        null=True,
     )
     race = models.ManyToManyField(
-        GenericChoice, help_text = 'Check all that apply',
-        blank=True, null=True
+        GenericChoice,
+        help_text="Check all that apply",
+        blank=True,
+        null=True,
     )
     social_security_number = EncryptedCharField(
-        max_length=254, null=True, blank=True
+        max_length=254, null=True, blank=True,
     )
     social_security_four = models.CharField(
-        max_length=4, null=True, blank=True
+        max_length=4, null=True, blank=True,
     )
     program = models.CharField(
-        max_length=254, null=True, blank=True,
-        default='Degree Seeking Masters Degree'
+        max_length=254,
+        default='Degree Seeking Masters Degree',
+        null=True,
+        blank=True,
     )
     entry_term = models.CharField(
-        default='RA', max_length=4,
-        blank=True, null=True
+        default='RA', max_length=4, blank=True, null=True,
     )
     entry_month = models.CharField(
-        max_length=4,
-        blank=True, null=True
+        max_length=4, blank=True, null=True,
     )
     entry_year = models.CharField(max_length=4)
     fellowships = models.ManyToManyField(
