@@ -2,9 +2,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djforms.core.models import GenericChoice, GenericContact
+from djforms.core.models import GenericChoice
+from djforms.core.models import GenericContact
 from djforms.processors.models import Contact as ApplicationContact
-from djtools.fields import BINARY_CHOICES, GENDER_CHOICES
+from djtools.fields import BINARY_CHOICES
+from djtools.fields import GENDER_CHOICES
 from djtools.fields.helpers import upload_to_path
 from djtools.fields.validators import MimetypeValidator
 
