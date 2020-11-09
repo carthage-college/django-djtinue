@@ -162,6 +162,9 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
             <label>When do you plan to start your studies?</label>
           </h3>
           <div class="required">
+            {% if form_app.entry_term.errors or form_app.entry_year.errors %}
+            <span class="error-message">Please choose an entry term and year.</span>
+            {% endif %}
             <ul id="id_entry_term" class="fleft" style="width:30%;">
               <li>
                 <label for="id_entry_term_0">
