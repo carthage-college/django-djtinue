@@ -33,6 +33,7 @@ PROGRAM = {
     'music': 'M.M. in Music Theatre Vocal Pedagogy',
 }
 SUBJECT = "Application for Carthage"
+EMAIL = 'Carthage Admissions <{email}>'.format
 
 
 def form(request, slug=None):
@@ -174,7 +175,11 @@ def form(request, slug=None):
                     app.order.add(order)
                     order.app = app
                     sent = send_mail(
-                        request, to_list, subject, app.email, email_template,
+                        request,
+                        to_list,
+                        subject,
+                        EMAIL(email=app.email),
+                        email_template,
                         order,
                     )
                     order.send_mail = sent
@@ -206,7 +211,11 @@ def form(request, slug=None):
                 # used for email rendering
                 order.app = app
                 sent = send_mail(
-                    request, to_list, subject, app.email, email_template,
+                    request,
+                    to_list,
+                    subject,
+                    EMAIL(email=app.email),
+                    email_template,
                     order,
                 )
                 order.send_mail = sent
