@@ -48,8 +48,8 @@ ACADEMIC_PROGRAMS =  (
         'Master of Science in Business: Sports Management Track',
     ),
     (
-        'Master of Music in Business: Music Theatre Vocal Pedagogy',
-        'Master of Music in Business: Music Theatre Vocal Pedagogy',
+        'Master of Music in Music Theatre Vocal Pedagogy',
+        'Master of Music in Music Theatre Vocal Pedagogy',
     ),
     ('Master of Education', 'Master of Education'),
     (
