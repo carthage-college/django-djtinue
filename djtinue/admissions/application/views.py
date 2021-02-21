@@ -156,8 +156,11 @@ def form(request, slug=None):
             order = form_ord.save()
             order.total = 35.00
             order.operator = settings.TC_OPERATOR
-            subject = '{} {}: ({}, {})'.format(
-                SUBJECT, PROGRAM[slug], app.last_name, app.first_name
+            program = ''
+            if slug:
+                program =  PROGRAM[slug]
+            subject = '{0} {1}: ({2}, {3})'.format(
+                SUBJECT, program, app.last_name, app.first_name,
             )
             if app.payment_method == 'Credit Card':
 
