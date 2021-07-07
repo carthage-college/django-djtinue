@@ -6,6 +6,7 @@ pyodbc==4.0.26
 Pillow==6.2.2
 python-magic==0.4.15
 python-keyczar==0.716
+requests==2.25.1
 bootstrap-admin==0.4.3
 django-admin-honeypot==1.1.0
 django-taggit==0.24.0
