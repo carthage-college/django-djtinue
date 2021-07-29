@@ -1,5 +1,5 @@
+<pre>
 Thank you for your interest in the following programs:
-
 {% for program in data.academic_programs %}
 {{program|safe}}{% endfor %}
 
@@ -34,3 +34,4 @@ CSV:
 {% if data.to %}
 {{data.to|safe}}
 {% endif %}
+</pre>

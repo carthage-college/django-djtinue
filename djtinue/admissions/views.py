@@ -35,7 +35,7 @@ def info_request(request):
                 cd['email'],
                 'admissions/inforequest.txt',
                 cd,
-                content='',
+                #content='text',
             )
             return HttpResponseRedirect(
                 reverse_lazy('info_request_success')
