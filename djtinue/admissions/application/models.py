@@ -8,7 +8,7 @@ from djtools.fields import BINARY_CHOICES, GENDER_CHOICES, PAYMENT_CHOICES
 from djtools.fields.helpers import upload_to_path
 from djtools.fields.validators import MimetypeValidator
 
-from django_extensions.db.fields.encrypted import EncryptedCharField
+from encrypted_model_fields.fields import EncryptedCharField
 
 #FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
 #FILE_VALIDATORS = []
@@ -21,8 +21,8 @@ class Application(ApplicationContact):
         User,
         verbose_name="Updated by",
         #related_name='application_updated_by',
-        editable=False,
-        null=True, blank=True
+        editable=False, null=True, blank=True,
+        on_delete=models.PROTECT
     )
     slug = models.CharField(
         max_length=64, default='generic',
@@ -149,12 +149,14 @@ class Application(ApplicationContact):
     audition_date = models.ForeignKey(
         GenericChoice,
         verbose_name="Audition Date",
-        related_name="audition_date"
+        related_name="audition_date",
+        on_delete=models.PROTECT
     )
     audition_time = models.ForeignKey(
         GenericChoice,
         verbose_name="Audition Time",
-        related_name="audition_time"
+        related_name="audition_time",
+        on_delete=models.PROTECT
     )
     # payment
     payment_method = models.CharField(
@@ -181,7 +183,8 @@ class School(models.Model):
     generic institutions of education
     """
     application = models.ForeignKey(
-        Application, related_name='schools'
+        Application, related_name='schools',
+        on_delete=models.PROTECT
     )
     name = models.CharField(
         max_length=255, blank=True, null=True
@@ -225,7 +228,8 @@ class Contact(GenericContact):
     generic contact for things like recommendations
     """
     application = models.ForeignKey(
-        Application, related_name='contacts'
+        Application, related_name='contacts',
+        on_delete=models.PROTECT
     )
 
     class Meta:

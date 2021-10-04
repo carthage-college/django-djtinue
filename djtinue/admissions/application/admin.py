@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from djtinue.admissions.application.models import Application, Contact, School
 from djtinue.admissions.application.forms import RACES
