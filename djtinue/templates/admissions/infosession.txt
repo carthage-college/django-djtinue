@@ -8,6 +8,7 @@ State:.......................{{data.state}}
 ZIP Code:....................{{data.postal_code}}
 Phone:.......................{{data.phone}}
 Email:.......................<{{data.email}}>
+Meeting Format:..............{{data.meeting_format}}
 
 How did you hear about the program?
 

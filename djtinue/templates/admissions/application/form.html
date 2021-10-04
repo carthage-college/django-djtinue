@@ -35,18 +35,26 @@ $(function() {
 {% else %}
 #creditcard-details { display:none; }
 {% endif %}
+{% if form_app.payment_method.value == "Waiver Code" %}
+#creditcard-details { display:none; }
+#payment-total { display:none; }
+#payment-waiver { display:inherit }
+{% else %}
+#payment-total { display:inherit; }
+#payment-waiver { display:none; }
+{% endif %}
 .column2 { padding-left:3%;}
 @media only screen and (max-width: 60em) {
    .column2 { padding-left:0;}
 }
 .note-editor{width:500px;background: #fff; border: solid 1px #ccc;}
 #id_reg_fee {color:#800;font-weight:bold;}
-ul#id_race li {display:block;}
+ul#id_race li, ul#id_fellowships li {display:block;}
 #session-info > ol li {display:block;margin-bottom:5px;}
 #id_security_code, #id_reg_fee {width:100px;}
 #id_card_number {width:175px;}
 #id_postal_code, #id_date_of_birth, #id_total, #id_social_security_number,
-#id_expiration_month, #id_expiration_year {
+#id_expiration_month, #id_expiration_year, #id_payment_waiver {
 width:120px; }
 #security {color:#000099;float:right;padding:5px;}
 li.ctrlHolder div ul li {display:inline; padding-right:3px;}
@@ -58,6 +66,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     margin-bottom: 0;
     text-transform: none;
 }
+.error-message{font-weight: 800;background-color:#feefb3;padding:1px;}
+#id_entry_year li, #id_entry_term li {display:block;}
 </style>
 {% endblock %}
 {% block content %}
@@ -69,7 +79,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       {{ hidden }}
     {% endfor %}
     {% include "includes/required_text.html" %}
-    {% if form_proc.errors or form_app.errors or form_ord.errors %}
+    {% if form_proc.errors or form_app.errors or form_ord.errors  or form_ed1.errors or form_ct1.errors or form_ct2.errors %}
     <p class="error">
       There were errors with the data submitted, see below.
     </p>
@@ -147,12 +157,48 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% with form_app.birth_place as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
-        {% with form_app.entry_year as field %}
-        {% include "form_field.inc.html" %}
-        {% endwith %}
+        <li class="form-group ctrlHolder">
+          <h3 class="required">
+            <label>When do you plan to start your studies?</label>
+          </h3>
+          <div class="required">
+            {% if form_app.entry_term.errors or form_app.entry_year.errors %}
+            <span class="error-message">Please choose an entry term and year.</span>
+            {% endif %}
+            <ul id="id_entry_term" class="fleft" style="width:30%;">
+              <li>
+                <label for="id_entry_term_0">
+                  <input type="radio" name="entry_term" value="RA" id="id_entry_term_0"{% if form_app.entry_term.value == 'RA' %} checked{% endif %}> Fall
+                </label>
+              </li>
+              <li>
+                <label for="id_entry_term_1">
+                  <input type="radio" name="entry_term" value="RC" id="id_entry_term_1"{% if form_app.entry_term.value == 'RC' %} checked{% endif %}> Spring
+                </label>
+              </li>
+            </ul>
+            <ul id="id_entry_year" class="fright" style="width:70%;">
+            {% for year in years %}
+              <li>
+                <label for="id_entry_year_{{forloop.counter0}}">
+                  <input
+                    type="radio"
+                    name="entry_year"
+                    value="{{year.0}}"
+                    id="id_entry_year_{{forloop.counter0}}"
+                    {% if form_app.entry_year.value == year.0|lower %} checked{% endif %}>
+                  {{year.1}}
+                </label>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% block fellowships %}
         {% with form_app.fellowships as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
+        {% endblock %}
         </ol>
         </div>
       <div class="column2 large-6 medium-12 small-12">
@@ -223,10 +269,12 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% with form_app.position as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
+        {% block cv %}
         {% with form_app.cv as field %}
         {% include "form_field.inc.html" %}
-        {% endwith %}
         </ol>
+        {% endwith %}
+        {% endblock %}
       </div>
       <div class="column2 large-6 medium-12 small-12">
         <ol>
@@ -262,6 +310,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </ol>
           </div>
         </div>
+        {% block schools %}
         <div class="school cf clear">
           <h3 class="ordinal">Second School</h3>
           <div class="large-6 medium-12 small-12 clear cf">
@@ -322,6 +371,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </ol>
           </div>
         </div>
+      {% endblock schools %}
       </div>
       {% block gmat %}
       <div class="large-6 medium-12 small-12 clear cf">
@@ -339,8 +389,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
                 {{ form_app.gmat_date.errors|join:", "}}
               </span>
             {% endif %}
-            <input type="date" name="gmat_date" class="form-control"
-              id="id_gmat_date" value="{{form_app.gmat_date.value}}">
+            <input name="gmat_date" class="form-control"
+              id="id_gmat_date" value="{{form_app.gmat_date.value|default_if_none:''}}">
           </div>
         </li>
         {% with form_app.gmat_score as field %}
@@ -350,7 +400,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       </div>
       {% endblock gmat %}
       {% block gre %}
-      <div class="column2 large-6 medium-12 small-12">
+      <div class="large-6 medium-12 small-12">
         <ol>
         {% with form_app.gre as field %}
         {% include "form_field.inc.html" %}
@@ -365,8 +415,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
                 {{ form_app.gre_date.errors|join:", "}}
               </span>
             {% endif %}
-            <input type="date" name="gre_date" class="form-control"
-              id="id_gre_date" value="{{form_app.gre_date.value}}">
+            <input name="gre_date" class="form-control"
+              id="id_gre_date" value="{{form_app.gre_date.value|default_if_none:''}}">
           </div>
         </li>
         {% with form_app.gre_score as field %}
@@ -375,6 +425,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </ol>
       </div>
       {% endblock gre %}
+      {% block recommendations %}
       <div class="large-12 medium-12 small-12">
         <ol>
         <li>
@@ -397,6 +448,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </ol>
         </div>
       </div>
+      {% endblock recommendations %}
       {% block personal_statement %}
       <div class="large-12 medium-12 small-12">
         <ol>
@@ -423,17 +475,33 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </div>
         <div class="column2 large-6 medium-12 small-12">
           <ol>
-                <li class="ctrlHolder">
-                    <h3>
-                        <label for="id_or-total">Application Fee</label>
-                    </h3>
-                    <div class="required">
-                        <span class="cost">$</span>
-                        <input type="text" name="total" id="id_total"
-                        class="required" readonly="readonly"
-                        value="35">
-                    </div>
-                </li>
+            <li class="ctrlHolder" id="payment-total">
+              <h3>
+                <label for="id_or-total">Application Fee</label>
+              </h3>
+              <div class="required">
+                <span class="cost">$</span>
+                <input type="text" name="total" id="id_total"
+                class="required" readonly="readonly"
+                value="35">
+              </div>
+            </li>
+            <li class="ctrlHolder" id="payment-waiver">
+              <h3>
+                <label for="id_or-total">Waiver Code</label>
+              </h3>
+              {% if form_app.payment_waiver.errors %}
+              <div class="required warning">
+                <span class="error-message">
+                  {{ form_app.payment_waiver.errors|join:", "}}
+                </span>
+              {% else %}
+              <div>
+              {% endif %}
+                <input value="{{form_app.payment_waiver.value|default_if_none:''}}"
+                  type="text" name="payment_waiver" id="id_payment_waiver">
+              </div>
+            </li>
           </ol>
         </div>
       </div>

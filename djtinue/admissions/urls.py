@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
+"""URLs for all views."""
+
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
-
 from djtinue.admissions import views
 
 

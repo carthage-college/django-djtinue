@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 cryptography>=35.0.0
 django==2.2.24
 django-taggit==1.5.1
@@ -7,6 +8,26 @@ django-imagekit==4.0.2
 django-countries==7.2.1
 django-localflavor==3.1
 django-bootstrap4==3.0.1
+=======
+django==1.11.29
+MySQL-python==1.2.5
+python-memcached==1.59
+python-ldap==3.1.0
+pyodbc==4.0.26
+Pillow==6.2.2
+python-magic==0.4.15
+python-keyczar==0.716
+requests==2.25.1
+bootstrap-admin==0.4.3
+django-admin-honeypot==1.1.0
+django-taggit==0.24.0
+django-imagekit==4.0.2
+django-countries==5.3.3
+django-recaptcha==2.0.2
+django-localflavor==2.1
+django-loginas==0.3.6
+django-extensions==2.1.6
+>>>>>>> e7508b0c9e0488e4bea2455b02d8642e9dc03abf
 django-bootstrap-form==3.4
 django-simple-captcha==-0.5.14
 django-encrypted-model-fields==0.5.8

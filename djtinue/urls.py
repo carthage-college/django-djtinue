@@ -1,7 +1,9 @@
-from django.urls import include, path
-from django.views.generic import TemplateView
-
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.urls import include
+from django.urls import path
+from django.views.generic import TemplateView
+from djauth.views import loggedout
 
 
 urlpatterns = [
@@ -32,9 +34,10 @@ urlpatterns = [
     ),
     path(
         'denied/',
-        TemplateView.as_view(template_name='denied.html'), name='access_denied'
+        TemplateView.as_view(template_name='denied.html'),
+        name='access_denied',
     ),
-    #
+    # apps
     path(
         'admissions/', include('djtinue.admissions.urls')
     ),

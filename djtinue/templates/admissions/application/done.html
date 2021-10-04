@@ -1,11 +1,16 @@
 {% extends "home.html" %}
 {% load livewhale_api %}
 {% block title %}
-    {% if slug == 'music'%}
-    Master of Music (M.M.) in Music Theatre Vocal Pedagogy
-    {% else %}{% if slug == 'bdi'%}
-    Master (MSc) in Business Design &amp; Innovation
-    {% endif %}{% endif %}
+    {% if slug == 'music' %}
+    Master of Music (M.M.) in<br>Music Theatre Vocal Pedagogy
+    {% else %}{% if slug == 'bdi' %}
+    Master (MSc) in Business Design &amp; Innovation Application
+    {% else %}{% if slug == 'bsm' %}
+    Master (MSc) in Business Sports Management Application
+    {% else %}{% if slug == 'bsn' %}
+    RN to BSN Application
+    {% else %} Admissions Application
+    {% endif %}{% endif %}{% endif %}{% endif %}
     Admissions Application &mdash;
     Continuing Studies &mdash;
     Carthage College
@@ -19,18 +24,37 @@
 {% endblock %}
 {% block content_head %}
 <h1 id="page_title">
-    {% if slug == 'music'%}
+    {% if slug == 'music' %}
     Master of Music (M.M.) in<br>Music Theatre Vocal Pedagogy
-    {% else %}{% if slug == 'bdi'%}
+    {% else %}{% if slug == 'bdi' %}
     Master (MSc) in Business Design &amp; Innovation Application
+    {% else %}{% if slug == 'bsm' %}
+    Master (MSc) in Business Sports Management Application
+    {% else %}{% if slug == 'bsn' %}
+    RN to BSN Application
     {% else %} Admissions Application
-    {% endif %}{% endif %}
+    {% endif %}{% endif %}{% endif %}{% endif %}
 </h1>
 {% endblock %}
 {% block content %}
+    {% if slug == 'music'%}
     {% get_lw_content as success blurbs 2772 %}
     {{success.body}}
+    {% else %}{% if slug == 'bdi'%}
+    {% get_lw_content as success blurbs 2906 %}
+    {{success.body}}
+    {% else %}{% if slug == 'bsm'%}
+    {% get_lw_content as success blurbs 2906 %}
+    {{success.body}}
+    {% else %}{% if slug == 'bsn' %}
+    {% get_lw_content as success blurbs 2907 %}
+    {{success.body}}
+    {% else %}
+    {% get_lw_content as success blurbs 2908 %}
+    {{success.body}}
+    {% endif %}{% endif %}{% endif %}{% endif %}
 {% endblock %}
 {% block sidebar %}
     {% include "includes/side_bar.html" %}
 {% endblock %}
+    {{success.body}}

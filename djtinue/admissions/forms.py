@@ -4,7 +4,7 @@ from django.utils.timezone import localtime
 from django.utils.encoding import force_text
 from django.utils.dateformat import DateFormat
 
-from djtinue.admissions.models import LivewhaleEvents
+from djforms.core.models import GenericChoice
 from djtools.fields import STATE_CHOICES
 from djtools.fields.localflavor import USPhoneNumberField
 
@@ -35,14 +35,31 @@ HEAR_ABOUT = (
     ('Other', 'Other'),
 )
 ACADEMIC_PROGRAMS =  (
-    ("Undergraduate/Bachelor's Degree", "Undergraduate/Bachelor's Degree"),
-    ("Graduate/Master's Degree", "Graduate/Master's Degree"),
-    ('Teacher Certification', 'Teacher Certification'),
-    ('RN to BSN', 'RN to BSN'),
+    (
+        "Undergraduate/Bachelor's Degree",
+        "Undergraduate/Bachelor's Degree",
+    ),
+    (
+        'Master of Science in Business: Design and Innovation Track',
+        'Master of Science in Business: Design and Innovation Track',
+    ),
+    (
+        'Master of Science in Business: Sports Management Track',
+        'Master of Science in Business: Sports Management Track',
+    ),
+    (
+        'Master of Music in Music Theatre Vocal Pedagogy',
+        'Master of Music in Music Theatre Vocal Pedagogy',
+    ),
+    ('Master of Education', 'Master of Education'),
+    (
+        'RN-to-BSN Completion Program',
+        'RN-to-BSN Completion Program',
+    ),
+    ('Teacher Certification','Teacher Certification'),
 )
-
 # dictionary name corresponds to URL slug
-STYPES = {
+SESSION_TYPES = {
     "information-session":970,
     "graduate-education":972,
     "undergraduate-studies":973,
@@ -50,6 +67,15 @@ STYPES = {
     "paralegal":971,
     "business-design-innnovation":1081
 }
+
+def limit_format():
+    formats = [('','----select----')]
+    choices = GenericChoice.objects.filter(
+        tags__name__in=['Admissions Contact Platform'],
+    ).order_by('ranking')
+    for choice in choices:
+        formats.append((choice.name, choice.value))
+    return formats
 
 
 class InfoRequestForm(forms.Form):
@@ -96,6 +122,9 @@ class InfoSessionForm(forms.Form):
         label="How did you hear about the program?",
         widget=forms.Textarea
     )
+    meeting_format = forms.CharField(
+        widget=forms.Select(choices=limit_format())
+    )
 
     def __init__(self,session_type,*args,**kwargs):
         super(InfoSessionForm,self).__init__(*args,**kwargs)
@@ -117,7 +146,9 @@ class InfoSessionForm(forms.Form):
                 date_dt > DATE(NOW())
             ORDER BY
                 date_dt
-        """.format(STYPES['information-session'], STYPES[session_type])
+        """.format(
+            SESSION_TYPES['information-session'], SESSION_TYPES[session_type],
+        )
         cursor.execute(sql)
         # Wed. May 01, 2020 at 06pm (Master of Education & ACT Info Session)
         choices = [('','---choose a date---')]
