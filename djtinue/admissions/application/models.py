@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from djforms.core.models import GenericChoice
 from djforms.core.models import GenericContact
 from djforms.processors.models import Contact as ApplicationContact
@@ -71,7 +71,7 @@ class Application(ApplicationContact):
         choices=GENDER_CHOICES,
     )
     latinx = models.CharField(
-        "Are you Hispanic or Latinx",
+        'Are you Hispanic or Latinx',
         max_length=4,
         choices=BINARY_CHOICES,
         blank=True,
@@ -158,8 +158,7 @@ class Application(ApplicationContact):
     personal_statement = models.TextField(blank=True, null=True)
     # privacy GDPR waiver
     gdpr = models.CharField(
-        """
-            Are you currently located in a European Union country,
+        verbose_name="""Are you currently located in a European Union country,
             Iceland, Liechtenstein, Norway, or Switzerland?
         """,
         max_length=3,
@@ -202,50 +201,66 @@ class Application(ApplicationContact):
         db_table = 'djtinue_admissions_application'
 
     def get_slug(self):
+        """Return the slug for file uploads."""
         return 'files/admissions/application/'
 
     def get_fellowships(self):
-        fellowships = ""
-        for f in self.fellowships.all():
-            fellowships += "{}, ".format(f)
+        """Return all of the fellowships."""
+        fellowships = ''
+        for fellow in self.fellowships.all():
+            fellowships += '{0}, '.format(fellow)
         return fellowships[:-1]
 
     def get_race(self):
-        race = ""
-        for r in self.race.all():
-            race += "{}, ".format(r)
+        """Obtain all of the races."""
+        race = ''
+        for raza in self.race.all():
+            race += '{0}, '.format(raza)
         return race[:-1]
 
 
 class School(models.Model):
-    """
-    generic institutions of education
-    """
+    """Generic institutions of education."""
+
     application = models.ForeignKey(
-        Application, related_name='schools',
-        on_delete=models.PROTECT
+        Application,
+        related_name='schools',
+        on_delete=models.CASCADE,
     )
-    name = models.CharField(
-        max_length=255, blank=True, null=True
-    )
+    name = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(
-        "State/Provence",
-        max_length=50, blank=True, null=True
+        'State/Provence',
+        max_length=50,
+        blank=True,
+        null=True,
     )
     degree = models.CharField(
-        "Diploma/Degree", max_length=255, blank=True, null=True
+        'Diploma/Degree',
+        max_length=255,
+        blank=True,
+        null=True,
     )
     attended = models.CharField(
-        "Dates Attended", max_length=255, blank=True, null=True
+        'Dates Attended',
+        max_length=255,
+        blank=True,
+        null=True,
     )
     majorminor = models.CharField(
-        "Major(s)/Minor(s)", max_length=255, blank=True, null=True
+        'Major(s)/Minor(s)',
+        max_length=255,
+        blank=True,
+        null=True,
     )
     gpa = models.DecimalField(
-        "GPA", max_digits=4, decimal_places=2, blank=True, null=True
+        'GPA',
+        max_digits=4,
+        decimal_places=2,
+        blank=True,
+        null=True,
     )
     transcript = models.FileField(
-        "Transcript (can be unofficial) in PDF",
+        'Transcript (can be unofficial) in PDF',
         upload_to=upload_to_path,
         validators=FILE_VALIDATORS,
         max_length=768,
@@ -264,9 +279,11 @@ class School(models.Model):
         db_table = 'djtinue_admissions_school'
 
     def get_slug(self):
+        """Return the slug path for file uploads."""
         return 'files/admissions/school/'
 
     def __str__(self):
+        """Display the default value."""
         return '{0}'.format(self.name)
 
 

@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
-from django.db import models, connections
-from django.utils.timezone import utc
-from django.utils.html import escape
-
-from djtools.utils.users import in_group
-#from djtools.templatetags.text_mungers import convert_smart_quotes
 
 import datetime
 
+from django.conf import settings
+from django.db import connections
+from django.db import models
+from djtools.utils.users import in_group
+
 
 class LivewhaleEvents(models.Model):
+    """Data model class for CMS events."""
+
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
     suggested = models.CharField(max_length=500, blank=True)
     parent = models.IntegerField(null=True, blank=True)
-    eid = models.CharField(max_length=255, blank=True, default="")
+    eid = models.CharField(max_length=255, blank=True, default='')
     title = models.CharField(max_length=255)
     date_dt = models.DateTimeField(null=True, blank=True)
     date2_dt = models.DateTimeField(null=True, blank=True)
@@ -38,7 +38,9 @@ class LivewhaleEvents(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     last_user = models.IntegerField(default=settings.BRIDGE_USER)
-    created_by = models.IntegerField(null=True, blank=True, default=settings.BRIDGE_USER)
+    created_by = models.IntegerField(
+        null=True, blank=True, default=settings.BRIDGE_USER,
+    )
     gallery_id = models.IntegerField(null=True, blank=True)
     has_registration = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
@@ -49,7 +51,9 @@ class LivewhaleEvents(models.Model):
     registration_instructions = models.CharField(max_length=500, blank=True)
     registration_response = models.CharField(max_length=2000, blank=True)
     has_registration_notifications = models.IntegerField(null=True, blank=True)
-    registration_notifications_email = models.CharField(max_length=255, blank=True)
+    registration_notifications_email = models.CharField(
+        max_length=255, blank=True,
+    )
     registration_restrict = models.TextField(blank=True)
     registration_owner_email = models.CharField(max_length=255, blank=True)
     has_wait_list = models.IntegerField(null=True, blank=True)
@@ -67,59 +71,61 @@ class LivewhaleEvents(models.Model):
     is_canceled = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        managed = False
-        db_table = u'livewhale_events'
+        """Sub-class for establishing settings on the parent class."""
 
-    def __unicode__(self):
+        managed = False
+        db_table = 'livewhale_events'
+
+    def __str__(self):
+        """Default display value."""
         return self.title
 
     def get_absolute_url(self):
-        return "https://www.carthage.edu/live/events/%s/" % self.id
-
-    def tag(self, jid=None):
-        return get_tag(self.id,jid)
+        """Return the default URL."""
+        return 'https://www.carthage.edu/live/events/{0}/'.format(self.id)
 
     def save(self, data=None, *args, **kwargs):
+        """Override the save method in order to encode some things."""
         self.title.encode('latin1')
         self.summary.encode('latin1')
         self.description.encode('latin1')
-        #self.title = convert_smart_quotes(self.title)
-        #self.summary = convert_smart_quotes(self.summary)
-        #self.description = convert_smart_quotes(self.description)
         if data:
-            u = data["user"]
+            u = data['user']
             # date munging
             if data['start_time']:
-                self.date_dt = datetime.datetime.combine(data['start_date'],data['start_time'])
+                self.date_dt = datetime.datetime.combine(
+                    data['start_date'], data['start_time'],
+                )
             else:
                 self.date_dt = data['start_date']
             if data['end_time']:
-                self.date2_dt = datetime.datetime.combine(data['end_date'],data['end_time'])
+                self.date2_dt = datetime.datetime.combine(
+                    data['end_date'], data['end_time'],
+                )
             else:
                 self.date2_dt = data['end_date']
             # set contact info from request.user
-            self.contact_info = '<p>By:&nbsp;<a href="mailto:%s">%s %s</a></p>' % (
-                u.email, u.first_name,
-                u.last_name
+            self.contact_info = '<p>By:&nbsp;<a href="mailto:{0}">{1} {2}</a></p>'.format(
+                u.email,
+                u.first_name,
+                u.last_name,
             )
-            if in_group(u, "Staff", "Faculty"):
+            if in_group(u, 'Staff', 'Faculty'):
                 self.status = 1
-            else: # student
+            else:  # student
                 self.status = 0
         # save
         super(LivewhaleEvents, self).save(*args, **kwargs)
-        """
-        We have to resort to raw sql since Django does not support
-        composite Foreign Keys
-        """
+        # We have to resort to raw sql since Django does not support
+        # composite Foreign Keys.
         if data:
             # tag
             sql = """
                 INSERT INTO livewhale_tags2any
                     (id1, id2, type)
                 VALUES
-                    ('%s', '%s', 'events')
-            """ % (data["category"],self.id)
+                    ('{0}', '{1}', 'events')
+            """.formt(data['category'], self.id)
             cursor = connections['livewhale'].cursor()
             cursor.execute(sql)
             # category
@@ -127,35 +133,53 @@ class LivewhaleEvents(models.Model):
                 INSERT INTO livewhale_events_categories2any
                     (id1, id2, type)
                 VALUES
-                    ('%s', '%s', 'events')
-            """ % (30,self.id)
+                    ('{0}', '{1}', 'events')
+            """.format(30, self.id)
             cursor.execute(sql)
 
+
 class LivewhaleEvents2Any(models.Model):
+    """Data class model for events mapping."""
+
     id1 = models.IntegerField()
     id2 = models.IntegerField()
     type = models.CharField(max_length=255, primary_key=True)
     position = models.IntegerField()
+
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
+
         managed = False
-        db_table = u'livewhale_events2any'
+        db_table = 'livewhale_events2any'
+
 
 class LivewhaleEventsCategories(models.Model):
+    """Data class model for event categories."""
+
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField(null=True, blank=True)
     title = models.CharField(max_length=765)
     is_starred = models.IntegerField(null=True, blank=True)
+
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
+
         managed = False
-        db_table = u'livewhale_events_categories'
+        db_table = 'livewhale_events_categories'
+
 
 class LivewhaleEventsCategories2Any(models.Model):
+    """Data class model for mapping event categories."""
+
     id1 = models.IntegerField()
     id2 = models.IntegerField()
     type = models.CharField(max_length=255, primary_key=True)
+
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
         managed = False
         db_table = u'livewhale_events_categories2any'
+
 
 class LivewhaleEventsRegistrations(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -168,7 +192,10 @@ class LivewhaleEventsRegistrations(models.Model):
     comments = models.CharField(max_length=1500, blank=True)
     is_cancelled = models.IntegerField(null=True, blank=True)
     status = models.IntegerField(null=True, blank=True)
+
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
+
         managed = False
         db_table = u'livewhale_events_registrations'
 
@@ -185,9 +212,13 @@ class LivewhaleEventsSubscriptions(models.Model):
     created_by = models.IntegerField(null=True, blank=True)
     status = models.IntegerField()
     use_external = models.IntegerField(null=True, blank=True)
+
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
+
         managed = False
         db_table = u'livewhale_events_subscriptions'
+
 
 class LivewhaleTags(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -196,6 +227,7 @@ class LivewhaleTags(models.Model):
     is_starred = models.IntegerField(null=True, blank=True)
 
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
         managed = False
         db_table = u'livewhale_tags'
 
@@ -208,5 +240,7 @@ class LivewhaleTags2Any(models.Model):
     type = models.CharField(max_length=255, primary_key=True)
 
     class Meta:
+        """Sub-class for establishing settings on the parent class."""
+
         managed = False
         db_table = u'livewhale_tags2any'

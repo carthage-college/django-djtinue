@@ -47,5 +47,5 @@ urlpatterns = [
         name='access_denied',
     ),
     path('admissions/', include('djtinue.admissions.urls')),
+    path('captcha/', include('captcha.urls')),
 ]
-urlpatterns += path('captcha/', include('captcha.urls'))

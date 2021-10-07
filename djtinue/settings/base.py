@@ -17,6 +17,7 @@ from djimix.settings.local import MSSQL_EARL
 from djimix.settings.local import ODBCINI
 from djimix.settings.local import ONCONFIG
 
+
 DEBUG = True
 INFORMIX_DEBUG = 'debug'
 REQUIRED_ATTRIBUTE = True
@@ -90,6 +91,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'djforms.core',
+    'djforms.processors',
     'djtinue.admissions',
     'django.contrib.sites',
     'djtinue.admissions.apps.Application',
@@ -180,6 +183,49 @@ DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL = ''
 # app settings
+CONTINUING_STUDIES_INFOREQUEST_RECIPIENTS = {
+    'Undergraduate/Bachelor\'s Degree': [
+        'wweir@carthage.edu',
+        'admback@carthage.edu',
+    ],
+    'Master of Science in Business: Design and Innovation Track': [
+        'gbarron@carthage.edu',
+        'jfrese@carthage.edu',
+        'ctaylor@carthage.edu',
+        'bdi@carthage.edu',
+        'gradback@carthage.edu',
+    ],
+    'Master of Science in Business: Sports Management Track': [
+        'gbarron@carthage.edu',
+        'jfrese@carthage.edu',
+        'ctaylor@carthage.edu',
+        'bdi@carthage.edu',
+        'gradback@carthage.edu'
+    ],
+    'Master of Music in Music Theatre Vocal Pedagogy': [
+        'mallory@carthage.edu',
+        'ctaylor@carthage.edu',
+        'cness@carthage.edu',
+        'finearts@carthage.edu',
+        'gradback@carthage.edu',
+    ],
+    'Master of Education': [
+        'wweir@carthage.edu',
+        'gradback@carthage.edu',
+    ],
+    'RN-to-BSN Completion Program': [
+        'ahanson4@carthage.edu',
+        'cpetersen2@carthage.edu',
+        'admback@carthage.edu',
+    ],
+    'Teacher Certification': [
+        'wweir@carthage.edu',
+        'gradback@carthage.edu',
+    ],
+}
+CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL = ''
+CONTINUING_STUDIES_GROUP = 'Continuing Studies'
+ADMISSIONS_WAIVER_CODE_TAG = 'Admissions Waiver Code'
 CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {
     'master-social-work': [],
     'graduate-education': [],
@@ -187,14 +233,16 @@ CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {
     'paralegal': [],
     'business-design-innnovation': [],
 }
-INFORMATION_REQUEST_EMAIL_LIST = []
 CONTINUING_STUDIES_GROUP = 'Continuing Studies'
 ADMISSIONS_EMAILS = {
     'music': [],
     'bdi': [],
+    'bsm': [],
+    'bsn': [],
     'default': [],
 }
 FIELD_ENCRYPTION_KEY = base64.urlsafe_b64encode(os.urandom(32))
+ENCRYPTED_FIELD_KEYS_DIR = '/data2/www/keys/'
 # App settings (needed for livewhale events model)
 BRIDGE_USER = 0
 BRIDGE_GROUP = 0

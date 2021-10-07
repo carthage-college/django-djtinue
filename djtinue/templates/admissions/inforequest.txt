@@ -8,12 +8,12 @@ to answer any questions you might have.
 
 {{data.first_name}} {{data.last_name}} has submitted a request for information:
 
-Home Address:................{{data.address}}
-City:........................{{data.city}}
-State:.......................{{data.state}}
-ZIP Code:....................{{data.postal_code}}
-Phone:.......................{{data.phone}}
-Email:.......................<{{data.email}}>
+Home Address:................ {{data.address}}
+City:........................ {{data.city}}
+State:....................... {{data.state}}
+ZIP Code:.................... {{data.postal_code}}
+Phone:....................... {{data.phone}}
+Email:....................... {{data.email}}
 
 Intended Areas of Major/Study:
 

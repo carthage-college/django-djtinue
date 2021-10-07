@@ -1,29 +1,23 @@
 # -*- coding: utf-8 -*-
+
+import os
+
 from django.conf import settings
-from django.utils.dates import MONTHS
-from django.template import RequestContext
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.http import Http404
-
-from djtinue.admissions.application.models import Application
+from django.urls import reverse
+from djforms.processors.forms import TrustCommerceForm
+from djtinue.admissions.application.forms import ENTRY_YEAR_CHOICES
 from djtinue.admissions.application.forms import ApplicationForm
 from djtinue.admissions.application.forms import ContactForm
 from djtinue.admissions.application.forms import EducationForm
 from djtinue.admissions.application.forms import EducationRequiredForm
-from djtinue.admissions.application.forms import ENTRY_YEAR_CHOICES
-from djtinue.admissions.application.forms import ENTRY_TERM_CHOICES
 from djtinue.admissions.application.forms import OrderForm
-from djtools.fields import STATE_CHOICES
+from djtinue.admissions.application.models import Application
 from djtools.utils.mail import send_mail
-from djforms.processors.models import Order
-from djforms.processors.forms import TrustCommerceForm
 
-import os
 
 REQ = False
 PROGRAM = {
@@ -32,32 +26,32 @@ PROGRAM = {
     'bsn': 'RSN to BSN',
     'music': 'M.M. in Music Theatre Vocal Pedagogy',
 }
-SUBJECT = "Application for Carthage"
+SUBJECT = 'Application for Carthage'
 EMAIL = 'Carthage Admissions <{email}>'.format
 
 
 def form(request, slug=None):
-
+    """Application form."""
     to_list = settings.ADMISSIONS_EMAILS.get(slug)
-    p = 'admissions/application/'
+    prefix = 'admissions/application/'
     if to_list:
-        p = os.path.join(p, slug)
+        path = os.path.join(prefix, slug)
     else:
         to_list = settings.ADMISSIONS_EMAILS['default']
 
-    form_template = '{}/form.html'.format(p)
-    email_template = '{}/email.html'.format(p)
+    form_template = '{0}/form.html'.format(path)
+    email_template = '{0}/email.html'.format(path)
     # recommendations are not required for some applications
     form_ct1 = None
-    form_ct2= None
-    if request.method=='POST':
+    form_ct2 = None
+    if request.method == 'POST':
         form_app = ApplicationForm(
             request.POST,
             request.FILES,
             label_suffix='',
             use_required_attribute=REQ,
         )
-        if slug not in ['bsn']:
+        if slug != 'bsn':
             form_ct1 = ContactForm(
                 request.POST,
                 prefix='ct1',
@@ -109,7 +103,7 @@ def form(request, slug=None):
             request.POST,
             label_suffix='',
             use_required_attribute=REQ,
-            initial={'total':35, 'avs':False,'auth':'sale'},
+            initial={'total': 35, 'avs': False, 'auth': 'sale'},
         )
         form_proc = TrustCommerceForm(
             request.POST,
@@ -127,7 +121,7 @@ def form(request, slug=None):
             app.social_security_four = app.social_security_number[-4:]
             app.save()
             # recommendations
-            if slug not in ['bsn']:
+            if slug != 'bsn':
                 if form_ct1.is_valid():
                     ct1 = form_ct1.save(commit=False)
                     ct1.application = app
@@ -158,22 +152,22 @@ def form(request, slug=None):
             order.operator = settings.TC_OPERATOR
             program = ''
             if slug:
-                program =  PROGRAM[slug]
+                program = PROGRAM[slug]
             subject = '{0} {1}: ({2}, {3})'.format(
                 SUBJECT, program, app.last_name, app.first_name,
             )
             if app.payment_method == 'Credit Card':
 
                 form_proc = TrustCommerceForm(
-                    order, app, request.POST, use_required_attribute=False
+                    order, app, request.POST, use_required_attribute=False,
                 )
 
                 if form_proc.is_valid():
-                    r = form_proc.processor_response
-                    order.status = r.msg['status']
-                    order.transid = r.msg['transid']
+                    response = form_proc.processor_response
+                    order.status = response.msg['status']
+                    order.transid = response.msg['transid']
                     order.cc_name = form_proc.name
-                    order.cc_4_digits = form_proc.card[-4:]
+                    order.cc_four_digits = form_proc.card[-4:]
                     order.save()
                     app.order.add(order)
                     order.app = app
@@ -191,24 +185,24 @@ def form(request, slug=None):
                     return HttpResponseRedirect(
                         reverse(
                             'admissions_application_success',
-                            kwargs={'slug':slug},
-                        )
+                            kwargs={'slug': slug},
+                        ),
                     )
 
                 else:
-                    r = form_proc.processor_response
-                    if r:
-                        order.status = r.status
+                    response = form_proc.processor_response
+                    if response:
+                        order.status = response.status
                     else:
                         order.status = 'Form Invalid'
                     order.cc_name = form_proc.name
                     if form_proc.card:
-                        order.cc_4_digits = form_proc.card[-4:]
+                        order.cc_four_digits = form_proc.card[-4:]
                     order.save()
                     app.order.add(order)
             else:
-                order.auth='COD'
-                order.status='Pay later'
+                order.auth = 'COD'
+                order.status = 'Pay later'
                 order.save()
                 app.order.add(order)
                 # used for email rendering
@@ -226,49 +220,50 @@ def form(request, slug=None):
                 return HttpResponseRedirect(
                     reverse(
                         'admissions_application_success',
-                        kwargs={'slug':slug},
-                    )
+                        kwargs={'slug': slug},
+                    ),
                 )
         else:
             if request.POST.get('payment_method') == 'Credit Card':
                 form_proc = TrustCommerceForm(
-                    None, request.POST, use_required_attribute=False
+                    None, request.POST, use_required_attribute=False,
                 )
                 form_proc.is_valid()
             else:
                 form_proc = TrustCommerceForm(use_required_attribute=False)
     else:
         form_app = ApplicationForm(
-            label_suffix='', use_required_attribute=REQ
+            label_suffix='', use_required_attribute=REQ,
         )
-        if slug not in ['bsn']:
+        if slug != 'bsn':
             form_ct1 = ContactForm(
-                prefix='ct1',  label_suffix='', use_required_attribute=REQ
+                prefix='ct1', label_suffix='', use_required_attribute=REQ,
             )
             form_ct2 = ContactForm(
-                prefix='ct2',  label_suffix='', use_required_attribute=REQ
+                prefix='ct2', label_suffix='', use_required_attribute=REQ,
             )
         form_ed1 = EducationRequiredForm(
-            prefix='ed1', label_suffix='', use_required_attribute=REQ
+            prefix='ed1', label_suffix='', use_required_attribute=REQ,
         )
         form_ed2 = EducationForm(
-            prefix='ed2', label_suffix='', use_required_attribute=REQ
+            prefix='ed2', label_suffix='', use_required_attribute=REQ,
         )
         form_ed3 = EducationForm(
-            prefix='ed3', label_suffix='', use_required_attribute=REQ
+            prefix='ed3', label_suffix='', use_required_attribute=REQ,
         )
         form_ed4 = EducationForm(
-            prefix='ed4', label_suffix='', use_required_attribute=REQ
+            prefix='ed4', label_suffix='', use_required_attribute=REQ,
         )
         form_ed5 = EducationForm(
-            prefix='ed5', label_suffix='', use_required_attribute=REQ
+            prefix='ed5', label_suffix='', use_required_attribute=REQ,
         )
         form_ord = OrderForm(
-            label_suffix='', use_required_attribute=REQ,
-            initial={'total':35, 'avs':False,'auth':'sale'}
+            label_suffix='',
+            use_required_attribute=REQ,
+            initial={'total': 35, 'avs': False, 'auth': 'sale'},
         )
         form_proc = TrustCommerceForm(
-            label_suffix='', use_required_attribute=False
+            label_suffix='', use_required_attribute=False,
         )
 
     extra_context = {
@@ -292,14 +287,16 @@ def form(request, slug=None):
 
 @login_required
 def detail(request, aid):
-    data = get_object_or_404(Application, pk=aid)
+    """Display the details of an application."""
+    application = get_object_or_404(Application, pk=aid)
     return render(
-        request, 'admissions/application/email.html',
-        {'data': {'app':data,},}
+        request,
+        'admissions/application/email.html',
+        {'data': {'app': application}},
     )
 
 
 def success(request, slug):
     """Redirect here after user submits application form."""
     template = 'admissions/application/done.html'
-    return render(request, template, {'slug':slug})
+    return render(request, template, {'slug': slug})

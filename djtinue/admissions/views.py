@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from django.http import HttpResponseRedirect
 from django.http import Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils.timezone import localtime
 from django.utils.dateformat import DateFormat
+from django.utils.timezone import localtime
+from djtinue.admissions.forms import SESSION_TYPES
 from djtinue.admissions.forms import InfoRequestForm
 from djtinue.admissions.forms import InfoSessionForm
-from djtinue.admissions.forms import SESSION_TYPES
 from djtinue.admissions.models import LivewhaleEvents as Event
 from djtools.utils.mail import send_mail
 
 
 def info_request(request):
+    """Information request form."""
     if request.method == 'POST':
         form = InfoRequestForm(request.POST)
         if form.is_valid():
@@ -28,7 +29,7 @@ def info_request(request):
             if settings.DEBUG:
                 cd['to'] = to
                 to = [settings.MANAGERS[0][1]]
-            subject = "OCS Information Request"
+            subject = 'OCS Information Request'
             send_mail(
                 request,
                 to,
@@ -36,25 +37,21 @@ def info_request(request):
                 cd['email'],
                 'admissions/inforequest.txt',
                 cd,
-                #content='text',
             )
-            return HttpResponseRedirect(
-                reverse_lazy('info_request_success')
-            )
+            return HttpResponseRedirect(reverse_lazy('info_request_success'))
     else:
         form = InfoRequestForm()
-    return render(
-        request, 'admissions/inforequest.html',{'form': form,}
-    )
+    return render(request, 'admissions/inforequest.html', {'form': form})
 
 
 def info_session(request, session_type):
+    """Information session request form."""
     try:
         SESSION_TYPES[session_type]
     except Exception:
         raise Http404
     if request.method == 'POST':
-        form = InfoSessionForm(session_type,request.POST)
+        form = InfoSessionForm(session_type, request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             cd['session_type'] = session_type
@@ -72,17 +69,18 @@ def info_session(request, session_type):
             # to
             recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
             to = recipients[session_type]
-            subject = "OCS Information Session Request: "
-            subject +="%s on %s" % (session_type, datetime)
+            subject = 'OCS Information Session Request: '
+            subject += '{0} on {1}'.format(session_type, datetime)
             send_mail(
-                request, to, subject, cd['email'],
-                'admissions/infosession.txt', cd, content=''
+                request,
+                to,
+                subject,
+                cd['email'],
+                'admissions/infosession.txt',
+                cd,
+                content='',
             )
-            return HttpResponseRedirect(
-                reverse_lazy('info_session_success')
-            )
+            return HttpResponseRedirect(reverse_lazy('info_session_success'))
     else:
         form = InfoSessionForm(session_type)
-    return render(
-        request, 'admissions/infosession.html',{'form': form,}
-    )
+    return render(request, 'admissions/infosession.html', {'form': form})
