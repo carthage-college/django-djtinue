@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse
 from djforms.processors.forms import TrustCommerceForm
+from djtools.utils.mail import send_mail
+
 from djtinue.admissions.application.forms import ENTRY_YEAR_CHOICES
 from djtinue.admissions.application.forms import ApplicationForm
 from djtinue.admissions.application.forms import ContactForm
@@ -16,7 +18,6 @@ from djtinue.admissions.application.forms import EducationForm
 from djtinue.admissions.application.forms import EducationRequiredForm
 from djtinue.admissions.application.forms import OrderForm
 from djtinue.admissions.application.models import Application
-from djtools.utils.mail import send_mail
 
 
 REQ = False
@@ -38,7 +39,8 @@ def form(request, slug=None):
         path = os.path.join(prefix, slug)
     else:
         to_list = settings.ADMISSIONS_EMAILS['default']
-
+    if settings.DEBUG:
+        to_list = [settings.SERVER_MAIL]
     form_template = '{0}/form.html'.format(path)
     email_template = '{0}/email.html'.format(path)
     # recommendations are not required for some applications

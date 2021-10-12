@@ -81,7 +81,6 @@ class Application(ApplicationContact):
         GenericChoice,
         help_text='Check all that apply',
         blank=True,
-        null=True,
     )
     social_security_number = EncryptedCharField(
         max_length=254, null=True, blank=True,
@@ -110,7 +109,6 @@ class Application(ApplicationContact):
         """,
         help_text='Check all that apply',
         blank=True,
-        null=True,
     )
     # employment information
     employer = models.CharField(max_length=128, null=True, blank=True)

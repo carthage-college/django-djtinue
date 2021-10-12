@@ -5,18 +5,6 @@
 import base64
 import os
 
-from djimix.settings.local import DBSERVERNAME
-from djimix.settings.local import INFORMIX_ODBC
-from djimix.settings.local import INFORMIX_ODBC_TRAIN
-from djimix.settings.local import INFORMIXDIR
-from djimix.settings.local import INFORMIXSERVER
-from djimix.settings.local import INFORMIXSQLHOSTS
-from djimix.settings.local import LD_LIBRARY_PATH
-from djimix.settings.local import LD_RUN_PATH
-from djimix.settings.local import MSSQL_EARL
-from djimix.settings.local import ODBCINI
-from djimix.settings.local import ONCONFIG
-
 
 DEBUG = True
 INFORMIX_DEBUG = 'debug'
@@ -82,35 +70,33 @@ DATABASES = {
     },
 }
 INSTALLED_APPS = (
-    'bootstrap_admin',
     'bootstrap4',
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'djforms.core',
     'djforms.processors',
     'djtinue.admissions',
-    'django.contrib.sites',
     'djtinue.admissions.apps.Application',
     'djtools',
     # third party projects
+    'admin_honeypot',
     'captcha',
     'encrypted_model_fields',
-    # honeypot for admin attacks
-    'admin_honeypot',
-    # sign in as a user
     'loginas',
-    # tagging package
     'taggit',
 )
 AUTH_PROFILE_MODULE = 'core.UserProfile'
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -161,7 +147,7 @@ LDAP_ID_ATTR = ''
 LDAP_AUTH_USER_PK = False
 # auth backends
 AUTHENTICATION_BACKENDS = (
-    'djauth.ldapBackend.LDAPBackend',
+    'djauth.backends.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '{0}accounts/login/'.format(ROOT_URL)
@@ -183,47 +169,16 @@ DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL = ''
 # app settings
+FIELD_ENCRYPTION_KEY = ''
 CONTINUING_STUDIES_INFOREQUEST_RECIPIENTS = {
-    'Undergraduate/Bachelor\'s Degree': [
-        'wweir@carthage.edu',
-        'admback@carthage.edu',
-    ],
-    'Master of Science in Business: Design and Innovation Track': [
-        'gbarron@carthage.edu',
-        'jfrese@carthage.edu',
-        'ctaylor@carthage.edu',
-        'bdi@carthage.edu',
-        'gradback@carthage.edu',
-    ],
-    'Master of Science in Business: Sports Management Track': [
-        'gbarron@carthage.edu',
-        'jfrese@carthage.edu',
-        'ctaylor@carthage.edu',
-        'bdi@carthage.edu',
-        'gradback@carthage.edu'
-    ],
-    'Master of Music in Music Theatre Vocal Pedagogy': [
-        'mallory@carthage.edu',
-        'ctaylor@carthage.edu',
-        'cness@carthage.edu',
-        'finearts@carthage.edu',
-        'gradback@carthage.edu',
-    ],
-    'Master of Education': [
-        'wweir@carthage.edu',
-        'gradback@carthage.edu',
-    ],
-    'RN-to-BSN Completion Program': [
-        'ahanson4@carthage.edu',
-        'cpetersen2@carthage.edu',
-        'admback@carthage.edu',
-    ],
-    'Teacher Certification': [
-        'wweir@carthage.edu',
-        'gradback@carthage.edu',
-    ],
+    "Undergraduate/Bachelor's Degree": [],
+    'Master of Science in Business: Design and Innovation Track': [],
+    'Master of Science in Business: Sports Management Track': [],
+    'Master of Music in Music Theatre Vocal Pedagogy': [],
+    'Master of Education': [],
+    'RN-to-BSN Completion Program': [],
+    'Teacher Certification': [],
 }
-CONTINUING_STUDIES_ENRICHMENT_REGISTRATION_EMAIL = ''
 CONTINUING_STUDIES_GROUP = 'Continuing Studies'
 ADMISSIONS_WAIVER_CODE_TAG = 'Admissions Waiver Code'
 CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {

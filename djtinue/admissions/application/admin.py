@@ -3,6 +3,8 @@
 from django import forms
 from django.contrib import admin
 from django.urls import reverse
+from django.utils.safestring import mark_safe
+
 from djtinue.admissions.application.forms import RACES
 from djtinue.admissions.application.models import Application
 from djtinue.admissions.application.models import Contact
@@ -104,8 +106,8 @@ class ApplicationAdmin(admin.ModelAdmin):
 
     form = ApplicationForm
     list_display = (
-        'last_name_print',
-        'first_name',
+        'last_name',
+        'first_name_print',
         'email',
         'created_at',
         'viewed',
@@ -124,17 +126,17 @@ class ApplicationAdmin(admin.ModelAdmin):
             'all': ('/static/djtinue/css/admin.css',),
         }
 
-    def last_name_print(self, instance):
-        """Display the sur name."""
-        return '<a href="{0}" target="_blank">{1}</a>'.format(
+    def first_name_print(self, instance):
+        """Display the given name as a link to print view."""
+        return mark_safe('<a href="{0}" target="_blank">{1}</a>'.format(
             reverse(
                 'admissions_application_detail',
                 kwargs={'aid': instance.id},
             ),
-            instance.last_name,
-        )
-    last_name_print.allow_tags = True
-    last_name_print.short_description = 'Last Name (print)'
+            instance.first_name,
+        ))
+    first_name_print.allow_tags = True
+    first_name_print.short_description = 'First Name (print)'
 
 
 admin.site.register(Application, ApplicationAdmin)

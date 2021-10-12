@@ -14,8 +14,10 @@ from djauth.views import loggedout
 
 urlpatterns = [
     # django admin
-    path('rocinante/', include('loginas.urls')),
     path('rocinante/', admin.site.urls),
+    #path('admin/', admin.site.urls),
+    path('rocinante/', include('loginas.urls')),
+    #path('admin/', include('loginas.urls')),
     # admin honeypot
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     # auth
