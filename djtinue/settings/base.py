@@ -6,8 +6,8 @@ import base64
 import os
 
 
-DEBUG = True
-INFORMIX_DEBUG = 'debug'
+DEBUG = False
+INFORMIX_DEBUG = ''
 REQUIRED_ATTRIBUTE = True
 ADMINS = ()
 MANAGERS = ADMINS
