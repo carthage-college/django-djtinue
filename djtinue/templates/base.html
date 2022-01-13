@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+  Admissions &mdash;
+  Continuing Studies &mdash;
+  Carthage College
+{% endblock %}
+{% block extra_style %}
+  {{block.super}}
+  <link href="//app.carthage.edu/themes/shared/css/icons.css"
+    type="text/css" rel="stylesheet">
+  <link href="//app.carthage.edu/themes/shared/css/forms.css"
+    rel="stylesheet" type="text/css">
+  <link href="//app.carthage.edu/themes/shared/css/tables.css"
+    rel="stylesheet" type="text/css">
+  <style>
+  .generic-subpage #secondary-navigation-wrap {
+    padding: 45px 0 0 45px;
+  }
+  </style>
+{% endblock %}
+{% block left_nav %}
+  {% include "includes/left_nav.html" %}
+{% endblock %}
+{% block content_head %}
+  <h1>Admissions</h1>
+{% endblock %}
+{% block breadcrumb %}
+    <li><a href="/academics/adult-evening-programs/adult-undergraduate-studies/">Adult Undergraduate Studies</a></li>
+    <li><a href="/academics/adult-evening-programs/adult-undergraduate-studies/appointments-and-info-sessions/" aria-current="page">Appointments &amp; Info Sessions</a></li>
+{% endblock %}
+{% block content %}{% endblock %}
+{% block sidebar %}
+  {% include "includes/side_bar.html" %}
+{% endblock %}

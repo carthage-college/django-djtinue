@@ -1,29 +1,22 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
 {% load livewhale_api %}
 {% block title %}
-    {% if slug == 'music' %}
+  {% if slug == 'music' %}
     Master of Music (M.M.) in<br>Music Theatre Vocal Pedagogy
-    {% else %}{% if slug == 'bdi' %}
+  {% else %}{% if slug == 'bdi' %}
     Master (MSc) in Business Design &amp; Innovation Application
-    {% else %}{% if slug == 'bsm' %}
+  {% else %}{% if slug == 'bsm' %}
     Master (MSc) in Business Sports Management Application
-    {% else %}{% if slug == 'bsn' %}
+  {% else %}{% if slug == 'bsn' %}
     RN to BSN Application
-    {% else %} Admissions Application
-    {% endif %}{% endif %}{% endif %}{% endif %}
-    Admissions Application &mdash;
-    Continuing Studies &mdash;
-    Carthage College
-{% endblock %}
-{% block group_name %}
-<a href="/continuing-studies/">Continuing Studies</a>
-{% endblock %}
-{% block left_nav %}
-{% get_lw_content as nav blurbs 2587 %}
-{{nav.body}}
+  {% else %} Admissions Application
+  {% endif %}{% endif %}{% endif %}{% endif %}
+  Admissions Application &mdash;
+  Continuing Studies &mdash;
+  Carthage College
 {% endblock %}
 {% block content_head %}
-<h1 id="page_title">
+  <h1>
     {% if slug == 'music' %}
     Master of Music (M.M.) in<br>Music Theatre Vocal Pedagogy
     {% else %}{% if slug == 'bdi' %}
@@ -34,27 +27,28 @@
     RN to BSN Application
     {% else %} Admissions Application
     {% endif %}{% endif %}{% endif %}{% endif %}
-</h1>
+  </h1>
+{% endblock %}
+{% block breadcrumb %}
+    <li><a href="/academics/adult-evening-programs/adult-undergraduate-studies/">Adult Undergraduate Studies</a></li>
+    <li><a href="/academics/adult-evening-programs/adult-undergraduate-studies/admission/" aria-current="page">How to Apply</a></li>
 {% endblock %}
 {% block content %}
     {% if slug == 'music'%}
     {% get_lw_content as success blurbs 2772 %}
-    {{success.body}}
+    {{success.body|safe}}
     {% else %}{% if slug == 'bdi'%}
     {% get_lw_content as success blurbs 2906 %}
-    {{success.body}}
+    {{success.body|safe}}
     {% else %}{% if slug == 'bsm'%}
     {% get_lw_content as success blurbs 2906 %}
-    {{success.body}}
+    {{success.body|safe}}
     {% else %}{% if slug == 'bsn' %}
     {% get_lw_content as success blurbs 2907 %}
-    {{success.body}}
+    {{success.body|safe}}
     {% else %}
     {% get_lw_content as success blurbs 2908 %}
-    {{success.body}}
+    {{success.body|safe}}
     {% endif %}{% endif %}{% endif %}{% endif %}
 {% endblock %}
-{% block sidebar %}
-    {% include "includes/side_bar.html" %}
-{% endblock %}
-    {{success.body}}
+{{success.body}}

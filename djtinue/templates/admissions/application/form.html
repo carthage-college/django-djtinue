@@ -43,10 +43,6 @@ $(function() {
 #payment-total { display:inherit; }
 #payment-waiver { display:none; }
 {% endif %}
-.column2 { padding-left:3%;}
-@media only screen and (max-width: 60em) {
-   .column2 { padding-left:0;}
-}
 .note-editor{width:500px;background: #fff; border: solid 1px #ccc;}
 #id_reg_fee {color:#800;font-weight:bold;}
 ul#id_race li, ul#id_fellowships li {display:block;}
@@ -72,8 +68,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
 {% endblock %}
 {% block content %}
 <div class="forms-container">
-  <form method="post" action="." class="form" enctype="multipart/form-data"
-    id="profile">
+  <form method="post" action="." class="form" enctype="multipart/form-data">
     {% csrf_token %}
     {% for hidden in form_ord.hidden_fields %}
       {{ hidden }}
@@ -86,7 +81,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     {% endif %}
     <fieldset class="blockLabels">
       <legend>Contact Information</legend>
-      <div class="large-6 medium-12 small-12 clear cf">
+      <div>
         <ol>
         {% with form_app.first_name as field %}
         {% include "form_field.inc.html" %}
@@ -107,7 +102,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         </ol>
       </div>
-      <div class="column2 large-6 medium-12 small-12">
+      <div>
         <ol>
         {% with form_app.address1 as field %}
         {% include "form_field.inc.html" %}
@@ -126,7 +121,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         </ol>
       </div>
-      <div class="large-6 medium-12 small-12 clear cf" style="border-top:2px dotted #cacaca;margin-top:16px;padding-top:12px;">
+      <div style="border-top:2px dotted #cacaca;margin-top:16px;padding-top:12px;">
         <ol>
         {% with form_app.phone as field %}
         {% include "form_field.inc.html" %}
@@ -136,7 +131,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         </ol>
       </div>
-      <div class="column2 large-6 medium-12 small-12" style="border-top:2px dotted #cacaca;margin-top:16px;padding-top:12px;">
+      <div style="border-top:2px dotted #cacaca;margin-top:16px;padding-top:12px;">
         <ol>
         {% with form_app.phone_tertiary as field %}
         {% include "form_field.inc.html" %}
@@ -146,7 +141,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     </fieldset>
     <fieldset class="blockLabels">
       <legend>Personal Information</legend>
-      <div class="large-6 medium-12 small-12 clear cf">
+      <div>
         <ol>
         {% with form_app.social_security_number as field %}
         {% include "form_field.inc.html" %}
@@ -200,8 +195,8 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         {% endblock %}
         </ol>
-        </div>
-      <div class="column2 large-6 medium-12 small-12">
+      </div>
+      <div>
         <ol>
         {% with form_app.gender as field %}
         {% include "form_field.inc.html" %}
@@ -214,14 +209,14 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         </ol>
       </div>
-      <div class="large-12 medium-12 small-12">
+      <div>
         <ol>
         {% with form_app.gdpr as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
         </ol>
       </div>
-      <div class="large-12 medium-12 small-12" id="gdpr" style="display:none;">
+      <div id="gdpr" style="display:none;">
         <ol>
         <li>
           <p>
@@ -261,7 +256,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     </fieldset>
     <fieldset class="blockLabels">
       <legend>Employment Information</legend>
-      <div class="large-6 medium-12 small-12 clear cf">
+      <div>
         <ol>
         {% with form_app.employer as field %}
         {% include "form_field.inc.html" %}
@@ -276,7 +271,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endwith %}
         {% endblock %}
       </div>
-      <div class="column2 large-6 medium-12 small-12">
+      <div>
         <ol>
         {% with form_app.tuition_reimbursement as field %}
         {% include "form_field.inc.html" %}
@@ -289,21 +284,21 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     </fieldset>
     <fieldset class="blockLabels">
       <legend>Educational Background</legend>
-      <div class="large-12 medium-12 small-12">
+      <div>
         <ol>
         <li>
           <p>List all colleges attended, beginning with the most recent.</p>
         </li>
         </ol>
-        <div class="school cf clear">
+        <div class="school">
           <h3 class="ordinal">Previous School</h3>
-          <div class="large-6 medium-12 small-12 clear cf">
+          <div>
           <ol>
             {% for field in form_ed1.visible_fields %}
               {% include "form_field.inc.html" %}
               {% if field.name == "degree" %}
                 </ol></div>
-                <div class="column2 large-6 medium-12 small-12">
+                <div>
                 <ol>
               {% endif %}
             {% endfor %}
@@ -311,60 +306,60 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </div>
         </div>
         {% block schools %}
-        <div class="school cf clear">
+        <div class="school">
           <h3 class="ordinal">Second School</h3>
-          <div class="large-6 medium-12 small-12 clear cf">
+          <div>
           <ol>
             {% for field in form_ed2.visible_fields %}
               {% include "form_field.inc.html" %}
               {% if field.name == "degree" %}
                 </ol></div>
-                <div class="column2 large-6 medium-12 small-12">
+                <div>
                 <ol>
               {% endif %}
             {% endfor %}
           </ol>
           </div>
         </div>
-        <div class="school cf clear">
+        <div class="school">
           <h3 class="ordinal">Third School</h3>
-          <div class="large-6 medium-12 small-12 clear cf">
+          <div>
           <ol>
             {% for field in form_ed3.visible_fields %}
               {% include "form_field.inc.html" %}
               {% if field.name == "degree" %}
                 </ol></div>
-                <div class="column2 large-6 medium-12 small-12">
+                <div>
                 <ol>
               {% endif %}
             {% endfor %}
           </ol>
           </div>
         </div>
-        <div class="school cf clear">
+        <div class="school">
           <h3 class="ordinal">Fourth School</h3>
-          <div class="large-6 medium-12 small-12 clear cf">
+          <div>
           <ol>
             {% for field in form_ed4.visible_fields %}
               {% include "form_field.inc.html" %}
               {% if field.name == "degree" %}
                 </ol></div>
-                <div class="column2 large-6 medium-12 small-12">
+                <div>
                 <ol>
               {% endif %}
             {% endfor %}
           </ol>
           </div>
         </div>
-        <div class="school cf clear">
+        <div class="school">
           <h3 class="ordinal">Fifth School</h3>
-          <div class="large-6 medium-12 small-12 clear cf">
+          <div>
           <ol>
             {% for field in form_ed5.visible_fields %}
               {% include "form_field.inc.html" %}
               {% if field.name == "degree" %}
                 </ol></div>
-                <div class="column2 large-6 medium-12 small-12">
+                <div>
                 <ol>
               {% endif %}
             {% endfor %}
@@ -374,7 +369,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       {% endblock schools %}
       </div>
       {% block gmat %}
-      <div class="large-6 medium-12 small-12 clear cf">
+      <div>
         <ol>
         {% with form_app.gmat as field %}
         {% include "form_field.inc.html" %}
@@ -400,7 +395,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       </div>
       {% endblock gmat %}
       {% block gre %}
-      <div class="large-6 medium-12 small-12">
+      <div>
         <ol>
         {% with form_app.gre as field %}
         {% include "form_field.inc.html" %}
@@ -426,21 +421,21 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       </div>
       {% endblock gre %}
       {% block recommendations %}
-      <div class="large-12 medium-12 small-12">
+      <div>
         <ol>
         <li>
         {% get_lw_content as recommendations blurbs 2771 %}
-        {{recommendations.body}}
+        {{recommendations.body|safe}}
         </li>
         </ol>
-        <div class="large-6 medium-12 small-12 clear cf">
+        <div>
           <ol>
             {% for field in form_ct1.visible_fields %}
               {% include "form_field.inc.html" %}
             {% endfor %}
           </ol>
         </div>
-        <div class="column2 large-6 medium-12 small-12">
+        <div>
           <ol>
             {% for field in form_ct2.visible_fields %}
               {% include "form_field.inc.html" %}
@@ -450,12 +445,12 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       </div>
       {% endblock recommendations %}
       {% block personal_statement %}
-      <div class="large-12 medium-12 small-12">
+      <div>
         <ol>
         <li>
         {% get_lw_content as personal_statement blurbs 2770 %}
-        {{personal_statement.body}}
-        <div class="large-10 medium-12 small-12">
+        {{personal_statement.body|safe}}
+        <div>
         {{form_app.personal_statement}}
         </li>
         </ol>
@@ -465,15 +460,15 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     {% block audition %}{% endblock audition %}
     <fieldset class="blockLabels">
       <legend>Payment Information</legend>
-      <div class="large-12 medium-12 small-12">
-        <div class="large-6 medium-12 small-12 clear cf">
+      <div>
+        <div>
           <ol>
           {% with form_app.payment_method as field %}
           {% include "form_field.inc.html" %}
           {% endwith %}
           </ol>
         </div>
-        <div class="column2 large-6 medium-12 small-12">
+        <div>
           <ol>
             <li class="ctrlHolder" id="payment-total">
               <h3>
@@ -508,7 +503,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     </fieldset>
     <fieldset class="blockLabels" id="creditcard-details">
       <legend>Credit Card Details</legend>
-      <div class="large-12 medium-12 small-12">
+      <div>
         {% if form_proc.errors %}
         <div style="padding-left:4px;">
           <p class="notice">
@@ -519,7 +514,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </p>
         </div>
         {% endif %}
-        <div class="large-6 medium-12 small-12 clear cf">
+        <div>
           <ol>
             {% with form_proc.billing_name as field %}
             {% include "form_field.inc.html" %}
@@ -542,7 +537,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
             </li>
           </ol>
         </div>
-        <div class="column2 large-6 medium-12 small-12">
+        <div>
           <ol>
             {% with form_proc.security_code as field %}
             {% include "form_field.inc.html" %}
@@ -555,7 +550,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       </div>
     </fieldset>
     <fieldset>
-      <div class="large-12 medium-12 small-12">
+      <div>
         <ol>
           <li class="btnHolder">
             <p>
@@ -576,7 +571,5 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       </div>
     </fieldset>
   </form>
-</div>
-<div style="display:none;">
 </div>
 {% endblock %}

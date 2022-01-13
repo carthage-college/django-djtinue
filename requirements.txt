@@ -13,7 +13,7 @@ django-simple-captcha==0.5.14
 django-taggit==1.5.1
 django-encrypted-model-fields==0.6.0
 mysqlclient==2.0.3
-Pillow==8.3.2
+Pillow==9.0.0
 pyodbc==4.0.32
 python-ldap==3.4.0
 python-magic==0.4.24
