@@ -3,8 +3,7 @@
 {% block extra_javascript %}
 {{ block.super }}
 <!-- Include Editor style. -->
-<script src="//www.carthage.edu/static/vendor/jquery/plugins/trumbowyg/trumbowyg.min.js"></script>
-<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@2.9.3/js/froala_editor.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js" integrity="sha512-t4CFex/T+ioTF5y0QZnCY9r5fkE8bMf9uoNH2HNSwsiTaMQMO0C9KbKPMvwWNdVaEO51nDL3pAzg4ydjWXaqbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="//www.carthage.edu/themes/korra/assets/fancybox/jquery.fancybox.js"
   type="text/javascript"></script>
 <script src="/static/djtinue/js/admissions.js" type="text/javascript"></script>
@@ -25,8 +24,7 @@ $(function() {
 {% endblock %}
 {% block extra_style %}
 {{block.super}}
-<link href="//www.carthage.edu/static/vendor/jquery/plugins/trumbowyg/trumbowyg.min.css"
-  rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" integrity="sha512-nwpMzLYxfwDnu68Rt9PqLqgVtHkIJxEPrlu3PfTfLQKVgBAlTKDmim1JvCGNyNRtyvCx1nNIVBfYm8UZotWd4Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.css"
   rel="stylesheet" type="text/css" media="screen" />
 <style type="text/css" media="screen, projection">
@@ -284,93 +282,53 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     </fieldset>
     <fieldset class="blockLabels">
       <legend>Educational Background</legend>
-      <div>
+      <p>List all colleges attended, beginning with the most recent.</p>
+      <div class="school">
+        <h3 class="ordinal">Previous School</h3>
         <ol>
-        <li>
-          <p>List all colleges attended, beginning with the most recent.</p>
-        </li>
+          {% for field in form_ed1.visible_fields %}
+            {% include "form_field.inc.html" %}
+          {% endfor %}
         </ol>
-        <div class="school">
-          <h3 class="ordinal">Previous School</h3>
-          <div>
-          <ol>
-            {% for field in form_ed1.visible_fields %}
-              {% include "form_field.inc.html" %}
-              {% if field.name == "degree" %}
-                </ol></div>
-                <div>
-                <ol>
-              {% endif %}
-            {% endfor %}
-          </ol>
-          </div>
-        </div>
-        {% block schools %}
-        <div class="school">
-          <h3 class="ordinal">Second School</h3>
-          <div>
-          <ol>
-            {% for field in form_ed2.visible_fields %}
-              {% include "form_field.inc.html" %}
-              {% if field.name == "degree" %}
-                </ol></div>
-                <div>
-                <ol>
-              {% endif %}
-            {% endfor %}
-          </ol>
-          </div>
-        </div>
-        <div class="school">
-          <h3 class="ordinal">Third School</h3>
-          <div>
-          <ol>
-            {% for field in form_ed3.visible_fields %}
-              {% include "form_field.inc.html" %}
-              {% if field.name == "degree" %}
-                </ol></div>
-                <div>
-                <ol>
-              {% endif %}
-            {% endfor %}
-          </ol>
-          </div>
-        </div>
-        <div class="school">
-          <h3 class="ordinal">Fourth School</h3>
-          <div>
-          <ol>
-            {% for field in form_ed4.visible_fields %}
-              {% include "form_field.inc.html" %}
-              {% if field.name == "degree" %}
-                </ol></div>
-                <div>
-                <ol>
-              {% endif %}
-            {% endfor %}
-          </ol>
-          </div>
-        </div>
-        <div class="school">
-          <h3 class="ordinal">Fifth School</h3>
-          <div>
-          <ol>
-            {% for field in form_ed5.visible_fields %}
-              {% include "form_field.inc.html" %}
-              {% if field.name == "degree" %}
-                </ol></div>
-                <div>
-                <ol>
-              {% endif %}
-            {% endfor %}
-          </ol>
-          </div>
-        </div>
-      {% endblock schools %}
       </div>
-      {% block gmat %}
-      <div>
+      {% block schools %}
+      <div class="school">
+        <h3 class="ordinal">Second School</h3>
         <ol>
+          {% for field in form_ed2.visible_fields %}
+            {% include "form_field.inc.html" %}
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="school">
+        <h3 class="ordinal">Third School</h3>
+        <ol>
+          {% for field in form_ed3.visible_fields %}
+            {% include "form_field.inc.html" %}
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="school">
+        <h3 class="ordinal">Fourth School</h3>
+        <ol>
+          {% for field in form_ed4.visible_fields %}
+            {% include "form_field.inc.html" %}
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="school">
+        <h3 class="ordinal">Fifth School</h3>
+        <div>
+        <ol>
+          {% for field in form_ed5.visible_fields %}
+            {% include "form_field.inc.html" %}
+          {% endfor %}
+        </ol>
+        </div>
+      </div>
+      {% endblock schools %}
+      {% block gmat %}
+      <ol>
         {% with form_app.gmat as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
@@ -391,12 +349,10 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% with form_app.gmat_score as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
-        </ol>
-      </div>
+      </ol>
       {% endblock gmat %}
       {% block gre %}
-      <div>
-        <ol>
+      <ol>
         {% with form_app.gre as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
@@ -417,44 +373,28 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% with form_app.gre_score as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
-        </ol>
-      </div>
+      </ol>
       {% endblock gre %}
       {% block recommendations %}
       <div>
-        <ol>
-        <li>
         {% get_lw_content as recommendations blurbs 2771 %}
         {{recommendations.body|safe}}
-        </li>
-        </ol>
-        <div>
-          <ol>
-            {% for field in form_ct1.visible_fields %}
-              {% include "form_field.inc.html" %}
-            {% endfor %}
-          </ol>
-        </div>
-        <div>
-          <ol>
-            {% for field in form_ct2.visible_fields %}
-              {% include "form_field.inc.html" %}
-            {% endfor %}
-          </ol>
-        </div>
       </div>
+      <ol>
+        {% for field in form_ct1.visible_fields %}
+          {% include "form_field.inc.html" %}
+        {% endfor %}
+      </ol>
+      <ol>
+        {% for field in form_ct2.visible_fields %}
+          {% include "form_field.inc.html" %}
+        {% endfor %}
+      </ol>
       {% endblock recommendations %}
       {% block personal_statement %}
-      <div>
-        <ol>
-        <li>
         {% get_lw_content as personal_statement blurbs 2770 %}
         {{personal_statement.body|safe}}
-        <div>
         {{form_app.personal_statement}}
-        </li>
-        </ol>
-      </div>
       {% endblock personal_statement %}
     </fieldset>
     {% block audition %}{% endblock audition %}
