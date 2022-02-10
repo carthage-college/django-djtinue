@@ -83,7 +83,6 @@ INSTALLED_APPS = (
     'djforms.core',
     'djforms.processors',
     'djtinue.admissions',
-    'djtinue.admissions.apps.Application',
     'djtools',
     # third party projects
     'admin_honeypot',

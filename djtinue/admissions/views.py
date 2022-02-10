@@ -5,12 +5,12 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils.dateformat import DateFormat
-from django.utils.timezone import localtime
+#from django.utils.dateformat import DateFormat
+#from django.utils.timezone import localtime
 from djtinue.admissions.forms import SESSION_TYPES
 from djtinue.admissions.forms import InfoRequestForm
 from djtinue.admissions.forms import InfoSessionForm
-from djtinue.admissions.models import LivewhaleEvents as Event
+#from djtinue.admissions.models import LivewhaleEvents as Event
 from djtools.utils.mail import send_mail
 
 
@@ -56,21 +56,22 @@ def info_session(request, session_type):
             cd = form.cleaned_data
             cd['session_type'] = session_type
             # fetch event
-            event = Event.objects.using('livewhale').get(pk=cd['event'])
-            cd['event'] = event
+            #event = Event.objects.using('livewhale').get(pk=cd['event'])
+            #cd['event'] = event
             # munge datetime
-            lc = localtime(event.date_dt)
-            df = DateFormat(lc)
-            day = df.format('D')
-            date = df.format('M d, Y')
-            time = df.format('h:ia')
-            datetime = '%s. %s at %s' % (day, date, time)
-            cd['datetime'] = datetime
+            #lc = localtime(event.date_dt)
+            #df = DateFormat(lc)
+            #day = df.format('D')
+            #date = df.format('M d, Y')
+            #time = df.format('h:ia')
+            #datetime = '%s. %s at %s' % (day, date, time)
+            #cd['datetime'] = datetime
             # to
             recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
             to = recipients[session_type]
-            subject = 'OCS Information Session Request: '
-            subject += '{0} on {1}'.format(session_type, datetime)
+            #subject = 'OCS Information Session Request: '
+            subject = 'OCS Information Session Request: {0}'.format(session_type)
+            #subject += '{0} on {1}'.format(session_type, datetime)
             send_mail(
                 request,
                 to,
