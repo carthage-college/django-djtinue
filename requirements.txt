@@ -1,6 +1,6 @@
 bootstrap-admin==0.4.4
 cryptography>=35.0.0
-django==2.2.24
+django==3.2.12
 django-admin-honeypot==1.1.0
 django-bootstrap4==3.0.1
 django-bootstrap-form==3.4
@@ -19,4 +19,3 @@ python-ldap==3.4.0
 python-magic==0.4.24
 python-memcached==1.59
 requests==2.26.0
-wemake-python-styleguide==0.15.3
