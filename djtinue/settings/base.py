@@ -87,6 +87,7 @@ INSTALLED_APPS = (
     # third party projects
     'admin_honeypot',
     'captcha',
+    'django_summernote',
     'encrypted_model_fields',
     'loginas',
     'taggit',
