@@ -1,4 +1,4 @@
-{{data.session_type}} Infosession on {{data.datetime}}
+{{data.session_type}} Infosession on {{data.event.date}} {{data.event.date_time}}
 
 {{data.first_name}} {{data.last_name}} has registered.
 

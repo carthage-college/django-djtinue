@@ -22,21 +22,17 @@ urlpatterns = [
         ),
         name='info_request_success',
     ),
-    #path(
-        #'information-session/success/',
-        #TemplateView.as_view(
-            #template_name='admissions/infosession_success.html',
-        #),
-        #name='info_session_success',
-    #),
-    #path(
-        #'information-session/<str:session_type>/',
-        #views.info_session,
-        #name='info_session',
-    #),
+    path(
+        'information-session/success/',
+        TemplateView.as_view(
+            template_name='admissions/infosession_success.html',
+        ),
+        name='info_session_success',
+    ),
     path(
         'information-session/<str:session_type>/',
-        RedirectView.as_view(url=reverse_lazy('info_request')),
+        views.info_session,
+        name='info_session',
     ),
     path(
         'application/', include('djtinue.admissions.application.urls'),

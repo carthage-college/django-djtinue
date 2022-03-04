@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import pytz
+import requests
 from django import forms
-from django.db import connections
-from django.utils.dateformat import DateFormat
+from django.conf import settings
 from django.utils.encoding import force_text
-from django.utils.timezone import localtime
 from djforms.core.models import GenericChoice
 from djtools.fields import STATE_CHOICES
 from djtools.fields.localflavor import USPhoneNumberField
 from localflavor.us.forms import USZipCodeField
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 TIME_OF_DAY = (
     ('Morning', 'Morning'),
@@ -132,39 +133,18 @@ class InfoSessionForm(forms.Form):
     def __init__(self, session_type, *args, **kwargs):
         """Override the intitialization method to create date select field."""
         super(InfoSessionForm, self).__init__(*args, **kwargs)
-        cursor = connections['livewhale'].cursor()
-        sql = """
-            SELECT
-                id, title, date_dt
-            FROM
-                livewhale_events
-            WHERE
-                id IN (
-                    select id2 from livewhale_tags2any where id1={0}
-                )
-            AND
-                id IN (
-                    select id2 from livewhale_tags2any where id1={1}
-                )
-            AND
-                date_dt > DATE(NOW())
-            ORDER BY
-                date_dt
-        """.format(
-            SESSION_TYPES['information-session'], SESSION_TYPES[session_type],
+        earl = '{0}/{1}/group/Admission%20&%20Aid/tag/information-session/tag/{2}'.format(
+            settings.LIVEWHALE_API_URL,
+            settings.LIVEWHALE_API_EVENTS,
+            session_type,
         )
-        cursor.execute(sql)
+        response = requests.get(earl)
+        jason = response.json()
         # Wed. May 01, 2020 at 06pm (Master of Education & ACT Info Session)
         choices = [('', '---choose a date---')]
-        for event in cursor.fetchall():
-            lc = localtime(pytz.utc.localize(event[2]))
-            df = DateFormat(lc)
-            day = df.format('D')
-            date = df.format('M d, Y')
-            time = df.format('h:ia')
-            title = '{0}. {1} at {2} ({3})'.format(
-                day, date, time, force_text(event[1]),
+        for jay in jason:
+            title = '{0} at {1} ({2})'.format(
+                jay['date'], jay['date_time'], force_text(jay['title']),
             )
-
-            choices.append((event[0], title))
+            choices.append((jay['id'], title))
         self.fields['event'].choices = choices

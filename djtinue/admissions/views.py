@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 
+import requests
 from django.conf import settings
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-#from django.utils.dateformat import DateFormat
-#from django.utils.timezone import localtime
+from djtools.utils.mail import send_mail
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
 from djtinue.admissions.forms import SESSION_TYPES
 from djtinue.admissions.forms import InfoRequestForm
 from djtinue.admissions.forms import InfoSessionForm
-#from djtinue.admissions.models import LivewhaleEvents as Event
-from djtools.utils.mail import send_mail
+
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def info_request(request):
@@ -46,9 +49,7 @@ def info_request(request):
 
 def info_session(request, session_type):
     """Information session request form."""
-    try:
-        SESSION_TYPES[session_type]
-    except Exception:
+    if not SESSION_TYPES.get(session_type):
         raise Http404
     if request.method == 'POST':
         form = InfoSessionForm(session_type, request.POST)
@@ -56,30 +57,28 @@ def info_session(request, session_type):
             cd = form.cleaned_data
             cd['session_type'] = session_type
             # fetch event
-            #event = Event.objects.using('livewhale').get(pk=cd['event'])
-            #cd['event'] = event
-            # munge datetime
-            #lc = localtime(event.date_dt)
-            #df = DateFormat(lc)
-            #day = df.format('D')
-            #date = df.format('M d, Y')
-            #time = df.format('h:ia')
-            #datetime = '%s. %s at %s' % (day, date, time)
-            #cd['datetime'] = datetime
+            earl = '{0}/{1}/{2}@JSON'.format(
+                settings.LIVEWHALE_API_URL,
+                settings.LIVEWHALE_API_EVENTS_ID,
+                cd['event'],
+            )
+            response = requests.get(earl)
+            jason = response.json()
+            cd['event'] = jason
             # to
-            recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
-            to = recipients[session_type]
-            #subject = 'OCS Information Session Request: '
+            # recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
+            recipients = [settings.MANAGERS[0][1]]
             subject = 'OCS Information Session Request: {0}'.format(session_type)
-            #subject += '{0} on {1}'.format(session_type, datetime)
+            subject += '{0} on {1} ({2})'.format(
+                session_type, jason['date'], jason['date_time'],
+            )
             send_mail(
                 request,
-                to,
+                recipients,
                 subject,
                 cd['email'],
-                'admissions/infosession.txt',
+                'admissions/infosession_email.html',
                 cd,
-                content='',
             )
             return HttpResponseRedirect(reverse_lazy('info_session_success'))
     else:

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<style>
+dl {margin-bottom:50px;}
+dl dt {
+background:#5f9be3;
+color:#fff;
+float:left;
+font-weight:bold;
+margin-right:10px;
+padding:5px;
+width:200px;
+}
+dl dd {
+margin:2px 0;
+padding:5px 0;
+}
+</style>
+</head>
+<body>
+<h1>
+  {{data.session_type}}
+  Infosession on
+  {{data.event.date}}
+  {{data.event.date_time}}
+</h1>
+<h2>Contact Information</h2>
+<dl style="margin-bottom:50px;">
+    <dt {{dl_dt}}>
+      First name
+    </dt>
+    <dd {{dl_dd}}>
+      {{data.first_name}}
+    </dd>
+    <dt {{dl_dt}}>Last name</dt>
+    <dd {{dl_dd}}>{{data.last_name}}</dd>
+    <dt {{dl_dt}}>Email</dt>
+    <dd {{dl_dd}}>{{data.email}}</dd>
+    <dt {{dl_dt}}>Address</dt>
+    <dd {{dl_dd}}>{{data.address}}</dd>
+    <dt {{dl_dt}}>City</dt>
+    <dd {{dl_dd}}>{{data.city}}</dd>
+    <dt {{dl_dt}}>State</dt>
+    <dd {{dl_dd}}>{{data.state}}</dd>
+    <dt {{dl_dt}}>Zip</dt>
+    <dd {{dl_dd}}>{{data.postal_code}}</dd>
+    <dt {{dl_dt}}>Phone</dt>
+    <dd {{dl_dd}}>{{data.phone}}</dd>
+    <dt {{dl_dt}}>Meeting Format</dt>
+    <dd {{dl_dd}}>{{data.meeting_format}}</dd>
+</dl>
+<h2>How did you hear about the program?</h2>
+<p>{{data.hear_about}}</p>
+</body>
+</html>
