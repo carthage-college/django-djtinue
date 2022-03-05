@@ -62,7 +62,8 @@ SESSION_TYPES = {
     'undergraduate-studies': 973,
     'master-social-work': 980,
     'paralegal': 971,
-    'business-design-innnovation': 1081,
+    'business-design-innnovation': 'Design and Innovation',
+    'business-sports-management': 'Sports Management',
 }
 
 

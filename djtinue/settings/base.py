@@ -189,6 +189,7 @@ CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {
     'undergraduate-studies': [],
     'paralegal': [],
     'business-design-innnovation': [],
+    'business-sports-management': [],
 }
 CONTINUING_STUDIES_GROUP = 'Continuing Studies'
 ADMISSIONS_EMAILS = {

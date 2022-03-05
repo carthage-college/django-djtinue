@@ -55,6 +55,7 @@ def info_session(request, session_type):
         form = InfoSessionForm(session_type, request.POST)
         if form.is_valid():
             cd = form.cleaned_data
+            session_type = SESSION_TYPES[session_type]
             cd['session_type'] = session_type
             # fetch event
             earl = '{0}/{1}/{2}@JSON'.format(
@@ -66,9 +67,8 @@ def info_session(request, session_type):
             jason = response.json()
             cd['event'] = jason
             # to
-            # recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
-            recipients = [settings.MANAGERS[0][1]]
-            subject = 'OCS Information Session Request: {0}'.format(session_type)
+            recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
+            subject = 'Master of Business Information Session Request: {0}'.format(session_type)
             subject += '{0} on {1} ({2})'.format(
                 session_type, jason['date'], jason['date_time'],
             )
