@@ -98,7 +98,6 @@ class ApplicationForm(forms.ModelForm):
     birth_date = forms.DateField(
         label='Date of birth',
         input_formats=settings.DATE_INPUT_FORMATS,
-        required=False,
         widget=forms.DateInput(format='%m/%d/%Y'),
         help_text='Format: mm/dd/yyyy',
     )

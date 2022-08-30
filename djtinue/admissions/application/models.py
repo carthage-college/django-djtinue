@@ -56,8 +56,6 @@ class Application(ApplicationContact):
     birth_date = models.DateField(
         'Date of birth',
         help_text='Format: mm/dd/yyyy',
-        blank=True,
-        null=True,
     )
     birth_place = models.CharField(
         'Place of birth',
