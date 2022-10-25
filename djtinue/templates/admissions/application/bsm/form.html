@@ -1,2 +1,7 @@
 {% extends "admissions/application/form.html" %}
-
+{% load livewhale_api %}
+{% block intro %}
+  {% get_lw_content as intro blurbs 3434 %}
+  {{intro.body|safe}}
+{% endblock %}
+{% block recommendations %}{% endblock %}

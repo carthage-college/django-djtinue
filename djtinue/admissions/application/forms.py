@@ -166,20 +166,6 @@ class ApplicationForm(forms.ModelForm):
         choices=PAYMENT_CHOICES, widget=forms.RadioSelect(),
     )
     payment_waiver = forms.CharField(required=False)
-    gmat_date = forms.DateField(
-        label='Gmat date',
-        input_formats=settings.DATE_INPUT_FORMATS,
-        required=False,
-        widget=forms.DateInput(format='%m/%d/%Y'),
-        help_text='Format: mm/dd/yyyy',
-    )
-    gre_date = forms.DateField(
-        label='GRE date',
-        input_formats=settings.DATE_INPUT_FORMATS,
-        required=False,
-        widget=forms.DateInput(format='%m/%d/%Y'),
-        help_text='Format: mm/dd/yyyy',
-    )
 
     class Meta:
         """Sub-class for establishing settings on the parent class."""
@@ -190,16 +176,6 @@ class ApplicationForm(forms.ModelForm):
     def clean(self):
         """Form data validation for various fields."""
         cd = self.cleaned_data
-        if cd.get('gre') == 'Yes':
-            if not cd.get('gre_date'):
-                self.add_error('gre_date', 'Required field')
-            if not cd.get('gre_score'):
-                self.add_error('gre_score', 'Required field')
-        if cd.get('gmat') == 'Yes':
-            if not cd.get('gmat_date'):
-                self.add_error('gmat_date', 'Required field')
-            if not cd.get('gmat_score'):
-                self.add_error('gmat_score', 'Required field')
         if cd.get('gdpr') == 'Yes':
             if not cd.get('gdpr_cookies'):
                 self.add_error('gdpr_cookies', 'Required field')

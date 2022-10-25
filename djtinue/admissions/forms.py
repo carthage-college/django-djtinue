@@ -13,10 +13,10 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-TIME_OF_DAY = (
-    ('Morning', 'Morning'),
-    ('Afternoon', 'Afternoon'),
-    ('Evening', 'Evening'),
+CONTACT_HOW = (
+    ('Email', 'Email'),
+    ('Text', 'Text'),
+    ('Phone', 'Phone'),
 )
 HEAR_ABOUT = (
     ('Education/Career Fair', 'Education/Career Fair'),
@@ -54,6 +54,7 @@ ACADEMIC_PROGRAMS = (
     ),
     ('Master of Education', 'Master of Education'),
     ('Teacher Certification', 'Teacher Certification'),
+    ('Athletic Training', 'Athletic Training'),
 )
 # dictionary name corresponds to URL slug
 SESSION_TYPES = {
@@ -93,8 +94,8 @@ class InfoRequestForm(forms.Form):
     )
     postal_code = USZipCodeField(required=False, label='Zip Code')
     time_of_day = forms.MultipleChoiceField(
-        label='When would you like to be contacted?',
-        choices=TIME_OF_DAY,
+        label='How would you like to be contacted?',
+        choices=CONTACT_HOW,
         widget=forms.CheckboxSelectMultiple(),
     )
     areas_study = forms.CharField(

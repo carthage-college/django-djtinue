@@ -133,25 +133,6 @@ class Application(ApplicationContact):
         blank=True,
     )
     # educational information
-    gmat = models.CharField(
-        'GMAT',
-        max_length=4,
-        choices=BINARY_CHOICES,
-        blank=True,
-        null=True,
-    )
-    gmat_date = models.DateField(blank=True, null=True)
-    gmat_score = models.CharField(max_length=10, blank=True, null=True)
-    gre = models.CharField(
-        'GRE',
-        max_length=4,
-        choices=BINARY_CHOICES,
-        blank=True,
-        null=True,
-    )
-    gre_date = models.DateField(blank=True, null=True)
-    gre_score = models.CharField(max_length=10, blank=True, null=True)
-    personal_statement = models.TextField(blank=True, null=True)
     # privacy GDPR waiver
     gdpr = models.CharField(
         verbose_name="""Are you currently located in a European Union country,

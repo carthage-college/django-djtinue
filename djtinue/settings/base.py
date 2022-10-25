@@ -173,6 +173,7 @@ SERVER_MAIL = ''
 # app settings
 FIELD_ENCRYPTION_KEY = ''
 CONTINUING_STUDIES_INFOREQUEST_RECIPIENTS = {
+    'Athletic Training': [],
     "Undergraduate/Bachelor's Degree": [],
     'Master of Science in Business: Design and Innovation Track': [],
     'Master of Science in Business: Sports Management Track': [],

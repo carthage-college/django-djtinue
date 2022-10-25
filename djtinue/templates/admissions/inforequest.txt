@@ -19,7 +19,7 @@ Intended Areas of Major/Study:
 
 {{data.areas_study}}
 
-Best time to contact:
+How would you like to be contacted?
 
 {% for t in data.time_of_day %}{{t|safe}} {% endfor %}
 

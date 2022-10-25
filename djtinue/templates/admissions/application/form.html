@@ -64,8 +64,13 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
 #id_entry_year li, #id_entry_term li {display:block;}
 </style>
 {% endblock %}
+{% block breadcrumb %}
+    <li><a href="https://www.carthage.edu/admissions/graduate-students/">Graduate Students</a></li>
+    <li><a href="#" aria-current="page">How to Apply</a></li>
+{% endblock %}
 {% block content %}
 <div class="forms-container">
+  {% block intro %}{% endblock %}
   <form method="post" action="." class="form" enctype="multipart/form-data">
     {% csrf_token %}
     {% for hidden in form_ord.hidden_fields %}
@@ -327,54 +332,6 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         </div>
       </div>
       {% endblock schools %}
-      {% block gmat %}
-      <ol>
-        {% with form_app.gmat as field %}
-        {% include "form_field.inc.html" %}
-        {% endwith %}
-        <li class="form-group ctrlHolder">
-          <h3>
-            <label for="id_gmat_date">Gmat date</label>
-          </h3>
-          <div{% if form_app.gmat_date.errors %} class="required warning"{% endif %}>
-            {% if form_app.gmat_date.errors %}
-              <span class="error-message">
-                {{ form_app.gmat_date.errors|join:", "}}
-              </span>
-            {% endif %}
-            <input name="gmat_date" class="form-control"
-              id="id_gmat_date" value="{{form_app.gmat_date.value|default_if_none:''}}">
-          </div>
-        </li>
-        {% with form_app.gmat_score as field %}
-        {% include "form_field.inc.html" %}
-        {% endwith %}
-      </ol>
-      {% endblock gmat %}
-      {% block gre %}
-      <ol>
-        {% with form_app.gre as field %}
-        {% include "form_field.inc.html" %}
-        {% endwith %}
-        <li class="form-group ctrlHolder">
-          <h3>
-            <label for="id_gre_date">GRE date</label>
-          </h3>
-          <div{% if form_app.gre_date.error %} class="required warning"{% endif %}>
-            {% if form_app.gre_date.errors %}
-              <span class="error-message">
-                {{ form_app.gre_date.errors|join:", "}}
-              </span>
-            {% endif %}
-            <input name="gre_date" class="form-control"
-              id="id_gre_date" value="{{form_app.gre_date.value|default_if_none:''}}">
-          </div>
-        </li>
-        {% with form_app.gre_score as field %}
-        {% include "form_field.inc.html" %}
-        {% endwith %}
-      </ol>
-      {% endblock gre %}
       {% block recommendations %}
       <div>
         {% get_lw_content as recommendations blurbs 2771 %}
@@ -391,11 +348,6 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
         {% endfor %}
       </ol>
       {% endblock recommendations %}
-      {% block personal_statement %}
-        {% get_lw_content as personal_statement blurbs 2770 %}
-        {{personal_statement.body|safe}}
-        {{form_app.personal_statement}}
-      {% endblock personal_statement %}
     </fieldset>
     {% block audition %}{% endblock audition %}
     <fieldset class="blockLabels">

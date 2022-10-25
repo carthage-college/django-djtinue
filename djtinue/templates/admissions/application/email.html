@@ -115,10 +115,6 @@ Admissions Application
       {% endif %}
     </dd>
 </dl>
-{% if data.app.personal_statement %}
-<h3>Personal Statement</h3>
-{{data.app.personal_statement|safe}}
-{% endif %}
 <h2>References</h2>
 {% for c in data.app.contacts.all %}
 <h3>Contact {{forloop.counter}}</h3>

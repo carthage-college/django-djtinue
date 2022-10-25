@@ -34,7 +34,7 @@ EMAIL = 'Carthage Admissions <{email}>'.format
 def form(request, slug=None):
     """Application form."""
     to_list = settings.ADMISSIONS_EMAILS.get(slug)
-    prefix = 'admissions/application/'
+    path = prefix = 'admissions/application/'
     if to_list:
         path = os.path.join(prefix, slug)
     else:
