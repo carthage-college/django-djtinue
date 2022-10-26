@@ -99,14 +99,10 @@ class Application(ApplicationContact):
         max_length=4, blank=True, null=True,
     )
     entry_year = models.CharField(max_length=4)
-    fellowships = models.ManyToManyField(
-        GenericChoice,
-        related_name='fellowship_programs',
-        verbose_name="""
-            Do you intend to apply for fellowships and/or assistantships?
-        """,
-        help_text='Check all that apply',
-        blank=True,
+    fellowships = models.CharField(
+        'Do you intend to apply for a graduate assistantship?',
+        max_length=4,
+        choices=BINARY_CHOICES,
     )
     # employment information
     employer = models.CharField(max_length=128, null=True, blank=True)
@@ -180,13 +176,6 @@ class Application(ApplicationContact):
     def get_slug(self):
         """Return the slug for file uploads."""
         return 'files/admissions/application/'
-
-    def get_fellowships(self):
-        """Return all of the fellowships."""
-        fellowships = ''
-        for fellow in self.fellowships.all():
-            fellowships += '{0}, '.format(fellow)
-        return fellowships[:-1]
 
     def get_race(self):
         """Obtain all of the races."""

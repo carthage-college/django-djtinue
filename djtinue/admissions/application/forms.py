@@ -17,9 +17,6 @@ from djtools.fields import TODAY
 RACES = GenericChoice.objects.filter(
     tags__name__in=['Race'],
 ).order_by('ranking')
-FELLOWSHIPS = GenericChoice.objects.filter(
-    tags__name__in=['Fellowships'],
-).order_by('ranking')
 DATES = GenericChoice.objects.filter(
     tags__name='Audition Date',
 ).order_by('ranking')
@@ -138,12 +135,10 @@ class ApplicationForm(forms.ModelForm):
         choices=ENTRY_TERM_CHOICES,
         widget=forms.RadioSelect(),
     )
-    fellowships = forms.ModelMultipleChoiceField(
-        label='Do you intend to apply for fellowships and/or assistantships?',
-        queryset=FELLOWSHIPS,
-        help_text='Check all that apply',
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
+    fellowships = forms.TypedChoiceField(
+        label='Do you intend to apply for a graduate assistantship?',
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     gdpr = forms.TypedChoiceField(
         label="""Are you currently located in a European Union country,
