@@ -20,9 +20,9 @@ padding:5px 0;
 </head>
 <body>
 <h1>
-{% if data.app.slug == 'music'%}
+{% if data.app.slug == 'music' %}
 Master of Music (M.M.) in Music Theatre Vocal Pedagogy
-{% else %}{% if data.app.slug == 'bdi'%}
+{% else %}{% if data.app.slug == 'bdi' %}
 Master (MSc) in Business Design &amp; Innovation Application
 {% else %}{% if slug == 'bsn' %}
 RN to BSN
@@ -115,6 +115,7 @@ Admissions Application
       {% endif %}
     </dd>
 </dl>
+{% if data.app.slug == 'music' %}
 <h2>References</h2>
 {% for c in data.app.contacts.all %}
 <h3>Contact {{forloop.counter}}</h3>
@@ -125,6 +126,7 @@ Admissions Application
   <dd {{dl_dd}}><a href="mailto:{{c.email}}">{{c.email}}</a></dd>
 </dl>
 {% endfor %}
+{% endif %}
 <h2>Schools Attended</h2>
 {% for s in data.app.schools.all %}
 <h3>School {{forloop.counter}}</h3>
