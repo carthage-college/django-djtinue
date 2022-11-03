@@ -53,7 +53,7 @@ def form(request, slug=None):
             label_suffix='',
             use_required_attribute=REQ,
         )
-        if slug != 'bsn':
+        if slug == 'music':
             form_ct1 = ContactForm(
                 request.POST,
                 prefix='ct1',
@@ -123,7 +123,7 @@ def form(request, slug=None):
             app.social_security_four = app.social_security_number[-4:]
             app.save()
             # recommendations
-            if slug != 'bsn':
+            if slug == 'music':
                 if form_ct1.is_valid():
                     ct1 = form_ct1.save(commit=False)
                     ct1.application = app
@@ -237,7 +237,7 @@ def form(request, slug=None):
         form_app = ApplicationForm(
             label_suffix='', use_required_attribute=REQ,
         )
-        if slug != 'bsn':
+        if slug == 'music':
             form_ct1 = ContactForm(
                 prefix='ct1', label_suffix='', use_required_attribute=REQ,
             )
