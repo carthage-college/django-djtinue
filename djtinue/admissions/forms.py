@@ -59,10 +59,7 @@ ACADEMIC_PROGRAMS = (
 # dictionary name corresponds to URL slug
 SESSION_TYPES = {
     'information-session': 2071,
-    'graduate-education': 972,
-    'undergraduate-studies': 973,
-    'master-social-work': 980,
-    'paralegal': 971,
+    'master-education': 2299,
     'business-design-innnovation': 2069,
     'business-sports-management': 2070,
 }
