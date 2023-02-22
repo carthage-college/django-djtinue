@@ -30,7 +30,7 @@ urlpatterns = [
         name='info_session_success',
     ),
     path(
-        'information-session/<str:session_type>/',
+        'information-session/<str:slug>/',
         views.info_session,
         name='info_session',
     ),

@@ -47,15 +47,15 @@ def info_request(request):
     return render(request, 'admissions/inforequest.html', {'form': form})
 
 
-def info_session(request, session_type):
+def info_session(request, slug):
     """Information session request form."""
-    if not SESSION_TYPES.get(session_type):
+    if not SESSION_TYPES.get(slug):
         raise Http404
     if request.method == 'POST':
-        form = InfoSessionForm(session_type, request.POST)
+        form = InfoSessionForm(slug, request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            session_type = SESSION_TYPES[session_type]
+            session_type = SESSION_TYPES[slug]
             cd['session_type'] = session_type
             # fetch event
             earl = '{0}/{1}/{2}@JSON'.format(
@@ -67,8 +67,10 @@ def info_session(request, session_type):
             jason = response.json()
             cd['event'] = jason
             # to
-            recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS
-            subject = 'Master of Business Information Session Request: {0}'.format(session_type)
+            recipients = settings.CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS[slug]
+            subject = 'Master of Business Information Session Request: {0}'.format(
+                session_type,
+            )
             subject += '{0} on {1} ({2})'.format(
                 session_type, jason['date'], jason['date_time'],
             )
@@ -82,5 +84,5 @@ def info_session(request, session_type):
             )
             return HttpResponseRedirect(reverse_lazy('info_session_success'))
     else:
-        form = InfoSessionForm(session_type)
+        form = InfoSessionForm(slug)
     return render(request, 'admissions/infosession.html', {'form': form})
