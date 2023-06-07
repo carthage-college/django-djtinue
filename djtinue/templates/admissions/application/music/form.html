@@ -1,12 +1,12 @@
 {% extends "admissions/application/form.html" %}
 {% load livewhale_api %}
-{% block instrument %}
-  {% with form_app.instrument as field %}
+{% block music_track %}
+  {% with form_app.track as field %}
     {% include "form_field.inc.html" %}
   {% endwith %}
 {% endblock %}
-{% block music_track %}
-  {% with form_app.track as field %}
+{% block instrument %}
+  {% with form_app.instrument as field %}
     {% include "form_field.inc.html" %}
   {% endwith %}
 {% endblock %}

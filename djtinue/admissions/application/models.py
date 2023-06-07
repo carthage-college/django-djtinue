@@ -90,12 +90,6 @@ class Application(ApplicationContact):
         help_text='Check all that apply',
         blank=True,
     )
-    instrument = models.CharField(
-        'Principal performing instrument',
-        max_length=64,
-        blank=True,
-        null=True,
-    )
     social_security_number = EncryptedCharField(
         max_length=254, null=True, blank=True,
     )
@@ -119,6 +113,12 @@ class Application(ApplicationContact):
         'Which track in Master of Music are you interested in pursuing?',
         max_length=32,
         choices=TRACK_CHOICES,
+        blank=True,
+        null=True,
+    )
+    instrument = models.CharField(
+        'Principal performing instrument',
+        max_length=64,
         blank=True,
         null=True,
     )

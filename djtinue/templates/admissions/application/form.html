@@ -146,7 +146,6 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
       <legend>Personal Information</legend>
       <div>
         <ol>
-        {% block instrument %}{% endblock %}
         {% with form_app.social_security_number as field %}
         {% include "form_field.inc.html" %}
         {% endwith %}
@@ -194,6 +193,7 @@ li.ctrlHolder div ul li {display:inline; padding-right:3px;}
           </div>
         </li>
         {% block music_track %}{% endblock %}
+        {% block instrument %}{% endblock %}
         {% block fellowships %}{% endblock %}
         {% block scholarships %}{% endblock %}
         {% block housing %}{% endblock %}

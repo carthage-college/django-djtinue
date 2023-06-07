@@ -145,6 +145,10 @@ class ApplicationForm(forms.ModelForm):
         choices=TRACK_CHOICES,
         widget=forms.RadioSelect(),
     )
+    instrument = forms.CharField(
+        label='Principal performing instrument',
+        max_length=64,
+    )
     fellowships = forms.TypedChoiceField(
         label='Are you interested in being considered for a Graduate Assistantship?',
         choices=BINARY_CHOICES,
