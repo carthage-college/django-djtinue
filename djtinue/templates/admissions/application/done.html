@@ -2,7 +2,7 @@
 {% load livewhale_api %}
 {% block title %}
   {% if slug == 'music' %}
-    Master of Music (M.M.) in<br>Music Theatre Vocal Pedagogy
+    Application for Master of Music
   {% else %}{% if slug == 'bdi' %}
     Master (MSc) in Business Design &amp; Innovation Application
   {% else %}{% if slug == 'bsm' %}
@@ -16,9 +16,8 @@
   Carthage College
 {% endblock %}
 {% block content_head %}
-  <h1>
     {% if slug == 'music' %}
-    Master of Music (M.M.) in<br>Music Theatre Vocal Pedagogy
+    Application for Master of Music
     {% else %}{% if slug == 'bdi' %}
     Master (MSc) in Business Design &amp; Innovation Application
     {% else %}{% if slug == 'bsm' %}
@@ -27,7 +26,6 @@
     RN to BSN Application
     {% else %} Admissions Application
     {% endif %}{% endif %}{% endif %}{% endif %}
-  </h1>
 {% endblock %}
 {% block breadcrumb %}
     <li><a href="/academics/adult-evening-programs/adult-undergraduate-studies/">Adult Undergraduate Studies</a></li>

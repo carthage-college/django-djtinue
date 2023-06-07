@@ -54,7 +54,7 @@ ACADEMIC_PROGRAMS = (
     ),
     ('Master of Education', 'Master of Education'),
     ('Teacher Certification', 'Teacher Certification'),
-    ('Athletic Training', 'Athletic Training'),
+    ('Athletic Training', 'Master of Athletic Training'),
 )
 # dictionary name corresponds to URL slug
 SESSION_TYPES = {

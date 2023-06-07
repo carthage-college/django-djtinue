@@ -19,6 +19,16 @@ PAYMENT_CHOICES = (
     ('Cash/Money Order', 'Cash/Money Order'),
     ('Waiver Code', 'Waiver Code'),
 )
+TRACK_CHOICES = (
+    (
+        'Master of Music: Music Theatre Vocal Pedagogy',
+        'Master of Music: Music Theatre Vocal Pedagogy',
+    ),
+    (
+        'Master of Music: Music Pedagogy',
+        'Master of Music: Music Pedagogy',
+    ),
+)
 
 
 class Application(ApplicationContact):
@@ -80,6 +90,12 @@ class Application(ApplicationContact):
         help_text='Check all that apply',
         blank=True,
     )
+    instrument = models.CharField(
+        'Principal performing instrument',
+        max_length=64,
+        blank=True,
+        null=True,
+    )
     social_security_number = EncryptedCharField(
         max_length=254, null=True, blank=True,
     )
@@ -99,8 +115,25 @@ class Application(ApplicationContact):
         max_length=4, blank=True, null=True,
     )
     entry_year = models.CharField(max_length=4)
+    track = models.CharField(
+        'Which track in Master of Music are you interested in pursuing?',
+        max_length=32,
+        choices=TRACK_CHOICES,
+        blank=True,
+        null=True,
+    )
     fellowships = models.CharField(
-        'Do you intend to apply for a graduate assistantship?',
+        'Are you interested in being considered for a Graduate Assistantship?',
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    scholarships = models.CharField(
+        'Are you interested in being considered for Carthage scholarships?',
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    housing = models.CharField(
+        'Are you interested in Carthage graduate housing?',
         max_length=4,
         choices=BINARY_CHOICES,
     )

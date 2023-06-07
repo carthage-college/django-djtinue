@@ -77,6 +77,9 @@ Admissions Application
 </dl>
 <h2>Personal Information</h2>
 <dl style="margin-bottom:50px;">
+    {% if data.app.instrument %}
+    <dt {{dl_dt}}>Pricipal Instrument</dt>
+    {% endif %}
     <dt {{dl_dt}}>Social security</dt>
     <dd {{dl_dd}}>x{{data.app.social_security_four}}</dd>
     <dt {{dl_dt}}>Date of birth</dt>
@@ -89,8 +92,22 @@ Admissions Application
     <dd {{dl_dd}}>{{data.app.latinx|default:"&nbsp;"}}</dd>
     <dt {{dl_dt}}>Race</dt>
     <dd {{dl_dd}}>{{data.app.get_race|default:"&nbsp;"}}</dd>
-    <dt {{dl_dt}}>Fellowships?</dt>
+    {% if data.app.track %}
+    <dt {{dl_dt}}>Music Track</dt>
+    <dd {{dl_dd}}>{{data.app.track}}</dd>
+    {% endif %}
+    {% if data.app.fellowships %}
+    <dt {{dl_dt}}>Graduate Assistantships?</dt>
     <dd {{dl_dd}}>{{data.app.fellowships}}</dd>
+    {% endif %}
+    {% if data.app.scholarships %}
+    <dt {{dl_dt}}>Scholarships?</dt>
+    <dd {{dl_dd}}>{{data.app.scholarships}}</dd>
+    {% endif %}
+    {% if data.app.housing %}
+    <dt {{dl_dt}}>Housing?</dt>
+    <dd {{dl_dd}}>{{data.app.housing}}</dd>
+    {% endif %}
     <dt {{dl_dt}}>European Union</dt>
     <dd {{dl_dd}}>{{data.app.gdpr}}</dd>
     <dt {{dl_dt}}>Entry Term</dt>

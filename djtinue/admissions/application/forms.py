@@ -8,6 +8,7 @@ from djforms.processors.models import Order
 from djtinue.admissions.application.models import Application
 from djtinue.admissions.application.models import Contact
 from djtinue.admissions.application.models import PAYMENT_CHOICES
+from djtinue.admissions.application.models import TRACK_CHOICES
 from djtinue.admissions.application.models import School
 from djtools.fields import BINARY_CHOICES
 from djtools.fields import GENDER_CHOICES
@@ -87,6 +88,10 @@ class ApplicationForm(forms.ModelForm):
         max_length=16,
         required=False,
     )
+    instrument = forms.CharField(
+        label='Principal performing instrument',
+        max_length=64,
+    )
     social_security_number = forms.CharField(
         label='Social Security or National Identity number',
         max_length=16,
@@ -135,8 +140,23 @@ class ApplicationForm(forms.ModelForm):
         choices=ENTRY_TERM_CHOICES,
         widget=forms.RadioSelect(),
     )
+    track = forms.TypedChoiceField(
+        label='Which track in Master of Music are you interested in pursuing?',
+        choices=TRACK_CHOICES,
+        widget=forms.RadioSelect(),
+    )
     fellowships = forms.TypedChoiceField(
-        label='Do you intend to apply for a graduate assistantship?',
+        label='Are you interested in being considered for a Graduate Assistantship?',
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    scholarships = forms.TypedChoiceField(
+        label='Are you interested in being considered for Carthage scholarships?',
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    housing = forms.TypedChoiceField(
+        label='Are you interested in Carthage graduate housing?',
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
     )

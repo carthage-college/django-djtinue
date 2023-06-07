@@ -1,5 +1,30 @@
 {% extends "admissions/application/form.html" %}
 {% load livewhale_api %}
+{% block instrument %}
+  {% with form_app.instrument as field %}
+    {% include "form_field.inc.html" %}
+  {% endwith %}
+{% endblock %}
+{% block music_track %}
+  {% with form_app.track as field %}
+    {% include "form_field.inc.html" %}
+  {% endwith %}
+{% endblock %}
+{% block fellowships %}
+  {% with form_app.fellowships as field %}
+    {% include "form_field.inc.html" %}
+  {% endwith %}
+{% endblock %}
+{% block scholarships %}
+  {% with form_app.scholarships as field %}
+    {% include "form_field.inc.html" %}
+  {% endwith %}
+{% endblock %}
+{% block housing %}
+  {% with form_app.housing as field %}
+    {% include "form_field.inc.html" %}
+  {% endwith %}
+{% endblock %}
 {% block audition %}
 <fieldset class="blockLabels">
   <legend>Audition Information</legend>
