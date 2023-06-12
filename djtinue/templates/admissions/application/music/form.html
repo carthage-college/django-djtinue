@@ -10,6 +10,11 @@
     {% include "form_field.inc.html" %}
   {% endwith %}
 {% endblock %}
+{% block timeline %}
+  {% with form_app.timeline as field %}
+    {% include "form_field.inc.html" %}
+  {% endwith %}
+{% endblock %}
 {% block fellowships %}
   {% with form_app.fellowships as field %}
     {% include "form_field.inc.html" %}

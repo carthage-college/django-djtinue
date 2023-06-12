@@ -19,6 +19,16 @@ PAYMENT_CHOICES = (
     ('Cash/Money Order', 'Cash/Money Order'),
     ('Waiver Code', 'Waiver Code'),
 )
+TIMELINE_CHOICES = (
+    (
+        'One year program (10 months intensive)',
+        'One year program (10 months intensive)',
+    ),
+    (
+        'Multi-year program (typically two years)',
+        'Multi-year program (typically two years)',
+    ),
+)
 TRACK_CHOICES = (
     (
         'Master of Music: Music Theatre Vocal Pedagogy',
@@ -119,6 +129,13 @@ class Application(ApplicationContact):
     instrument = models.CharField(
         'Principal performing instrument',
         max_length=64,
+        blank=True,
+        null=True,
+    )
+    timeline = models.CharField(
+        'Which program timeline are you applying for?',
+        max_length=32,
+        choices=TIMELINE_CHOICES,
         blank=True,
         null=True,
     )

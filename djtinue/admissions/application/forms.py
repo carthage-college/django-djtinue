@@ -8,6 +8,7 @@ from djforms.processors.models import Order
 from djtinue.admissions.application.models import Application
 from djtinue.admissions.application.models import Contact
 from djtinue.admissions.application.models import PAYMENT_CHOICES
+from djtinue.admissions.application.models import TIMELINE_CHOICES
 from djtinue.admissions.application.models import TRACK_CHOICES
 from djtinue.admissions.application.models import School
 from djtools.fields import BINARY_CHOICES
@@ -91,6 +92,11 @@ class ApplicationForm(forms.ModelForm):
     instrument = forms.CharField(
         label='Principal performing instrument',
         max_length=64,
+    )
+    timeline = forms.TypedChoiceField(
+        label='Which program timeline are you applying for?',
+        choices=TIMELINE_CHOICES,
+        widget=forms.RadioSelect(),
     )
     social_security_number = forms.CharField(
         label='Social Security or National Identity number',
