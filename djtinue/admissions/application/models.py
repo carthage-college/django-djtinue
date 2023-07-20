@@ -21,8 +21,8 @@ PAYMENT_CHOICES = (
 )
 TIMELINE_CHOICES = (
     (
-        'One year program (10 months intensive)',
-        'One year program (10 months intensive)',
+        'One-year program (10 months intensive)',
+        'One-year program (10 months intensive)',
     ),
     (
         'Multi-year program (typically two years)',

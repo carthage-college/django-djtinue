@@ -97,6 +97,7 @@ class ApplicationForm(forms.ModelForm):
         label='Which program timeline are you applying for?',
         choices=TIMELINE_CHOICES,
         widget=forms.RadioSelect(),
+        required=False,
     )
     social_security_number = forms.CharField(
         label='Social Security or National Identity number',
@@ -150,25 +151,30 @@ class ApplicationForm(forms.ModelForm):
         label='Which track in Master of Music are you interested in pursuing?',
         choices=TRACK_CHOICES,
         widget=forms.RadioSelect(),
+        required=False,
     )
     instrument = forms.CharField(
         label='Principal performing instrument',
         max_length=64,
+        required=False,
     )
     fellowships = forms.TypedChoiceField(
         label='Are you interested in being considered for a Graduate Assistantship?',
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
+        required=False,
     )
     scholarships = forms.TypedChoiceField(
         label='Are you interested in being considered for Carthage scholarships?',
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
+        required=False,
     )
     housing = forms.TypedChoiceField(
         label='Are you interested in Carthage graduate housing?',
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
+        required=False,
     )
     gdpr = forms.TypedChoiceField(
         label="""Are you currently located in a European Union country,
