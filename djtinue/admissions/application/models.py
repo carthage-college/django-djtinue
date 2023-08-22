@@ -121,7 +121,7 @@ class Application(ApplicationContact):
     entry_year = models.CharField(max_length=4)
     track = models.CharField(
         'Which track in Master of Music are you interested in pursuing?',
-        max_length=32,
+        max_length=64,
         choices=TRACK_CHOICES,
         blank=True,
         null=True,
@@ -134,7 +134,7 @@ class Application(ApplicationContact):
     )
     timeline = models.CharField(
         'Which program timeline are you applying for?',
-        max_length=32,
+        max_length=64,
         choices=TIMELINE_CHOICES,
         blank=True,
         null=True,
