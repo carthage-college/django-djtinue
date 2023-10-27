@@ -18,8 +18,6 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     path('rocinante/', include('loginas.urls')),
     #path('admin/', include('loginas.urls')),
-    # admin honeypot
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     # auth
     path(
         'accounts/login/',

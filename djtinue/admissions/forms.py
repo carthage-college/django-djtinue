@@ -3,7 +3,7 @@
 import requests
 from django import forms
 from django.conf import settings
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from djforms.core.models import GenericChoice
 from djtools.fields import STATE_CHOICES
 from djtools.fields.localflavor import USPhoneNumberField
@@ -143,7 +143,7 @@ class InfoSessionForm(forms.Form):
         choices = [('', '---choose a date---')]
         for jay in jason:
             title = '{0} at {1} ({2})'.format(
-                jay['date'], jay['date_time'], force_text(jay['title']),
+                jay['date'], jay['date_time'], force_str(jay['title']),
             )
             choices.append((jay['id'], title))
         self.fields['event'].choices = choices

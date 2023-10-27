@@ -88,7 +88,6 @@ INSTALLED_APPS = (
     'djtinue.admissions',
     'djtools',
     # third party projects
-    'admin_honeypot',
     'captcha',
     'django_summernote',
     'encrypted_model_fields',
