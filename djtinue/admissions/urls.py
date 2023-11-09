@@ -25,6 +25,11 @@ urlpatterns = [
         name='info_session',
     ),
     path(
+        'information-session/',
+        views.info_session,
+        name='info_session_generic',
+    ),
+    path(
         'application/', include('djtinue.admissions.application.urls'),
     ),
 ]

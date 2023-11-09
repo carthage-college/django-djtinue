@@ -47,7 +47,7 @@ def info_request(request):
     return render(request, 'admissions/inforequest.html', {'form': form})
 
 
-def info_session(request, slug):
+def info_session(request, slug='information-session'):
     """Information session request form."""
     if not SESSION_TYPES.get(slug):
         raise Http404
