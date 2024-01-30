@@ -7,7 +7,6 @@ import os
 
 
 DEBUG = False
-INFORMIX_DEBUG = ''
 REQUIRED_ATTRIBUTE = True
 ADMINS = ()
 MANAGERS = ADMINS
