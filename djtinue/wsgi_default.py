@@ -9,10 +9,10 @@ from django.core.wsgi import get_wsgi_application
 
 
 # python
-sys.path.append('/d2/python_venv/3.8/djtinue/lib/python3.8/')
-sys.path.append('/d2/python_venv/3.8/djtinue/lib/python3.8/site-packages/')
+sys.path.append('/d2/python_venv/3.10/djtinue/lib/python3.10/')
+sys.path.append('/d2/python_venv/3.10/djtinue/lib/python3.10/site-packages/')
 # django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djtinue.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djtinue.settings.shell')
 os.environ.setdefault('PYTHON_EGG_CACHE', '/var/cache/python/.python-eggs')
 os.environ.setdefault('TZ', 'America/Chicago')
 # wsgi
