@@ -89,7 +89,11 @@ INSTALLED_APPS = (
     'captcha',
     'django_summernote',
     'encrypted_model_fields',
+    # gmail api for send mail
+    'gmailapi_backend',
+    # sign in as user
     'loginas',
+    # tagging
     'taggit',
 )
 AUTH_PROFILE_MODULE = 'core.UserProfile'
@@ -158,16 +162,17 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = ''
 SESSION_COOKIE_NAME = 'django_djtinue_cookie'
 SESSION_COOKIE_AGE = 86400
-# SMTP settings
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_FAIL_SILENTLY = True
+# gmail API settings
+EMAIL_FROM = ''
+GMAIL_USER = ''
+EMAIL_BACKEND = 'gmailapi_backend.service.GmailApiBackend'
+GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+GMAIL_SERVICE_ACCOUNT_JSON = ''
+GOOGLE_SERVICE_ACCOUNT = ''
+# system emails
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
-SERVER_MAIL = ''
+SERVER_MAIL=''
 # app settings
 FIELD_ENCRYPTION_KEY = ''
 CONTINUING_STUDIES_INFOREQUEST_RECIPIENTS = {

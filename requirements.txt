@@ -5,6 +5,7 @@ django-bootstrap4
 django-bootstrap-form
 django-countries
 django-encrypted-model-fields
+django-gmailapi-json-backend
 django-imagekit
 django-localflavor
 django-loginas
