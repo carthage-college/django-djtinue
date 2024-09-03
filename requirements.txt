@@ -1,6 +1,6 @@
 bootstrap-admin
 cryptography
-django==4.2.14
+django==4.2.15
 django-bootstrap4
 django-bootstrap-form
 django-countries
